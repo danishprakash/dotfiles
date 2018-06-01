@@ -17,13 +17,13 @@ Plug 'neomake/neomake'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 
-" Plug 'prakashdanish/vimport'
+Plug 'prakashdanish/vimport'
 " Plug 'arcticicestudio/nord-vim'
 " Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'jdkanani/vim-material-theme'
 
 " personal plugins for dev
-Plug '~/programming/vimport'
+" Plug '~/programming/vimport'
 
 call plug#end()
 
@@ -61,8 +61,12 @@ set completeopt-=preview	" deoplete: turn off preview window
 set so=20			" cursor remains at ~center of the window
 set shortmess+=c   		" Shut off completion messages
 set belloff+=ctrlg 		" If Vim beeps during completion
+set tabstop=4
+set shiftwidth=4
+set expandtab
 set completeopt+=menuone
 set mouse=a
+set nohlsearch
 " set magic
 " set ruler
 " set ai "auto indent"
@@ -74,6 +78,14 @@ set mouse=a
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
+
+
+
+" ---------------------------------------------------------
+" Autocommands
+" ---------------------------------------------------------
+
+" autocmd VimEnter * NERDTree
 
 
 
