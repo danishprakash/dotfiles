@@ -17,7 +17,7 @@ Plug 'neomake/neomake'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 
-Plug 'prakashdanish/vimport'
+" Plug 'prakashdanish/vimport'
 " Plug 'arcticicestudio/nord-vim'
 " Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'jdkanani/vim-material-theme'
@@ -26,6 +26,10 @@ Plug 'prakashdanish/vimport'
 " Plug '~/programming/vimport'
 
 call plug#end()
+
+call zen#add('junegunn/goyo.vim')
+call zen#add('arcticicestudio/nord-vim')
+call zen#add('prakashdanish/vimport')
 
 
 
@@ -95,6 +99,9 @@ set nohlsearch
 
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
+
+" save current file
+nnoremap <leader>p <esc>:w<cr>
 
 " surround current word with double-quotes
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
