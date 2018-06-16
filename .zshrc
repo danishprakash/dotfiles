@@ -7,7 +7,7 @@ autoload -U colors && colors
 
 
 # ========== KEYBINDINGS ========== #
-bindkey -v 					# Enable vi keybindings in zsh
+# bindkey -v 					# Enable vi keybindings in zsh
 
 
 # The following lines were added by compinstall

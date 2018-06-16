@@ -1,35 +1,22 @@
 " ---------------------------------------------------------
-" vim-plug section
+" vim-zen section
 " ---------------------------------------------------------
-call plug#begin('~/.local/share/nvim/plugged')
+call zen#init()
 
-"Plugins to install
+Plugin 'junegunn/goyo.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-surround'
+Plugin 'townk/vim-autoclose'
+Plugin 'tpope/vim-commentary'
+Plugin 'morhetz/gruvbox'
+Plugin 'junegunn/fzf'
+Plugin 'neomake/neomake'
+Plugin 'scrooloose/nerdtree'
+Plugin 'ervandew/supertab'
+Plugin 'prakashdanish/vimport'
 
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-surround'
-Plug 'townk/vim-autoclose'
-Plug 'tpope/vim-commentary'
-Plug 'morhetz/gruvbox'
-Plug 'zchee/deoplete-jedi'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'junegunn/fzf', {'do': './install --all' }
-Plug 'neomake/neomake'
-Plug 'scrooloose/nerdtree'
-Plug 'ervandew/supertab'
-
-" Plug 'prakashdanish/vimport'
-" Plug 'arcticicestudio/nord-vim'
-" Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'jdkanani/vim-material-theme'
-
-" personal plugins for dev
-" Plug '~/programming/vimport'
-
-call plug#end()
-
-call zen#add('junegunn/goyo.vim')
-call zen#add('arcticicestudio/nord-vim')
-call zen#add('prakashdanish/vimport')
+" Plugin 'zchee/deoplete-jedi'
+" Plugin 'Shougo/deoplete.nvim'
 
 
 
@@ -51,8 +38,8 @@ syntax on
 filetype indent on
 colorscheme gruvbox
 let leader="\\"
+set wrap
 set background=dark
-set nowrap
 set smartcase
 set ignorecase			" ignore case while searching
 set mouse=a			" allows mouse interaction within vim
@@ -97,8 +84,15 @@ set nohlsearch
 " Remappings
 " ---------------------------------------------------------
 
+inoremap jk <esc>
+vnoremap jk <esc>
+nnoremap jk <esc>
+
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
+
+" comment using commentary
+nnoremap <leader>q :q<cr>
 
 " save current file
 nnoremap <leader>p <esc>:w<cr>
@@ -109,6 +103,8 @@ nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 " open vimrc in vertial split and source it
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>so :so $MYVIMRC<cr>
+
+nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
 
 nnoremap <S-r> :FZF <cr>
 
