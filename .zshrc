@@ -1,8 +1,17 @@
+# ========== FUNCTIONS ========== #
+
+# figuring out current branch and supressing `not git repo` errors
+git_branch() {
+    branch=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>&1
+	echo $branch
+}
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
-SAVEHIST=1000
-PROMPT="%F{yellow}%3~ %F{red}» %F{reset}"
+SAVEHIST=e000
+setopt prompt_subst
+PROMPT='%F{yellow}%3~%F{green} $(git_branch) %F{red}» %F{reset}'
 autoload -U colors && colors
 
 
@@ -55,4 +64,3 @@ source /usr/local/bin/virtualenvwrapper.sh
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
