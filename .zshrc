@@ -3,7 +3,12 @@
 # figuring out current branch and supressing `not git repo` errors
 git_branch() {
     branch=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>&1
-	echo $branch
+    if [[ $branch == "" ]];
+    then
+        :
+    else
+        echo ' ('$branch')'
+    fi
 }
 
 # Lines configured by zsh-newuser-install
@@ -11,7 +16,7 @@ HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=e000
 setopt prompt_subst
-PROMPT='%F{yellow}%3~%F{green} $(git_branch) %F{red}» %F{reset}'
+PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}» %F{reset}'
 autoload -U colors && colors
 
 
@@ -38,6 +43,7 @@ alias gm='sudo git commit -m'
 alias ss='sudo git status'
 alias gp='sudo git pull origin master'
 
+alias src='source ~/.zshrc'
 alias cl='clear'
 alias rm='rm -i' 				# ask for confirmation before rm
 alias ls='ls -F' 				# adds trailing '/' for dirs
