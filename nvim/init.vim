@@ -10,11 +10,11 @@ Plugin 'townk/vim-autoclose'
 Plugin 'tpope/vim-commentary'
 Plugin 'morhetz/gruvbox'
 Plugin 'junegunn/fzf'
-Plugin 'neomake/neomake'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ervandew/supertab'
 Plugin 'prakashdanish/vimport'
 
+" Plugin 'neomake/neomake'
 " Plugin 'zchee/deoplete-jedi'
 " Plugin 'Shougo/deoplete.nvim'
 
@@ -35,23 +35,24 @@ let NERDTreeMinimalUI=1
 " vim level configurations
 " ---------------------------------------------------------
 syntax on
-filetype indent on
+filetype plugin indent on
 colorscheme gruvbox
+highlight Visual cterm=NONE ctermfg=White ctermbg=DarkGrey
 let leader="\\"
 set wrap
 set background=dark
 set smartcase
-set ignorecase			" ignore case while searching
-set mouse=a			" allows mouse interaction within vim
-set number 			" always show line number
-set relativenumber 		" show line numbers relative to the current line
-set cursorline			" highlight current cursor column
-set showmatch 			" set show matching parenthesis
-set hlsearch 			" enable search highlights
+set ignorecase			    " ignore case while searching
+set mouse=a			        " allows mouse interaction within vim
+set number 			        " always show line number
+set relativenumber 		    " show line numbers relative to the current line
+set cursorline			    " highlight current cursor column
+set showmatch 			    " set show matching parenthesis
+set hlsearch 			    " enable search highlights
 set completeopt-=preview	" deoplete: turn off preview window
-set so=20			" cursor remains at ~center of the window
-set shortmess+=c   		" Shut off completion messages
-set belloff+=ctrlg 		" If Vim beeps during completion
+set scrolloff=10			" cursor remains at ~center of the window
+set shortmess+=c   		    " Shut off completion messages
+set belloff+=ctrlg 		    " If Vim beeps during completion
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -84,10 +85,10 @@ set nohlsearch
 " Remappings
 " ---------------------------------------------------------
 
-inoremap jk <esc>
-vnoremap jk <esc>
-nnoremap jk <esc>
-
+" inoremap jk <esc>
+" vnoremap jk <esc>
+" nnoremap jk <esc>
+" 
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
 
@@ -106,7 +107,7 @@ nnoremap <leader>so :so $MYVIMRC<cr>
 
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
 
-nnoremap <S-r> :FZF <cr>
+nnoremap <C-t> :FZF <cr>
 
 " move around wrapped lines as if separate lines
 noremap <silent> j gj
