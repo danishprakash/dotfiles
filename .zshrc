@@ -2,7 +2,8 @@
 
 # figuring out current branch and supressing `not git repo` errors
 git_branch() {
-    branch=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>&1
+    # branch=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>&1
+    branch=$(git symbolic-ref HEAD | awk 'BEGIN{FS="/"}{print $NF}') > /dev/null 2>&1
     if [[ $branch == "" ]];
     then
         :
@@ -46,7 +47,7 @@ alias gp='sudo git pull origin master'
 alias src='source ~/.zshrc'
 alias cl='clear'
 alias rm='rm -i' 				# ask for confirmation before rm
-alias ls='ls -F' 				# adds trailing '/' for dirs
+alias ls='ls -FGo' 				# adds trailing '/' for dirs
 alias v='sudo NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
 
 autoload -Uz compinit
