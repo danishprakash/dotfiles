@@ -13,6 +13,8 @@ Plugin 'junegunn/fzf'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ervandew/supertab'
 Plugin 'prakashdanish/vimport'
+Plugin 'w0rp/ale'
+
 
 " Plugin 'neomake/neomake'
 " Plugin 'zchee/deoplete-jedi'
@@ -34,12 +36,12 @@ let NERDTreeMinimalUI=1
 " ---------------------------------------------------------
 " vim level configurations
 " ---------------------------------------------------------
+highlight Visual cterm=NONE ctermfg=White ctermbg=DarkGrey
 syntax on
 filetype plugin indent on
 colorscheme gruvbox
-highlight Visual cterm=NONE ctermfg=White ctermbg=DarkGrey
 let leader="\\"
-set wrap
+set nowrap
 set background=dark
 set smartcase
 set ignorecase			    " ignore case while searching
@@ -67,9 +69,6 @@ set nohlsearch
 " set mouse=a
 " set ts=4 sw=4
 " set nuw=4
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
 
 
 
@@ -126,13 +125,34 @@ nnoremap <silent> <S-k> :-5 <CR>
 
 
 " ---------------------------------------------------------
+" Statusline
+" ---------------------------------------------------------
+
+" function to return branch name of working directory
+function! GitBranch() abort
+    let l:branch = system("git branch 2> /dev/null | awk '{print $2}'")
+    return len(l:branch) > 0 ? substitute(l:branch, '\n', '', '') : '' 
+endfunction
+
+set statusline=                                         " clear the statusline
+set statusline+=\ \ \ %F                                " path of the file
+set statusline+=\ \ <%{GitBranch()}>                    " git branch
+set statusline+=%=                                      " right align items henceforth
+set statusline+=\ %y                                    " filetype
+set statusline+=\ [%l:%c]                               " current row and column 
+set statusline+=\ %p\ \                                 " percentage of file at current cursor position
+
+" hi StatusLine ctermfg=235 ctermbg=245
+hi StatusLineNC ctermfg=235 ctermbg=237
+
+
+
+" ---------------------------------------------------------
 " vim settings from this url to hide unnecessary crap
 " https://www.reddit.com/r/unixporn/comments/5vke7s/osx_iterm2_tmux_vim/de2ubek/
 " ---------------------------------------------------------
 hi vertsplit ctermfg=235 ctermbg=235
 hi LineNr ctermfg=232
-hi StatusLine ctermfg=235 ctermbg=245
-hi StatusLineNC ctermfg=235 ctermbg=237
 hi Search ctermbg=58 ctermfg=15
 hi Default ctermfg=1
 hi clear SignColumn
@@ -143,7 +163,7 @@ hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245
 hi EndOfBuffer ctermfg=235 ctermbg=235
 
-set statusline=%=&P\ %f\ %m
+" set statusline=%=&P\ %f\ %m
 set fillchars=vert:\ ,stl:\ ,stlnc:\ 
 set laststatus=2
 set noshowmode
