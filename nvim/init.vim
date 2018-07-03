@@ -1,79 +1,79 @@
 " ---------------------------------------------------------
-" vim-zen section
+" VIM-ZEN
 " ---------------------------------------------------------
 call zen#init()
 
+Plugin 'w0rp/ale'
+Plugin 'junegunn/fzf'
+Plugin 'morhetz/gruvbox'
 Plugin 'junegunn/goyo.vim'
-Plugin 'airblade/vim-gitgutter'
+Plugin 'ervandew/supertab'
+Plugin 'simeji/winresizer'
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
 Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/nerdtree'
 Plugin 'townk/vim-autoclose'
 Plugin 'tpope/vim-commentary'
-Plugin 'morhetz/gruvbox'
-Plugin 'junegunn/fzf'
-Plugin 'scrooloose/nerdtree'
-Plugin 'ervandew/supertab'
-Plugin 'prakashdanish/vimport'
-Plugin 'w0rp/ale'
+Plugin 'airblade/vim-gitgutter'
+Plugin '/Users/danishprakash/programming/vimport'
 
 
 " Plugin 'neomake/neomake'
 " Plugin 'zchee/deoplete-jedi'
 " Plugin 'Shougo/deoplete.nvim'
+" Plugin 'prakashdanish/vimport'
+" Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 
 
 
 " ---------------------------------------------------------
-" Plugin configurations
+" GLOBALS
 " ---------------------------------------------------------
+let g:leader="\\"
+let g:NERDTreeMinimalUI=1
 let g:deoplete#enable_at_startup = 1
 let g:python2_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
 let g:completor_python_binary = '/usr/local/bin/python3'
-let NERDTreeMinimalUI=1
+let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
 
 
 
 " ---------------------------------------------------------
-" vim level configurations
+" CONFIGURATIONS
 " ---------------------------------------------------------
-highlight Visual cterm=NONE ctermfg=White ctermbg=DarkGrey
-syntax on
-filetype plugin indent on
-colorscheme gruvbox
-let leader="\\"
-set nowrap
+
+set wrap
 set background=dark
 set smartcase
 set ignorecase			    " ignore case while searching
-set mouse=a			        " allows mouse interaction within vim
 set number 			        " always show line number
 set relativenumber 		    " show line numbers relative to the current line
 set cursorline			    " highlight current cursor column
 set showmatch 			    " set show matching parenthesis
 set hlsearch 			    " enable search highlights
-set completeopt-=preview	" deoplete: turn off preview window
 set scrolloff=10			" cursor remains at ~center of the window
 set shortmess+=c   		    " Shut off completion messages
 set belloff+=ctrlg 		    " If Vim beeps during completion
+set noshowmode              " hide current mode label
+set mouse=a                 " enable mouse for `a`ll modes
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set completeopt+=menuone
-set mouse=a
 set nohlsearch
-" set magic
+set magic
+
 " set ruler
 " set ai "auto indent"
 " set si: smart indent"
-" set wrap
-" set mouse=a
-" set ts=4 sw=4
-" set nuw=4
+" set mouse=a			    " allows mouse interaction within vim
+" set completeopt-=preview	" deoplete: turn off preview window
 
 
 
 " ---------------------------------------------------------
-" Autocommands
+" AUTOCOMMANDS
 " ---------------------------------------------------------
 
 " autocmd VimEnter * NERDTree
@@ -81,13 +81,29 @@ set nohlsearch
 
 
 " ---------------------------------------------------------
-" Remappings
+" REMAPPINGS
 " ---------------------------------------------------------
 
-" inoremap jk <esc>
-" vnoremap jk <esc>
-" nnoremap jk <esc>
-" 
+" run current python file    
+nnoremap <leader>l3 :!python3 expand('%:p')<cr>
+
+" Codefmt 
+nnoremap <leader>fm :FormatCode<cr>
+vnoremap <leader>fm :FormatLines<cr>
+
+
+" ALE toggle
+nnoremap <leader>al :ALEToggle<cr>
+
+" Moving across splits
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" open a vertical split window and fire up FZF
+nnoremap <leader>v :vnew<cr>:FZF<cr>
+
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
 
@@ -104,10 +120,6 @@ nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>so :so $MYVIMRC<cr>
 
-nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
-
-nnoremap <C-t> :FZF <cr>
-
 " move around wrapped lines as if separate lines
 noremap <silent> j gj
 noremap <silent> k gk
@@ -120,12 +132,14 @@ nnoremap L $
 nnoremap <silent> <S-j> :+5 <CR>
 nnoremap <silent> <S-k> :-5 <CR>
 
-" nnoremap <ESC> :noh<ESC><ESC>
+
+nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
+nnoremap <C-t> :FZF <cr>
 
 
 
 " ---------------------------------------------------------
-" Statusline
+" STATUSLINE
 " ---------------------------------------------------------
 
 " function to return branch name of working directory
@@ -134,36 +148,38 @@ function! GitBranch() abort
     return len(l:branch) > 0 ? substitute(l:branch, '\n', '', '') : '' 
 endfunction
 
-set statusline=                                         " clear the statusline
-set statusline+=\ \ \ %F                                " path of the file
-set statusline+=\ \ <%{GitBranch()}>                    " git branch
-set statusline+=%=                                      " right align items henceforth
-set statusline+=\ %y                                    " filetype
-set statusline+=\ [%l:%c]                               " current row and column 
-set statusline+=\ %p\ \                                 " percentage of file at current cursor position
+set statusline=                               " clear the statusline
+set statusline+=\ %F                          " path of the file
+set statusline+=\ \ <%{GitBranch()}>          " git branch
+set statusline+=%=                            " right align items henceforth
+set statusline+=\ %y                          " filetype
+set statusline+=\ [%l:%c]                     " current row and column 
+set statusline+=\ %p\ \                       " percentage of file at current cursor position
 
-" hi StatusLine ctermfg=235 ctermbg=245
-hi StatusLineNC ctermfg=235 ctermbg=237
+hi Statusline ctermfg=237 ctermbg=245
+hi StatusLineNC ctermfg=237 ctermbg=238
+hi VertSplit ctermfg=235 ctermbg=237
 
 
 
 " ---------------------------------------------------------
-" vim settings from this url to hide unnecessary crap
-" https://www.reddit.com/r/unixporn/comments/5vke7s/osx_iterm2_tmux_vim/de2ubek/
+" COLORS
 " ---------------------------------------------------------
-hi vertsplit ctermfg=235 ctermbg=235
-hi LineNr ctermfg=232
-hi Search ctermbg=58 ctermfg=15
+
+syntax on
+colorscheme gruvbox
+filetype plugin indent on
+set fillchars=vert:\│
+
+hi LineNr ctermfg=232 ctermbg=235
 hi Default ctermfg=1
+hi Search ctermbg=58 ctermfg=15
+
 hi clear SignColumn
 hi SignColumn ctermbg=235
-hi GitGutterAdd ctermbg=235 ctermfg=245
-hi GitGutterChange ctermbg=235 ctermfg=245
-hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245
 hi EndOfBuffer ctermfg=235 ctermbg=235
-
-" set statusline=%=&P\ %f\ %m
-set fillchars=vert:\ ,stl:\ ,stlnc:\ 
-set laststatus=2
-set noshowmode
+hi GitGutterAdd ctermbg=235 ctermfg=235
+hi GitGutterChange ctermbg=235 ctermfg=235
+hi GitGutterDelete ctermbg=235 ctermfg=235
+hi GitGutterChangeDelete ctermbg=235 ctermfg=235
+hi Visual ctermfg=White ctermbg=Black
