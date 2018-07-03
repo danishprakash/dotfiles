@@ -1,9 +1,14 @@
+# habit
+echo
+echo ">> use \$! as a substitute for arguments from the previously executed command <<"
+echo
+
+
 # ========== FUNCTIONS ========== #
 
-# figuring out current branch and supressing `not git repo` errors
-git_branch() {
-    # branch=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>&1
-    branch=$(git symbolic-ref HEAD | awk 'BEGIN{FS="/"}{print $NF}') > /dev/null 2>&1
+# figuring out current branch while supressing `not git repo` errors
+function git_branch() {
+    branch=$(git branch 2> /dev/null | awk '{print $2}')
     if [[ $branch == "" ]];
     then
         :
@@ -12,13 +17,27 @@ git_branch() {
     fi
 }
 
+# open man with `less` pager directly at a given switch
+# e.g. mans ls -G   -> will open man page for ls at -G option
+function mans() {
+    man -P "less -p \"^ +$2\"" $1
+}
+
+# start tmux on startup
+if [ "$TMUX" = "" ]; then tmux; fi
+
+
+# ========== OPTIONS ========== #
+setopt auto_cd                  # auto cd when writing dir in the shell
+setopt correctall               # correct typo(ed) commands
+setopt prompt_subst             # allow command, param and arithmetic expansion in the prompt
+
+
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=e000
-setopt prompt_subst
+HISTFILE=~/.histfile
 PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}» %F{reset}'
-autoload -U colors && colors
 
 
 # ========== KEYBINDINGS ========== #
@@ -31,28 +50,29 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 
 # ========== SOURCES ========== #
 source ~/z.sh
+source ~/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/zsh-syntax-highlighting.zsh
 
 
 # ========= ALIASES ========= #
-alias gc='sudo git checkout'
 alias ga='sudo git add'
-alias gpu='sudo git push -u origin'
-alias gm='sudo git commit -m'
+alias gm='sudo git commit'
 alias ss='sudo git status'
+alias gc='sudo git checkout'
+alias gpu='sudo git push -u origin'
 alias gp='sudo git pull origin master'
 
-alias src='source ~/.zshrc'
 alias cl='clear'
-alias rm='rm -i' 				# ask for confirmation before rm
-alias ls='ls -FGo' 				# adds trailing '/' for dirs
+alias rm='rm -i' 				                    # ask for confirmation before rm
+alias ls='ls -FGo' 				                    # adds trailing '/' for dirs and -G for colors
+alias ez='nvim ~/.zshrc'
+alias sz='source ~/.zshrc'
+alias blog='bundle exec jekyll serve'
 alias v='sudo NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstalla
 
 
 # ========== EXPORTS ========== #
