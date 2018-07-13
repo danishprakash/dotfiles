@@ -1,14 +1,21 @@
-# habit
-echo
-echo ">> use \$! as a substitute for arguments from the previously executed command <<"
-echo
+# ==========[ FUNCTIONS ]========== #
 
-
-# ========== FUNCTIONS ========== #
+# function to start a timer in bg / pomodoro
+alias pomo='doro &'
+function doro () {
+    echo $1
+    if [[ $# == 0 ]]; then
+        let duration=1500           # no arguments -> 25 minutes
+    else
+        let duration=$(($1*60))
+    fi
+    sleep $duration
+    osascript -e 'tell application "System Events" to display dialog "Time for a water break!" buttons "OK" default button "OK"' &
+}
 
 # figuring out current branch while supressing `not git repo` errors
-function git_branch() {
-    branch=$(git branch 2> /dev/null | awk '{print $2}')
+function git_branch () {
+    branch=$(git symbolic-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $NF}')
     if [[ $branch == "" ]];
     then
         :
@@ -18,8 +25,8 @@ function git_branch() {
 }
 
 # open man with `less` pager directly at a given switch
-# e.g. mans ls -G   -> will open man page for ls at -G option
-function mans() {
+# e.g. mans ls -G -> will open man page for ls at -G option
+function mans () {
     man -P "less -p \"^ +$2\"" $1
 }
 
@@ -27,7 +34,7 @@ function mans() {
 if [ "$TMUX" = "" ]; then tmux; fi
 
 
-# ========== OPTIONS ========== #
+# ==========[ OPTIONS ]========== #
 setopt auto_cd                  # auto cd when writing dir in the shell
 setopt correctall               # correct typo(ed) commands
 setopt prompt_subst             # allow command, param and arithmetic expansion in the prompt
@@ -40,7 +47,7 @@ HISTFILE=~/.histfile
 PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}» %F{reset}'
 
 
-# ========== KEYBINDINGS ========== #
+# ==========[ KEYBINDINGS ]========== #
 # bindkey -v 					# Enable vi keybindings in zsh
 
 
@@ -48,14 +55,14 @@ PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}» %F{reset}'
 zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 
 
-# ========== SOURCES ========== #
+# ==========[ SOURCES ]========== #
 source ~/z.sh
 source ~/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-# ========= ALIASES ========= #
+# =========[ ALIASES ]========= #
 alias ga='sudo git add'
 alias gm='sudo git commit'
 alias ss='sudo git status'
@@ -69,18 +76,20 @@ alias ls='ls -FGo' 				                    # adds trailing '/' for dirs and -G f
 alias ez='nvim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias blog='bundle exec jekyll serve'
-alias v='sudo NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+alias grep='grep -rn --colour=auto'
+alias vi='sudo NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+alias shades='yes "$(seq 232 255;seq 254 -1 233)" | while read i; do printf "\x1b[48;5;${i}m\n"; sleep .01; done'
 
 autoload -Uz compinit
 compinit
 
 
-# ========== EXPORTS ========== #
+# ==========[ EXPORTS ]========== #
 export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin
 export EDITOR="/usr/local/bin/nvim"
 
 
-# ========== VIRTUALENVWRAPPER CONFIG ========== #
+# ==========[ VIRTUALENVWRAPPER CONFIG ]========== #
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
