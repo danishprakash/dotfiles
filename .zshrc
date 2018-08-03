@@ -1,5 +1,16 @@
 # ==========[ FUNCTIONS ]========== #
 
+# open fzf window with dirs and cd into it
+# TODO: add ability to clear prompt before cd(ing)
+function quick_find () {
+    dir=$(find ~ ~/programming -not -path '*/\.*' -type d -maxdepth 1 | fzf)
+    echo -ne "$dir"
+    cd $dir
+}
+
+zle -N quick_find_widget quick_find           # define a widget for the func above
+bindkey "^p" quick_find_widget     # remap ^i to the widget -> func
+
 # function to start a timer in bg / pomodoro
 alias pomo='doro &'
 function doro () {
@@ -31,7 +42,7 @@ function mans () {
 }
 
 # start tmux on startup
-if [ "$TMUX" = "" ]; then tmux; fi
+# if [ "$TMUX" = "" ]; then tmux; fi
 
 
 # ==========[ OPTIONS ]========== #
@@ -67,16 +78,16 @@ alias ga='sudo git add'
 alias gm='sudo git commit'
 alias ss='sudo git status'
 alias gc='sudo git checkout'
-alias gpu='sudo git push -u origin'
-alias gp='sudo git pull origin master'
+alias gpu='git push origin'
+alias gp='git pull origin'
 
 alias cl='clear'
 alias rm='rm -i' 				                    # ask for confirmation before rm
-alias ls='ls -FGo' 				                    # adds trailing '/' for dirs and -G for colors
+alias ls='ls -FG' 				                    # adds trailing '/' for dirs and -G for colors
 alias ez='nvim ~/.zshrc'
 alias sz='source ~/.zshrc'
 alias blog='bundle exec jekyll serve'
-alias grep='grep -rn --colour=auto'
+alias grep='grep --colour=auto'
 alias vi='sudo NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
 alias shades='yes "$(seq 232 255;seq 254 -1 233)" | while read i; do printf "\x1b[48;5;${i}m\n"; sleep .01; done'
 
@@ -90,11 +101,10 @@ export EDITOR="/usr/local/bin/nvim"
 
 
 # ==========[ VIRTUALENVWRAPPER CONFIG ]========== #
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-source /usr/local/bin/virtualenvwrapper.sh
-
+# export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+# export WORKON_HOME=$HOME/.virtualenvs
+# export PROJECT_HOME=$HOME/Devel
+# source /usr/local/bin/virtualenvwrapper.sh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
