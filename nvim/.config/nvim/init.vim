@@ -16,7 +16,12 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'townk/vim-autoclose'
 Plugin 'tpope/vim-commentary'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'dhruvasagar/vim-table-mode'
+" Plugin 'prakashdanish/vim-githubinator'
 Plugin '/Users/danishprakash/programming/vimport'
+Plugin '/Users/danishprakash/programming/vim-githubinator'
+Plugin '/Users/danishprakash/programming/vim-md'
 
 
 " Plugin 'neomake/neomake'
@@ -36,6 +41,9 @@ let g:deoplete#enable_at_startup = 1
 let g:python2_host_prog = '/usr/local/bin/python'
 let g:completor_python_binary = '/usr/local/bin/python3'
 let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
+let g:gruvbox_italic=1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let g:githubinator_no_default_mapping=0
 
 
 
@@ -43,7 +51,7 @@ let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
 " CONFIGURATIONS
 " ---------------------------------------------------------
 
-set wrap
+set nowrap
 set background=dark
 set smartcase
 set ignorecase			    " ignore case while searching
@@ -78,11 +86,22 @@ set magic
 
 " autocmd VimEnter * NERDTree
 
+" source vimrc when saved 
+augroup VimReload
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
+" setting wrap while editing markdown files
+" autocmd FileType markdown set wrap
 
 
 " ---------------------------------------------------------
 " REMAPPINGS
 " ---------------------------------------------------------
+
+" enable Goyo for markdown writing and toggle ALE
+nnoremap <leader>go :Goyo<cr> :ALEToggle<cr>
 
 " run current python file    
 nnoremap <leader>l3 :!python3 expand('%:p')<cr>
@@ -102,7 +121,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " open a vertical split window and fire up FZF
-nnoremap <leader>v :vnew<cr>:FZF<cr>
+nnoremap <leader>v :vnew<cr>:FZF ~/programming<cr>
 
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
@@ -129,12 +148,12 @@ nnoremap H ^
 nnoremap L $
 
 "move 5 lines up and down while holding Shift and j/k
-nnoremap <silent> <S-j> :+5 <CR>
-nnoremap <silent> <S-k> :-5 <CR>
+nnoremap <silent> <C-j> :+5 <CR>
+nnoremap <silent> <C-k> :-5 <CR>
 
 
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
-nnoremap <C-t> :FZF <cr>
+nnoremap <C-p> :FZF <cr>
 
 
 
@@ -149,15 +168,19 @@ function! GitBranch() abort
 endfunction
 
 set statusline=                               " clear the statusline
-set statusline+=\ %F                          " path of the file
-set statusline+=\ \ <%{GitBranch()}>          " git branch
+set statusline=%#FilePath#
+set statusline+=\ %F\                           " path of the file
+set statusline+=%#GitBranch#
+set statusline+=\ <%{GitBranch()}>\           " git branch
+set statusline+=%#Sep1#
 set statusline+=%=                            " right align items henceforth
-set statusline+=\ %y                          " filetype
+set statusline+=%#FileType#
+set statusline+=\ %y\                           " filetype
+set statusline+=%#CursorInfo#
 set statusline+=\ [%l:%c]                     " current row and column 
 set statusline+=\ %p\ \                       " percentage of file at current cursor position
 
-hi Statusline ctermfg=237 ctermbg=245
-hi StatusLineNC ctermfg=237 ctermbg=238
+" hi Statusline ctermfg=237 ctermbg=245
 hi VertSplit ctermfg=235 ctermbg=237
 
 
@@ -183,3 +206,31 @@ hi GitGutterChange ctermbg=235 ctermfg=235
 hi GitGutterDelete ctermbg=235 ctermfg=235
 hi GitGutterChangeDelete ctermbg=235 ctermfg=235
 hi Visual ctermfg=White ctermbg=Black
+
+" statusline colors
+hi FilePath ctermbg=242 ctermfg=0
+hi GitBranch ctermbg=237 ctermfg=240
+hi FileType ctermbg=237 ctermfg=240
+hi CursorInfo ctermbg=241 ctermfg=0
+hi Sep1 ctermbg=236
+
+
+" ---------------------------------------------------------
+" CUSTOM
+" ---------------------------------------------------------
+
+" blink cursorline for searches
+nnoremap <silent> n n:cal StrobeCursorLine()<cr>
+nnoremap <silent> N N:call StrobeCursorLine()<cr>
+
+function! StrobeCursorLine()
+    for count in range(3)
+        set invcursorline
+        redraw
+        exec 'sleep 10m'
+        set invcursorline
+        redraw
+        exec 'sleep 10m'
+    endfor
+endfunction
+
