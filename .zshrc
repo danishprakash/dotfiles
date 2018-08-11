@@ -4,12 +4,12 @@
 # TODO: add ability to clear prompt before cd(ing)
 function quick_find () {
     dir=$(find ~ ~/programming -not -path '*/\.*' -type d -maxdepth 1 | fzf)
-    echo -ne "$dir"
     cd $dir
+    zle reset-prompt
 }
 
-zle -N quick_find_widget quick_find           # define a widget for the func above
-bindkey "^p" quick_find_widget     # remap ^i to the widget -> func
+zle -N quick_find_widget quick_find # define a widget for the func above
+bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
 
 # function to start a timer in bg / pomodoro
 alias pomo='doro &'
@@ -52,6 +52,7 @@ setopt prompt_subst             # allow command, param and arithmetic expansion 
 
 
 # Lines configured by zsh-newuser-install
+export TERM=xterm-256color
 HISTSIZE=1000
 SAVEHIST=e000
 HISTFILE=~/.histfile
@@ -60,6 +61,13 @@ PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}» %F{reset}'
 
 # ==========[ KEYBINDINGS ]========== #
 # bindkey -v 					# Enable vi keybindings in zsh
+# set -o emacs
+bindkey '^p' up-line-or-search
+bindkey '^n' down-line-or-search
+bindkey '^i' complete-word
+bindkey '^f' emacs-forward-word
+bindkey '^b' emacs-backward-word
+
 
 
 # The following lines were added by compinstall
@@ -67,7 +75,6 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 
 
 # ==========[ SOURCES ]========== #
-source ~/z.sh
 source ~/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -80,6 +87,7 @@ alias ss='sudo git status'
 alias gc='sudo git checkout'
 alias gpu='git push origin'
 alias gp='git pull origin'
+alias gac='git add . && git commit'
 
 alias cl='clear'
 alias rm='rm -i' 				                    # ask for confirmation before rm
