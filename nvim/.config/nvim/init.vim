@@ -1,6 +1,6 @@
-" ---------------------------------------------------------
-" VIM-ZEN
-" ---------------------------------------------------------
+" vim-zen
+" -------
+
 call zen#init()
 
 Plugin 'w0rp/ale'
@@ -18,13 +18,16 @@ Plugin 'tpope/vim-commentary'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'arcticicestudio/nord-vim'
 Plugin 'dhruvasagar/vim-table-mode'
-" Plugin 'prakashdanish/vim-githubinator'
+Plugin 'godlygeek/tabular'
+Plugin 'shougo/denite.nvim'
+Plugin 'terryma/vim-smooth-scroll'
 Plugin '/Users/danishprakash/programming/vimport'
 Plugin '/Users/danishprakash/programming/vim-githubinator'
 Plugin '/Users/danishprakash/programming/vim-md'
-
+Plugin 'joshdick/onedark.vim'
 
 " Plugin 'neomake/neomake'
+" Plugin 'prakashdanish/vim-githubinator'
 " Plugin 'zchee/deoplete-jedi'
 " Plugin 'Shougo/deoplete.nvim'
 " Plugin 'prakashdanish/vimport'
@@ -32,39 +35,40 @@ Plugin '/Users/danishprakash/programming/vim-md'
 
 
 
-" ---------------------------------------------------------
-" GLOBALS
-" ---------------------------------------------------------
+
+
+" globals
+" -------
+
 let g:leader="\\"
 let g:NERDTreeMinimalUI=1
 let g:deoplete#enable_at_startup = 1
 let g:python2_host_prog = '/usr/local/bin/python'
 let g:completor_python_binary = '/usr/local/bin/python3'
 let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
-let g:gruvbox_italic=1
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:githubinator_no_default_mapping=0
 
 
 
-" ---------------------------------------------------------
-" CONFIGURATIONS
-" ---------------------------------------------------------
+
+
+" configurations
+" --------------
 
 set nowrap
 set background=dark
 set smartcase
-set ignorecase			    " ignore case while searching
-set number 			        " always show line number
-set relativenumber 		    " show line numbers relative to the current line
-set cursorline			    " highlight current cursor column
-set showmatch 			    " set show matching parenthesis
-set hlsearch 			    " enable search highlights
-set scrolloff=10			" cursor remains at ~center of the window
-set shortmess+=c   		    " Shut off completion messages
-set belloff+=ctrlg 		    " If Vim beeps during completion
-set noshowmode              " hide current mode label
-set mouse=a                 " enable mouse for `a`ll modes
+set ignorecase           " ignore case while searching
+set number               " always show line number
+set relativenumber       " show line numbers relative to the current line
+set cursorline           " highlight current cursor column
+set showmatch            " set show matching parenthesis
+set hlsearch             " enable search highlights
+set scrolloff=10         " cursor remains at ~center of the window
+set shortmess+=c         " Shut off completion messages
+set belloff+=ctrlg       " If Vim beeps during completion
+set noshowmode           " hide current mode label
+set mouse=a              " enable mouse for `a`ll modes
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -73,16 +77,17 @@ set nohlsearch
 set magic
 
 " set ruler
-" set ai "auto indent"
-" set si: smart indent"
-" set mouse=a			    " allows mouse interaction within vim
-" set completeopt-=preview	" deoplete: turn off preview window
+" set ai                   " auto indent
+" set si                   " smart indent
+" set mouse=a              " allows mouse interaction within vim
+" set completeopt-=preview " deoplete: turn off preview window
 
 
 
-" ---------------------------------------------------------
-" AUTOCOMMANDS
-" ---------------------------------------------------------
+
+
+" autocmds
+" --------
 
 " autocmd VimEnter * NERDTree
 
@@ -96,15 +101,23 @@ augroup END
 " autocmd FileType markdown set wrap
 
 
-" ---------------------------------------------------------
-" REMAPPINGS
-" ---------------------------------------------------------
+
+
+
+" remappings
+" ----------
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 " enable Goyo for markdown writing and toggle ALE
 nnoremap <leader>go :Goyo<cr> :ALEToggle<cr>
 
 " run current python file    
 nnoremap <leader>l3 :!python3 expand('%:p')<cr>
+
 
 " Codefmt 
 nnoremap <leader>fm :FormatCode<cr>
@@ -157,41 +170,45 @@ nnoremap <C-p> :FZF <cr>
 
 
 
-" ---------------------------------------------------------
-" STATUSLINE
-" ---------------------------------------------------------
+
+
+" statusline
+" ----------
 
 " function to return branch name of working directory
 function! GitBranch() abort
-    let l:branch = system("git branch 2> /dev/null | awk '{print $2}'")
+    let l:branch = system("git symbolic-ref HEAD | awk 'BEGIN{FS=\"/\"} {print $3}'")
     return len(l:branch) > 0 ? substitute(l:branch, '\n', '', '') : '' 
 endfunction
 
-set statusline=                               " clear the statusline
+set statusline=                     " clear the statusline
 set statusline=%#FilePath#
-set statusline+=\ %F\                           " path of the file
+set statusline+=\ %F\               " path of the file
 set statusline+=%#GitBranch#
-set statusline+=\ <%{GitBranch()}>\           " git branch
+set statusline+=\ <%{GitBranch()}>\ " git branch
 set statusline+=%#Sep1#
-set statusline+=%=                            " right align items henceforth
+set statusline+=%=                  " right align items henceforth
 set statusline+=%#FileType#
-set statusline+=\ %y\                           " filetype
+set statusline+=\ %y\ \             " filetype
 set statusline+=%#CursorInfo#
-set statusline+=\ [%l:%c]                     " current row and column 
-set statusline+=\ %p\ \                       " percentage of file at current cursor position
+set statusline+=\ [%l:%c]           " current row and column
+set statusline+=\ %p\ \             " percentage of file at current cursor position
 
-" hi Statusline ctermfg=237 ctermbg=245
+hi Statusline ctermfg=101 ctermbg=245
 hi VertSplit ctermfg=235 ctermbg=237
 
 
 
-" ---------------------------------------------------------
-" COLORS
-" ---------------------------------------------------------
+
+
+" colors
+" ------
 
 syntax on
-colorscheme gruvbox
+let g:onedark_termcolors=256
+colorscheme onedark
 filetype plugin indent on
+set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
 hi LineNr ctermfg=232 ctermbg=235
@@ -214,10 +231,20 @@ hi FileType ctermbg=237 ctermfg=240
 hi CursorInfo ctermbg=241 ctermfg=0
 hi Sep1 ctermbg=236
 
+" enable 256 color support
+if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+if (has("termguicolors"))
+    set termguicolors
+endif
 
-" ---------------------------------------------------------
-" CUSTOM
-" ---------------------------------------------------------
+
+
+
+
+" functions
+" ---------
 
 " blink cursorline for searches
 nnoremap <silent> n n:cal StrobeCursorLine()<cr>
