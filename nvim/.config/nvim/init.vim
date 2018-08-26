@@ -1,30 +1,47 @@
+"         _
+"  __   _(_)_ __ ___  _ __ ___ 
+"  \ \ / / | '_ ` _ \| '__/ __|
+"   \ V /| | | | | | | | | (__ 
+"    \_/ |_|_| |_| |_|_|  \___|
+" 
+
+
+
 " vim-zen
 " -------
 
 call zen#init()
 
+" code formatting
 Plugin 'w0rp/ale'
-Plugin 'junegunn/fzf'
-Plugin 'morhetz/gruvbox'
-Plugin 'junegunn/goyo.vim'
-Plugin 'ervandew/supertab'
-Plugin 'simeji/winresizer'
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
+
+" colorschemes
+Plugin 'morhetz/gruvbox'
+Plugin 'joshdick/onedark.vim'
+Plugin 'arcticicestudio/nord-vim'
+
+" table mode
+Plugin 'godlygeek/tabular'
+Plugin 'dhruvasagar/vim-table-mode'
+
+" general utils
+Plugin 'junegunn/fzf'
+Plugin 'ervandew/supertab'
+Plugin 'junegunn/goyo.vim'
+Plugin 'simeji/winresizer'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdtree'
 Plugin 'townk/vim-autoclose'
 Plugin 'tpope/vim-commentary'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'dhruvasagar/vim-table-mode'
-Plugin 'godlygeek/tabular'
-Plugin 'shougo/denite.nvim'
 Plugin 'terryma/vim-smooth-scroll'
+
+" self
 Plugin '/Users/danishprakash/programming/vimport'
 Plugin '/Users/danishprakash/programming/vim-githubinator'
 Plugin '/Users/danishprakash/programming/vim-md'
-Plugin 'joshdick/onedark.vim'
 
 " Plugin 'neomake/neomake'
 " Plugin 'prakashdanish/vim-githubinator'
@@ -36,13 +53,11 @@ Plugin 'joshdick/onedark.vim'
 
 
 
-
 " globals
 " -------
 
 let g:leader="\\"
 let g:NERDTreeMinimalUI=1
-let g:deoplete#enable_at_startup = 1
 let g:python2_host_prog = '/usr/local/bin/python'
 let g:completor_python_binary = '/usr/local/bin/python3'
 let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
@@ -85,11 +100,8 @@ set magic
 
 
 
-
 " autocmds
 " --------
-
-" autocmd VimEnter * NERDTree
 
 " source vimrc when saved 
 augroup VimReload
@@ -98,8 +110,10 @@ augroup VimReload
 augroup END
 
 " setting wrap while editing markdown files
-" autocmd FileType markdown set wrap
+autocmd FileType markdown set wrap
 
+" start NERDTree on start-up 
+" autocmd VimEnter * NERDTree
 
 
 
@@ -107,6 +121,7 @@ augroup END
 " remappings
 " ----------
 
+" smooth scroll plugin mappings
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
@@ -118,16 +133,14 @@ nnoremap <leader>go :Goyo<cr> :ALEToggle<cr>
 " run current python file    
 nnoremap <leader>l3 :!python3 expand('%:p')<cr>
 
-
-" Codefmt 
+" codefmt 
 nnoremap <leader>fm :FormatCode<cr>
 vnoremap <leader>fm :FormatLines<cr>
-
 
 " ALE toggle
 nnoremap <leader>al :ALEToggle<cr>
 
-" Moving across splits
+" moving across splits
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -164,10 +177,11 @@ nnoremap L $
 nnoremap <silent> <C-j> :+5 <CR>
 nnoremap <silent> <C-k> :-5 <CR>
 
-
+" source plugin file (dev)
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
-nnoremap <C-p> :FZF <cr>
 
+" fzf fuzzy finder
+nnoremap <C-p> :FZF <cr>
 
 
 
@@ -182,21 +196,29 @@ function! GitBranch() abort
 endfunction
 
 set statusline=                     " clear the statusline
-set statusline=%#FilePath#
-set statusline+=\ %F\               " path of the file
+" set statusline=%#FilePath#
+" set statusline+=\ %F\               " path of the file
 set statusline+=%#GitBranch#
-set statusline+=\ <%{GitBranch()}>\ " git branch
+set statusline+=[%{GitBranch()}]\ " git branch
 set statusline+=%#Sep1#
 set statusline+=%=                  " right align items henceforth
 set statusline+=%#FileType#
-set statusline+=\ %y\ \             " filetype
+set statusline+=\ [%Y]\             " filetype
 set statusline+=%#CursorInfo#
-set statusline+=\ [%l:%c]           " current row and column
-set statusline+=\ %p\ \             " percentage of file at current cursor position
+set statusline+=[%l:%c]           " current row and column
+" set statusline+=\ %p\ \             " percentage of file at current cursor position
 
-hi Statusline ctermfg=101 ctermbg=245
-hi VertSplit ctermfg=235 ctermbg=237
+" hi statusline ctermfg=00 ctermbg=02 cterm=NONE
+" hi statusline ctermbg=white ctermfg=gray
+" hi StatuslineNC ctermfg=00 ctermbg=02 cterm=NONE 
+" hi VertSplit ctermfg=235 ctermbg=237
 
+" " statusline colors
+" hi GitBranch ctermbg=00 ctermfg=02
+" hi FileType ctermbg=00 ctermfg=02
+" hi CursorInfo ctermbg=00 ctermfg=02
+" hi Sep1 ctermbg=00 ctermfg=02
+" hi FilePath ctermbg=00 ctermfg=02
 
 
 
@@ -205,13 +227,12 @@ hi VertSplit ctermfg=235 ctermbg=237
 " ------
 
 syntax on
-let g:onedark_termcolors=256
 colorscheme onedark
 filetype plugin indent on
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
-hi LineNr ctermfg=232 ctermbg=235
+hi LineNr ctermfg=1 ctermbg=1
 hi Default ctermfg=1
 hi Search ctermbg=58 ctermfg=15
 
@@ -223,13 +244,6 @@ hi GitGutterChange ctermbg=235 ctermfg=235
 hi GitGutterDelete ctermbg=235 ctermfg=235
 hi GitGutterChangeDelete ctermbg=235 ctermfg=235
 hi Visual ctermfg=White ctermbg=Black
-
-" statusline colors
-hi FilePath ctermbg=242 ctermfg=0
-hi GitBranch ctermbg=237 ctermfg=240
-hi FileType ctermbg=237 ctermfg=240
-hi CursorInfo ctermbg=241 ctermfg=0
-hi Sep1 ctermbg=236
 
 " enable 256 color support
 if (has("nvim"))
@@ -260,4 +274,3 @@ function! StrobeCursorLine()
         exec 'sleep 10m'
     endfor
 endfunction
-
