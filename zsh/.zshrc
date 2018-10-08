@@ -1,8 +1,8 @@
 #           _
 #   _______| |__  _ __ ___ 
-#  |_  / __| '_ \| '__/ __|
+#  |_  | __| '_ \| '__/ __|
 #   / /\__ \ | | | | | (__ 
-#  /___|___/_| |_|_|  \___
+#  |___\___/_| |_|_|  \___|
 # 
 
 
@@ -11,16 +11,39 @@
 # functions
 # ---------
 
+# create branch for fzf
+function create () {
+    git checkout -b $1
+}
+
 # open fzf window with dirs and cd into it
 # TODO: add ability to clear prompt before cd(ing)
 function quick_find () {
-    dir=$(find ~ ~/programming -not -path '*/\.*' -type d -maxdepth 1 | fzf --layout=reverse)
+    dir=$(find ~ ~/programming -not -path '*/\.*' -type d -maxdepth 1 | fzf --layout=reverse --preview "ls -FG {}")
+
+    if [[ "$?" != "0" ]]; then
+        return
+    fi
+
     cd $dir
     zle reset-prompt
 }
 
 zle -N quick_find_widget quick_find # define a widget for the func above
 bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
+
+function edit_files () {
+    file=$(find . -type f -not -path '*/\.git/*' | fzf --layout=reverse --preview "cat {}")
+
+    if [[ "$?" != "0" ]]; then
+        return
+    fi
+
+    nvim $file
+}
+
+zle -N edit_files_widget edit_files
+bindkey "^w" edit_files_widget
 
 # function to start a timer in bg / pomodoro
 alias pomo='doro'
@@ -61,6 +84,7 @@ function mans () {
 # options
 # -------
 
+setopt menu_complete	     # insert first suggestion while autocompleting
 setopt auto_cd               # auto cd when writing dir in the shell
 setopt correctall            # correct typo(ed) commands
 setopt prompt_subst          # allow command, param and arithmetic expansion in the prompt
@@ -72,6 +96,9 @@ SAVEHIST=e000
 HISTFILE=~/.histfile
 PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}$ %F{reset}'
 
+zstyle ':completion:*' menu select
+
+
 
 
 
@@ -79,11 +106,18 @@ PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}$ %F{reset}'
 # keybindings
 # -----------
 
+bindkey '^h' backward-delete-word
+bindkey '^j' beginning-of-line
+bindkey '^e' end-of-line
+bindkey '^k' vi-change-eol
 bindkey '^p' up-line-or-search
 bindkey '^n' down-line-or-search
 bindkey '^i' complete-word
 bindkey '^f' emacs-forward-word
 bindkey '^b' emacs-backward-word
+
+# insert arg from previous command
+bindkey "^]" insert-last-word
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/danishprakash/.zshrc'
@@ -95,9 +129,14 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 # source
 # ------
 
+# autocomplete pairs of delimiters
+source ~/autopair.zsh
+
+# syntax highlighting for zsh
 source ~/zsh-syntax-highlighting.zsh
+
+# suggestions from history
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
 
@@ -105,6 +144,13 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # alias
 # -----
+
+alias -s py=nvim
+
+alias -g C='| wc -l'
+alias -g L='| less'
+alias -g P='| pbcopy'
+
 
 # git
 alias bra='git checkout $(git branch | fzf --layout=reverse) 2> /dev/null'
@@ -116,10 +162,13 @@ alias gpu='git push origin'
 alias gp='git pull origin'
 alias gd='git diff'
 alias gac='git add . && git commit'
+alias gma='git commit --amend'
+alias gpuf='git push -f origin'
 
 # general
 alias rm='rm -i'                               # ask for confirmation before rm
 alias ls='ls -FG'                              # adds trailing '/' for dirs and -G for colors
+alias ll='ls -alFG'	                           # list mode for ls with above flags
 alias ez='nvim ~/.zshrc'	                   # open .zshrc for editing
 alias sz='source ~/.zshrc'	                   # source .zshrc
 alias tree='tree -I '.git''	                   # skip .git dir in trees
