@@ -1,0 +1,16 @@
+[user]
+	name = danishprakash
+	email = grafitykoncept@gmail.com
+
+[core]
+	editor = /usr/local/bin/nvim
+
+[alias]
+    which = !git branch | rg
+    stash = !git stash
+    staash = !git stash --include-untracked
+    staaash = !git stash --all
+    standup = !git log --all \
+                       --author=prakashdanish \
+                       --since='9am yesterday' \
+                       --format=%s
