@@ -11,20 +11,23 @@
 # functions
 # ---------
 
-# create branch for fzf
-function create () {
-    git checkout -b $1
+# facilitate new git repo
+function create_repo() {
+    git init &> /dev/null && echo "Created repo"
+    echo -n "Add remote (y/n): "
+    read choice
+    if [[ $choice =~ ^[Yy]$ ]]
+    then
+        echo -n "Enter remote: "
+        read remote
+        git remote add origin $remote
+    fi
 }
 
 # open fzf window with dirs and cd into it
-# TODO: add ability to clear prompt before cd(ing)
 function quick_find () {
     dir=$(find ~ ~/programming -not -path '*/\.*' -type d -maxdepth 1 | fzf --layout=reverse --preview "ls -FG {}")
-
-    if [[ "$?" != "0" ]]; then
-        return
-    fi
-
+    if [[ "$?" != "0" ]]; then return; fi;
     cd $dir
     zle reset-prompt
 }
@@ -32,6 +35,8 @@ function quick_find () {
 zle -N quick_find_widget quick_find # define a widget for the func above
 bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
 
+# list all files in current dir tree wit preview
+# select one to open in vim
 function edit_files () {
     file=$(find . -type f -not -path '*/\.git/*' | fzf --layout=reverse --preview "cat {}")
 
@@ -86,7 +91,7 @@ function mans () {
 
 setopt menu_complete	     # insert first suggestion while autocompleting
 setopt auto_cd               # auto cd when writing dir in the shell
-setopt correctall            # correct typo(ed) commands
+# setopt correctall            # correct typo(ed) commands
 setopt prompt_subst          # allow command, param and arithmetic expansion in the prompt
 
 # lines configured by zsh-newuser-install
@@ -171,7 +176,7 @@ alias ls='ls -FG'                              # adds trailing '/' for dirs and 
 alias ll='ls -alFG'	                           # list mode for ls with above flags
 alias ez='nvim ~/.zshrc'	                   # open .zshrc for editing
 alias sz='source ~/.zshrc'	                   # source .zshrc
-alias tree='tree -I '.git''	                   # skip .git dir in trees
+alias lt='tree -I '.git''	                   # skip .git dir in trees
 alias grep='grep --colour=auto'                # colored output in grep
 alias vi='nvim'
 alias venv='workon $(workon | fzf --layout=reverse)'
