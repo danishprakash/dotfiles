@@ -11,6 +11,23 @@
 # functions
 # ---------
 
+# search for a pattern and open the file
+function rf() {
+    result=$(rg --no-heading -n $1 . | fzf --reverse)
+    file_path=$(echo $result | awk -F ':' '{print $1}')
+    line_number=$(echo $result | awk -F ':' '{print $2}')
+    nvim $file_path +$line_number
+}
+
+# find and kill process by pid
+function kp() {
+    kill -9 $(ps -ef | fzf --reverse | awk '{print $2}') &> /dev/null
+    if [[ $? != "0" ]]
+    then
+        echo "Unable to kill process"
+    fi
+}
+
 # facilitate new git repo
 function create_repo() {
     git init &> /dev/null && echo "Created repo"
@@ -89,10 +106,16 @@ function mans () {
 # options
 # -------
 
+setopt hist_ignore_all_dups  # remove older duplicate entries from history
+setopt share_history         # share history between different instances of the shell
+setopt hist_reduce_blanks    # remove superfluous blanks from history items
+setopt auto_list             # automatically list choices on ambiguous completion
 setopt menu_complete	     # insert first suggestion while autocompleting
-setopt auto_cd               # auto cd when writing dir in the shell
-# setopt correctall            # correct typo(ed) commands
 setopt prompt_subst          # allow command, param and arithmetic expansion in the prompt
+setopt auto_menu             # automatically use menu completion
+setopt always_to_end         # move cursor to end if word had one match
+# setopt auto_cd             # auto cd when writing dir in the shell
+# setopt correctall          # correct typo(ed) commands
 
 # lines configured by zsh-newuser-install
 export TERM=xterm-256color
@@ -206,6 +229,8 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # virtualenvwrapper
 # -----------------
 
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 export WORKON_HOME=~/virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 
