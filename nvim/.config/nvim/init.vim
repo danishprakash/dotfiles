@@ -15,6 +15,9 @@ call zen#init()
 " code formatting
 Plugin 'w0rp/ale'
 Plugin 'ambv/black'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'pangloss/vim-javascript'
+Plugin 'prettier/vim-prettier'
 " Plugin 'google/vim-maktaba'
 " Plugin 'google/vim-codefmt'
 
@@ -31,7 +34,7 @@ Plugin 'dhruvasagar/vim-table-mode'
 " general utils
 Plugin '/usr/local/opt/fzf'
 Plugin 'junegunn/fzf.vim'
-" Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 Plugin 'junegunn/goyo.vim'
 Plugin 'simeji/winresizer'
 Plugin 'tpope/vim-surround'
@@ -86,7 +89,7 @@ let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 set omnifunc=jedi#completions
 
 " linters for ale
-let g:ale_linters = {'python': ['flake8'],}
+let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 
 " smooth scrolling remaps
 let g:comfortable_motion_scroll_down_key = "j"
@@ -128,6 +131,8 @@ set completeopt+=menuone
 set nohlsearch
 set magic
 set t_Co=256
+set undofile	         " maintain undo history bw sessions
+set undodir=~/.config/nvim/undodir
 
 " folding
 set foldmethod=indent
