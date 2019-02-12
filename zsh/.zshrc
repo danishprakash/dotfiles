@@ -11,6 +11,30 @@
 # functions
 # ---------
 
+# clean docker mess
+function dckcl() {
+    DANGLING_IMAGES=$(docker images -f "dangling=true")
+    DANGLING_IMAGES_NUM=$(docker images -f dangling=true | wc -l | tr -d '\t')
+    echo "Removing $DANGLING_IMAGES_NUM images, continue (y/n)"
+}
+
+# move to the top-level parent directory
+function cdp() {
+    TEMP_PWD=`pwd`
+    while ! [ -d .git ]; do
+    cd ..
+    done
+    OLDPWD=$TEMP_PWD
+}
+
+# serve current directory using python HTTP server
+function servedir() {
+    # TODO: add handling for python3 and python
+    ip_addr=$(ifconfig | grep 'broadcast' | awk '{print $2}')
+    echo "Serving at: https://$ip_addr:8000"
+    python3 -m http.server 8000
+}
+
 # search for a pattern and open the file
 function rf() {
     result=$(rg --no-heading -n $1 . | fzf --reverse)
@@ -106,26 +130,27 @@ function mans () {
 # options
 # -------
 
-setopt hist_ignore_all_dups  # remove older duplicate entries from history
-setopt share_history         # share history between different instances of the shell
-setopt hist_reduce_blanks    # remove superfluous blanks from history items
-setopt auto_list             # automatically list choices on ambiguous completion
-setopt menu_complete	     # insert first suggestion while autocompleting
-setopt prompt_subst          # allow command, param and arithmetic expansion in the prompt
-setopt auto_menu             # automatically use menu completion
-setopt always_to_end         # move cursor to end if word had one match
-# setopt auto_cd             # auto cd when writing dir in the shell
-# setopt correctall          # correct typo(ed) commands
+setopt HIST_IGNORE_ALL_DUPS  # remove older duplicate entries from history
+setopt SHARE_HISTORY         # share history between different instances of the shell
+setopt HIST_REDUCE_BLANKS    # remove superfluous blanks from history items
+setopt AUTO_LIST             # automatically list choices on ambiguous completion
+setopt MENU_COMPLETE	     # insert first suggestion while autocompleting
+setopt PROMPT_SUBST          # allow command, param and arithmetic expansion in the prompt
+setopt AUTO_MENU             # automatically use menu completion
+setopt ALWAYS_TO_END         # move cursor to end if word had one match
+setopt HIST_REDUCE_BLANKS
+setopt INC_APPEND_HISTORY
 
 # lines configured by zsh-newuser-install
 export TERM=xterm-256color
 HISTSIZE=1000
 SAVEHIST=e000
 HISTFILE=~/.histfile
-PROMPT='%F{yellow}%3~%F{green}$(git_branch) %F{red}$ %F{reset}'
+PROMPT='%F{yellow}%2~%F{green}$(git_branch) %F{red}$ %F{reset}'
 
 zstyle ':completion:*' menu select
 
+fpath=(~/.zsh/completion $fpath)
 
 
 
@@ -143,6 +168,10 @@ bindkey '^n' down-line-or-search
 bindkey '^i' complete-word
 bindkey '^f' emacs-forward-word
 bindkey '^b' emacs-backward-word
+bindkey '^b' emacs-backward-word
+bindkey '^a' vi-beginning-of-line
+bindkey '^k' vi-kill-eol
+bindkey '^H' backward-kill-word
 
 # insert arg from previous command
 bindkey "^]" insert-last-word
@@ -166,7 +195,11 @@ source ~/zsh-syntax-highlighting.zsh
 # suggestions from history
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# docker completion
+# source ~/zsh-docker-completion
 
+# tmuxinator completion
+# source ~/.tmuxinator-completion.zsh
 
 
 
@@ -175,23 +208,22 @@ source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias -s py=nvim
 
+alias :q=exit
+
 alias -g C='| wc -l'
 alias -g L='| less'
 alias -g P='| pbcopy'
+alias -g J='| jq'
 
 
 # git
 alias bra='git checkout $(git branch | fzf --layout=reverse) 2> /dev/null'
-alias ga='sudo git add'
-alias gm='sudo git commit'
-alias ss='sudo git status'
-alias gc='sudo git checkout'
 alias gpu='git push origin'
 alias gp='git pull origin'
 alias gd='git diff'
-alias gac='git add . && git commit'
-alias gma='git commit --amend'
 alias gpuf='git push -f origin'
+alias gn='git num | wc -l'
+alias gh="open `git remote -v | grep fetch | awk '{print $2}' | sed 's/git@/http:\/\//' | sed 's/com:/com\//'`| head -n1"
 
 # general
 alias rm='rm -i'                               # ask for confirmation before rm
@@ -207,7 +239,7 @@ alias venv='workon $(workon | fzf --layout=reverse)'
 alias blog='bundle exec jekyll serve'	       # deploy blog to localhost
 
 autoload -Uz compinit
-compinit
+compinit -i
 
 
 
@@ -218,10 +250,11 @@ compinit
 
 export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:/Library/TeX/Root/bin/x86_64-darwin/
 export EDITOR="/usr/local/bin/nvim"
+export GOPATH=$HOME/programming/hackerrank/go
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-
+export AWS_REGION=us-west-2
 
 
 
