@@ -10,51 +10,64 @@
 " vim-zen
 " -------
 
-call zen#init()
+call plug#begin()
 
 " code formatting
-Plugin 'w0rp/ale'
-Plugin 'ambv/black'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'pangloss/vim-javascript'
-Plugin 'prettier/vim-prettier'
-" Plugin 'google/vim-maktaba'
-" Plugin 'google/vim-codefmt'
+Plug 'w0rp/ale'
+Plug 'ambv/black'
+Plug 'sheerun/vim-polyglot'
+Plug 'pangloss/vim-javascript'
+Plug 'prettier/vim-prettier'
+Plug 'tell-k/vim-autopep8'
+" Plug 'google/vim-maktaba'
+" Plug 'google/vim-codefmt'
 
 " colorschemes
-Plugin 'morhetz/gruvbox'
-Plugin 'joshdick/onedark.vim'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'Lokaltog/vim-monotone'
+Plug 'joshdick/onedark.vim'
+Plug 'arcticicestudio/nord-vim'
+" Plug 'ewilazarus/preto'
+
+" local fork of preto to disable bold fonts
+Plug '~/.local/share/nvim/plugged/preto'
+
+" when someone else is using my setup
+Plug 'sickill/vim-monokai'
+
+" Go dev
+Plug 'fatih/vim-go'
 
 " table mode
-Plugin 'godlygeek/tabular'
-Plugin 'dhruvasagar/vim-table-mode'
+Plug 'godlygeek/tabular'
+Plug 'dhruvasagar/vim-table-mode'
 
 " general utils
-Plugin '/usr/local/opt/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'ervandew/supertab'
-Plugin 'junegunn/goyo.vim'
-Plugin 'simeji/winresizer'
-Plugin 'tpope/vim-surround'
-" Plugin 'scrooloose/nerdtree'
-Plugin 'townk/vim-autoclose'
-Plugin 'tpope/vim-commentary'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ap/vim-css-color'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'ap/vim-buftabline'
+Plug 'danishprakash/vim-githubinator'
+Plug 'danishprakash/vimport'
+Plug 'ludovicchabant/vim-gutentags'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'ervandew/supertab'
+Plug 'junegunn/goyo.vim'
+Plug 'simeji/winresizer'
+Plug 'tpope/vim-surround'
+Plug 'townk/vim-autoclose'
+Plug 'tpope/vim-commentary'
+Plug 'airblade/vim-gitgutter'
+Plug 'davidhalter/jedi-vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'ap/vim-buftabline'
 
 " self
-Plugin '/Users/danishprakash/programming/vimport'
-Plugin '/Users/danishprakash/programming/vim-githubinator'
-Plugin '/Users/danishprakash/programming/vim-md'
+" Plug '/Users/danishprakash/programming/vim-md'
+" Plug '/Users/danishprakash/programming/vimport'
+" Plug '/Users/danishprakash/programming/vim-blameline'
+" Plug '/Users/danishprakash/programming/vim-githubinator'
 
-" Plugin 'prakashdanish/vim-githubinator'
-" Plugin 'prakashdanish/vimport'
+call plug#end()
 
 
 
@@ -64,7 +77,7 @@ Plugin '/Users/danishprakash/programming/vim-md'
 " -------
 
 " define leader key
-let g:leader="\\"
+let mapleader='\\'
 
 " hide bloat in NERDTree
 let g:NERDTreeMinimalUI=1
@@ -79,29 +92,31 @@ let g:githubinator_no_default_mapping=0
 
 " vim-jedi
 let g:jedi#auto_vim_configuration = 0
-let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#use_splits_not_buffers = 'left'
 let g:jedi#popup_select_first = 0
-let g:jedi#show_call_signatures = "1"
+let g:jedi#show_call_signatures = '1'
 
 " scroll through suggestion in up->down manner
 let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
 set omnifunc=jedi#completions
 
 " linters for ale
 let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 
-" smooth scrolling remaps
-let g:comfortable_motion_scroll_down_key = "j"
-let g:comfortable_motion_scroll_up_key = "k"
-
 " UltiSnipps
 let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<c-b>'
-let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+" let g:UltiSnipsJumpForwardTrigger='<c-b>'
+" let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+" let g:UltiSnipsExpandTrigger       = '<C-CR>'
+let g:UltiSnipsJumpForwardTrigger  = '<A-d>'
+let g:UltiSnipsJumpBackwardTrigger = '<A-a>'
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit='vertical'
+
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 
 
@@ -110,13 +125,12 @@ let g:UltiSnipsEditSplit='vertical'
 " configurations
 " --------------
 
-set nowrap
+set linebreak
 set background=dark
-set smartcase
 set ignorecase           " ignore case while searching
 set number               " always show line number
 set relativenumber       " show line numbers relative to the current line
-set cursorline           " highlight current cursor column
+" set cursorline           " highlight current cursor column
 set showmatch            " set show matching parenthesis
 set hlsearch             " enable search highlights
 set scrolloff=10         " cursor remains at ~center of the window
@@ -144,6 +158,7 @@ set foldlevel=10
 " set mouse=a              " allows mouse interaction within vim
 " set completeopt-=preview " deoplete: turn off preview window
 " set clipboard=unnamed    " set system clipboard as vim clipboard
+" set smartcase
 
 
 
@@ -151,6 +166,12 @@ set foldlevel=10
 
 " autocmds
 " --------
+
+" remember cursor position while switching buffer
+if v:version >= 700
+  au BufLeave * let b:winview = winsaveview()
+  au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+endif
 
 " source vimrc when saved 
 augroup VimReload
@@ -173,9 +194,15 @@ autocmd FileType python setlocal completeopt-=preview
 " remappings
 " ----------
 
+" keybinding for tags fuzzy finder
+nnoremap <leader>t :Tags<CR>
+
+" add daily journal title
+nnoremap <leader>jj :r! echo %<CR>
+
 " cycle through buffers
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprevious<CR>
+nnoremap <silent><C-n> :bnext<CR>
+nnoremap <silent><C-p> :bprevious<CR>
 
 " add new line(o/O) without entering insert mode
 nnoremap <leader>o o<esc>
@@ -191,16 +218,16 @@ nnoremap <C-_> gcc
 nnoremap <leader>gt :GitGutterToggle<CR>
 
 " open file finder
-nnoremap <leader>1 :GFiles<CR>
+nnoremap <leader>1 :Files<CR>
 
 " open line finder
 nnoremap <leader>2 :Lines<CR>
 
 " open buffer finder
-nnoremap <leader>3 :Buffers<CR>
+nnoremap <leader>b :Buffers<CR>
 
 " search using rg
-nnoremap <leader>4 :Rg 
+nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
 
 " \_ uses last changed or yanked text as an object
 onoremap <leader>_ :<C-U>normal! `[v`]<CR>
@@ -215,7 +242,7 @@ nnoremap <leader>nd :NERDTreeToggle<CR>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " enable Goyo for markdown writing and toggle ALE
-nnoremap <silent> <leader>go :Goyo 90<cr> :ALEToggle<cr> :set showtabline=0<CR>
+nnoremap <silent> <leader>go :Goyo 90<cr> :call FocusedMode()<cr> :set showtabline=0<CR>
 
 " execute current buffer with python3 
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
@@ -229,18 +256,18 @@ nnoremap <leader>al :ALEToggle<cr>
 
 " moving across splits
 nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
 
 " open a vertical split window and fire up FZF
-nnoremap <leader>v :vnew<cr>:FZF ~/programming<cr>
+nnoremap <leader>v :vnew<cr>:Files<cr>
 
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
 
 " comment using commentary
-nnoremap <leader>q :bd<cr>
+nnoremap <silent><leader>q :bd<cr>
 
 " save current file
 nnoremap <leader>p <esc>:w<cr>
@@ -267,6 +294,9 @@ nnoremap <silent> <C-k> :-5 <CR>
 " source plugin file (dev)
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
 
+" flash the current line when changing window position using `zz`
+nnoremap <silent>zz zz :call StrobeCursorLine()<CR>
+
 
 
 
@@ -275,38 +305,44 @@ nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen
 " ------
 
 syntax on
-colorscheme nord
+colorscheme preto
 filetype on
 filetype plugin indent on
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
-" hi LineNr ctermfg=1 ctermbg=1
-" hi LineNr guifg=#000000 guibg=#2d313a
-hi Default ctermfg=1
-hi Search ctermbg=58 ctermfg=15
-hi CursorLine guibg=#363b47
+" hi LineNr ctermbg=236 
+" hi Default guibg=238
+" hi Normal guibg=238
+" hi Search ctermbg=58 ctermfg=15
+" hi CursorLine guibg=#363b47
 " hi CursorLineNr guibg=#363b47 guifg=#ffffff 
 
-hi clear SignColumn
-hi SignColumn ctermbg=235
+" hi clear SignColumn
+" hi SignColumn ctermbg=238
 " hi EndOfBuffer ctermfg=235 ctermbg=235
-hi GitGutterAdd ctermbg=235 ctermfg=235
-hi GitGutterChange ctermbg=235 ctermfg=235
-hi GitGutterDelete ctermbg=235 ctermfg=235
-hi GitGutterChangeDelete ctermbg=235 ctermfg=235
+" hi GitGutterAdd ctermbg=235 ctermfg=235
+" hi GitGutterChange ctermbg=235 ctermfg=235
+" hi GitGutterDelete ctermbg=235 ctermfg=235
+" hi GitGutterChangeDelete ctermbg=235 ctermfg=235
+hi CursorLine ctermbg=235
+hi Visual ctermbg=darkgray ctermfg=black cterm=bold
 
-hi Visual ctermfg=White ctermbg=Black
-hi VertSplit guifg=#282C34
+" settings are specific to preto colorscheme
+hi ALEError cterm=none
+hi Comment cterm=none
+
+" hi Visual guibg=LightGray guifg=Black gui=bold
+" hi VertSplit guibg=235
 
 " enable 256 color support
-if (has("nvim"))
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
+" if (has("nvim"))
+"     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" endif
 
-if (has("termguicolors"))
-    set termguicolors
-endif
+" if (has("termguicolors"))
+"     set termguicolors
+" endif
 
 
 
@@ -317,34 +353,37 @@ endif
 " function to return branch name of working directory
 function! GitBranch() abort
     let l:branch = system("git symbolic-ref HEAD 2&> /dev/null | awk 'BEGIN{FS=\"/\"} {print $3}'")
-    return len(l:branch) > 0 ? toupper(substitute(l:branch, '\n', '', '')) : '!' 
+    return len(l:branch) > 0 ? substitute(l:branch, '\n', '', '') : '!' 
 endfunction
 
 set statusline=                         " clear the statusline
 set statusline+=%#FilePath#             " filepath highlight group
-set statusline+=\ %t\                   " name of the file
-if GitBranch() != '!'
+set statusline+=\ %f\                   " name of the file
+
+if GitBranch() !=# '!'
     set statusline+=%#GitBranch#            " git branch highlight group
     set statusline+=\ [%{GitBranch()}]\     " git branch
-    hi GitBranch guibg=#363d47 guifg=#4f4f4f
 endif
+
 set statusline+=%#Sep1#                 " empty space in the middle
 set statusline+=%=                      " right align items henceforth
-set statusline+=%#FileType#             " filetype highlight group
-set statusline+=\ [%Y]\                 " filetype
+set statusline+=%#FileType#\ -          " filetype highlight group
+set statusline+=\ %Y\ -                 " filetype
 set statusline+=%#CursorInfo#           " cursor info highlight group
 set statusline+=\ [%l:%c]               " current row and column
 set statusline+=\ %p\                   " percentage of file at current cursor position
 
 " statusline colors
-" NOTE: use cterm if `set termguicolors`
-hi statusline guibg=#3d3e3f guifg=#3d3e3f
-hi FilePath guibg=#88C0D0 guifg=#8f8f8f
-hi FileType guibg=#4C566A guifg=#4f4f4f
-hi CursorInfo guibg=#4C566A guifg=#4f4f4f
-hi Sep1 guibg=#2E3440 guifg=#282C34
+" " NOTE: use cterm if `set termguicolors`
+" hi statusline guibg=#3d3e3f guifg=#3d3e3f
+" hi FilePath guibg=#88C0D0 guifg=#8f8f8f
+" hi FileType guibg=#4C566A guifg=#4f4f4f
+" hi CursorInfo guibg=#4C566A guifg=#4f4f4f
+" hi Sep1 guibg=#2E3440 guifg=#282C34
+hi StatusLine ctermbg=236
+hi GitBranch ctermfg=white ctermbg=236
 
-set fcs=eob:\ 
+set fillchars=eob:\ 
 
 
 " functions
@@ -354,6 +393,8 @@ set fcs=eob:\
 function! FocusedMode()
     exec 'normal :Goyo'
     set showtabline=0
+    set nocursorline
+    syntax off
     exec 'normal! :ALEToggle'
 endfunction
 
@@ -362,7 +403,7 @@ nnoremap <silent> n n:cal StrobeCursorLine()<cr>
 nnoremap <silent> N N:call StrobeCursorLine()<cr>
 
 function! StrobeCursorLine()
-    for count in range(3)
+    for l:count in range(3)
         set invcursorline
         redraw
         exec 'sleep 10m'
@@ -371,3 +412,13 @@ function! StrobeCursorLine()
         exec 'sleep 10m'
     endfor
 endfunction
+
+" reload file if changed outside of vim (think branch changes)
+" Triger `autoread` when files changes on disk
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" Notification after file change
+" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
