@@ -4,9 +4,22 @@
 
 [core]
 	editor = /usr/local/bin/nvim
+	excludesfile = ~/.gitignore
 
 [alias]
+    open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
+    browse = !git open
     which = !git branch | rg
+    l = log --graph --pretty --all
+    s = status -sb
+    a = add
+    cl = clone
+    c = commit
+    cm = commit -m
+    ca = commit --amend
+    can = commit --amend --no-edit
+    pf = push -f
+    num = log --pretty=oneline
     stash = !git stash
     staash = !git stash --include-untracked
     staaash = !git stash --all
@@ -14,3 +27,5 @@
                        --author=prakashdanish \
                        --since='9am yesterday' \
                        --format=%s
+[help]
+	autoCorrect = -1
