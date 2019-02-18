@@ -77,7 +77,7 @@ call plug#end()
 " -------
 
 " define leader key
-let mapleader='\\'
+" let mapleader='\\'
 
 " hide bloat in NERDTree
 let g:NERDTreeMinimalUI=1
@@ -105,19 +105,14 @@ set omnifunc=jedi#completions
 let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 
 " UltiSnipps
-let g:UltiSnipsExpandTrigger='<tab>'
-" let g:UltiSnipsJumpForwardTrigger='<c-b>'
-" let g:UltiSnipsJumpBackwardTrigger='<c-z>'
-" let g:UltiSnipsExpandTrigger       = '<C-CR>'
-let g:UltiSnipsJumpForwardTrigger  = '<A-d>'
-let g:UltiSnipsJumpBackwardTrigger = '<A-a>'
+let g:UltiSnipsJumpForwardTrigger='<c-r>'
+let g:UltiSnipsJumpBackwardTrigger='<c-t>'
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit='vertical'
 
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
-
 
 
 
