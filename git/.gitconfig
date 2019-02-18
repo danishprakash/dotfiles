@@ -10,7 +10,7 @@
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
     browse = !git open
     which = !git branch | rg
-    l = log --graph --pretty --all
+    l = log --oneline -n 15
     s = status -sb
     a = add
     cl = clone
@@ -18,7 +18,9 @@
     cm = commit -m
     ca = commit --amend
     can = commit --amend --no-edit
-    pf = push -f
+    cfp = !git commit --amend --no-edit && git push -f origin
+    p = push origin
+    pf = push -f origin
     num = log --pretty=oneline
     stash = !git stash
     staash = !git stash --include-untracked
