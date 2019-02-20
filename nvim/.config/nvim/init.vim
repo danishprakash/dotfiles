@@ -61,6 +61,10 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-buftabline'
 
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
+
+
 " self
 " Plug '/Users/danishprakash/programming/vim-md'
 " Plug '/Users/danishprakash/programming/vimport'
@@ -189,6 +193,10 @@ autocmd FileType python setlocal completeopt-=preview
 " remappings
 " ----------
 
+" remap c-u and c-d to use lesser jumps
+nnoremap <C-d> 8j
+nnoremap <C-u> 8k
+
 " keybinding for tags fuzzy finder
 nnoremap <leader>t :Tags<CR>
 
@@ -283,8 +291,8 @@ nnoremap H ^
 nnoremap L $
 
 "move 5 lines up and down while holding Shift and j/k
-nnoremap <silent> <C-j> :+5 <CR>
-nnoremap <silent> <C-k> :-5 <CR>
+" nnoremap <silent> <C-j> :+5 <CR>
+" nnoremap <silent> <C-k> :-5 <CR>
 
 " source plugin file (dev)
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
