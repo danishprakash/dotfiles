@@ -13,21 +13,26 @@
     l = log --oneline -n 15
     s = status -sb
     a = add
+    acp = !git add . && git commit --amend --no-edit && git push -f origin
     cl = clone
     c = commit
     cm = commit -m
     ca = commit --amend
     can = commit --amend --no-edit
     cfp = !git commit --amend --no-edit && git push -f origin
+    dbl = branch --delete
+    dbr = push origin --delete
+    f = fetch
+    fr = !git fetch origin && git rebase origin/master
     p = push origin
     pf = push -f origin
     num = log --pretty=oneline
     stash = !git stash
     staash = !git stash --include-untracked
     staaash = !git stash --all
-    standup = !git log --all \
-                       --author=prakashdanish \
-                       --since='9am yesterday' \
-                       --format=%s
+    standup = log --all \
+        --author=danishprakash \
+        --since='9am yesterday' \
+        --format=%s
 [help]
 	autoCorrect = -1
