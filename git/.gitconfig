@@ -10,12 +10,14 @@
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
     browse = !git open
     which = !git branch | rg
-    l = log --oneline -n 15
     s = status -sb
     a = add
+    b = branch -vvv
     acp = !git add . && git commit --amend --no-edit && git push -f origin
     cl = clone
     c = commit
+    ch = checkout
+    chb = checkout -b
     cm = commit -m
     ca = commit --amend
     can = commit --amend --no-edit
@@ -24,6 +26,9 @@
     dbr = push origin --delete
     f = fetch
     fr = !git fetch origin && git rebase origin/master
+    hash = rev-parse --short HEAD
+    ll = log --oneline -n 15
+    l = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short -n 15
     p = push origin
     pf = push -f origin
     num = log --pretty=oneline
@@ -36,3 +41,5 @@
         --format=%s
 [help]
 	autoCorrect = -1
+[push]
+	default = current
