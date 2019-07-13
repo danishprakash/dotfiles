@@ -11,11 +11,13 @@
 # functions
 # ---------
 
-# clean docker mess
-function dckcl() {
-    DANGLING_IMAGES=$(docker images -f "dangling=true")
-    DANGLING_IMAGES_NUM=$(docker images -f dangling=true | wc -l | tr -d '\t')
-    echo "Removing $DANGLING_IMAGES_NUM images, continue (y/n)"
+# exec into compile, execute container
+function dex {
+    PS=$(docker ps)
+    CID=$(echo $PS | grep $1 | awk '{print $1}')
+    CNAME=$(echo $PS | grep $1 | awk '{print $3}')
+    echo "Exec-ing into $CNAME:$CID"
+    docker exec -it $CID sh
 }
 
 # move to the top-level parent directory
@@ -67,7 +69,7 @@ function create_repo() {
 
 # open fzf window with dirs and cd into it
 function quick_find () {
-    dir=$(find ~ ~/programming -not -path '*/\.*' -type d -maxdepth 1 | fzf --layout=reverse --preview "ls -FG {}")
+    dir=$(find . ~/programming -not -path '*/\.*' -type d -maxdepth 2 | fzf --layout=reverse --preview "ls -FG {}")
     if [[ "$?" != "0" ]]; then return; fi;
     cd $dir
     zle reset-prompt
@@ -88,8 +90,8 @@ function edit_files () {
     nvim $file
 }
 
-zle -N edit_files_widget edit_files
-bindkey "^w" edit_files_widget
+# zle -N edit_files_widget edit_files
+# bindkey "^w" edit_files_widget
 
 # function to start a timer in bg / pomodoro
 alias pomo='doro'
@@ -105,7 +107,7 @@ function doro () {
 
 # figuring out current branch while supressing `not git repo` errors
 function git_branch () {
-    branch=$(git symbolic-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $NF}')
+    branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $NF}')
     if [[ $branch == "" ]];
     then
         :
@@ -130,28 +132,30 @@ function mans () {
 # options
 # -------
 
-setopt HIST_IGNORE_ALL_DUPS  # remove older duplicate entries from history
-setopt SHARE_HISTORY         # share history between different instances of the shell
-setopt HIST_REDUCE_BLANKS    # remove superfluous blanks from history items
 setopt AUTO_LIST             # automatically list choices on ambiguous completion
 setopt MENU_COMPLETE	     # insert first suggestion while autocompleting
 setopt PROMPT_SUBST          # allow command, param and arithmetic expansion in the prompt
 setopt AUTO_MENU             # automatically use menu completion
 setopt ALWAYS_TO_END         # move cursor to end if word had one match
-setopt HIST_REDUCE_BLANKS
 setopt INC_APPEND_HISTORY
+
+
+HISTSIZE=5000               # How many lines of history to keep in memory
+HISTFILE=~/.zsh_history     # Where to save history to disk
+SAVEHIST=8000               # Number of history entries to save to disk
+HISTDUP=erase               # Erase duplicates in the history file
+setopt HIST_IGNORE_ALL_DUPS  # remove older duplicate entries from history
+setopt HIST_REDUCE_BLANKS    # remove superfluous blanks from history items
+setopt    APPEND_HISTORY     # Append history to the history file (no overwriting)
+setopt    SHARE_HISTORY      # Share history across terminals
 
 # lines configured by zsh-newuser-install
 export TERM=xterm-256color
-HISTSIZE=1000
-SAVEHIST=e000
-HISTFILE=~/.histfile
 PROMPT='%F{yellow}%2~%F{green}$(git_branch) %F{red}$ %F{reset}'
 
 zstyle ':completion:*' menu select
 
 fpath=(~/.zsh/completion $fpath)
-
 
 
 
@@ -172,6 +176,9 @@ bindkey '^b' emacs-backward-word
 bindkey '^a' vi-beginning-of-line
 bindkey '^k' vi-kill-eol
 bindkey '^H' backward-kill-word
+bindkey "^g" backward-word
+bindkey "^f" forward-word
+bindkey '^[[3^' kill-word
 
 # insert arg from previous command
 bindkey "^]" insert-last-word
@@ -190,30 +197,43 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 source ~/autopair.zsh
 
 # syntax highlighting for zsh
-source ~/zsh-syntax-highlighting.zsh
+# source ~/zsh-syntax-highlighting.zsh
 
 # suggestions from history
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+source ~/z.sh
+
 # docker completion
 # source ~/zsh-docker-completion
 
-# tmuxinator completion
-# source ~/.tmuxinator-completion.zsh
+# kubectl aliases
+# https://github.com/ahmetb/kubectl-aliases
+[ -f ~/.kubectl.zsh ] && source ~/.kubectl.zsh
+
+# prints the complete command referred by the alias
+# function kubectl() { echo "+ kubectl $@"; command kubectl $@; }
 
 
 
 # alias
 # -----
 
+alias H='--help'
+alias V='--version'
+
+alias dgc='CLOUDSDK_CORE_PROJECT=coderunner-dev gcloud'
+alias pgc='CLOUDSDK_CORE_PROJECT=coderunner gcloud'
 alias -s py=nvim
+alias hgrep='cat ~/.zsh_history | fzf'
 
 alias :q=exit
 
 alias -g C='| wc -l'
 alias -g L='| less'
 alias -g P='| pbcopy'
-alias -g J='| jq'
+alias -g J='| jq -M'
+alias h='cat ~/.zsh_history | rg'
 
 
 # git
@@ -223,22 +243,26 @@ alias gp='git pull origin'
 alias gd='git diff'
 alias gpuf='git push -f origin'
 alias gn='git num | wc -l'
-alias gh="open `git remote -v | grep fetch | awk '{print $2}' | sed 's/git@/http:\/\//' | sed 's/com:/com\//'`| head -n1"
 
 # general
 alias rm='rm -i'                               # ask for confirmation before rm
-alias ls='ls -FG'                              # adds trailing '/' for dirs and -G for colors
-alias ll='ls -alFG'	                           # list mode for ls with above flags
+alias ls='ls -F'                              # adds trailing '/' for dirs and -G for colors
+alias ll='ls -althF'	                           # list mode for ls with above flags
 alias ez='nvim ~/.zshrc'	                   # open .zshrc for editing
-alias sz='source ~/.zshrc'	                   # source .zshrc
+alias sz='source ~/.zshrc 2> /dev/null'	                   # source .zshrc
 alias lt='tree -I '.git''	                   # skip .git dir in trees
 alias grep='grep --colour=auto'                # colored output in grep
 alias vi='nvim'
 alias venv='workon $(workon | fzf --layout=reverse)'
+alias dots='find ~/dotfiles -not -path "*/\.git/*" -type d -maxdepth 6 | fzf --layout=reverse --preview "ls -FG {}"'
 
 alias blog='bundle exec jekyll serve'	       # deploy blog to localhost
 
+alias go2='$GOPATH/bin/go1.12'
+export GO111MODULE=on
+
 autoload -Uz compinit
+autoload -U zmv
 compinit -i
 
 
@@ -248,9 +272,10 @@ compinit -i
 # exports
 # -------
 
-export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:/Library/TeX/Root/bin/x86_64-darwin/
+export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:/Library/TeX/Root/bin/x86_64-darwin/:$GOPATH/bin
 export EDITOR="/usr/local/bin/nvim"
-export GOPATH=$HOME/programming/hackerrank/go
+export GOPATH=$HOME/programming/go
+export PATH=$PATH:$GOPATH
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
@@ -265,6 +290,28 @@ export AWS_REGION=us-west-2
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 export WORKON_HOME=~/virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+# source /usr/local/bin/virtualenvwrapper.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/danish/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danish/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/danish/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danish/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# added by travis gem
+[ -f /Users/danish/.travis/travis.sh ] && source /Users/danish/.travis/travis.sh
