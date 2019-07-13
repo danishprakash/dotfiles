@@ -1,3 +1,4 @@
+"
 "         _
 "  __   _(_)_ __ ___  _ __ ___ 
 "  \ \ / / | '_ ` _ \| '__/ __|
@@ -21,11 +22,16 @@ Plug 'prettier/vim-prettier'
 Plug 'tell-k/vim-autopep8'
 " Plug 'google/vim-maktaba'
 " Plug 'google/vim-codefmt'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 
 " colorschemes
 Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'KKPMW/distilled-vim'
+Plug 'chriskempson/base16-vim'
 " Plug 'ewilazarus/preto'
+Plug 'pgdouyon/vim-yin-yang'
+
 
 " local fork of preto to disable bold fonts
 Plug '~/.local/share/nvim/plugged/preto'
@@ -46,7 +52,7 @@ Plug 'danishprakash/vimport'
 Plug 'ludovicchabant/vim-gutentags'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 Plug 'junegunn/goyo.vim'
 Plug 'simeji/winresizer'
 Plug 'tpope/vim-surround'
@@ -59,7 +65,12 @@ Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
-Plug 'ap/vim-buftabline'
+" Plug 'ap/vim-buftabline'
+Plug 'itchyny/lightline.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'RRethy/vim-illuminate'
+
+
 
 " tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -81,15 +92,15 @@ call plug#end()
 " -------
 
 " define leader key
-" let mapleader='\\'
+let mapleader=' '
 
 " hide bloat in NERDTree
 let g:NERDTreeMinimalUI=1
 
 " python execs for nvim
-let g:python2_host_prog = '/usr/local/bin/python'
 let g:completor_python_binary = '/usr/local/bin/python3'
-let g:python3_host_prog = '/usr/local/Cellar/python3/3.6.3/bin/python3'
+let g:python2_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " use default mappings for vim-githubinator
 let g:githubinator_no_default_mapping=0
@@ -101,9 +112,9 @@ let g:jedi#popup_select_first = 0
 let g:jedi#show_call_signatures = '1'
 
 " scroll through suggestion in up->down manner
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
-set omnifunc=jedi#completions
+" let g:SuperTabDefaultCompletionType = '<C-n>'
+" let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
+" set omnifunc=jedi#completions
 
 " linters for ale
 let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
@@ -118,7 +129,24 @@ let g:UltiSnipsEditSplit='vertical'
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ], ['tabline']],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ 'separator': {
+      \ 'right': ''
+      \ },
+      \ } 
 
+let g:go_def_mapping_enabled = 0
 
 
 " configurations
@@ -129,7 +157,7 @@ set background=dark
 set ignorecase           " ignore case while searching
 set number               " always show line number
 set relativenumber       " show line numbers relative to the current line
-" set cursorline           " highlight current cursor column
+set cursorline           " highlight current cursor column
 set showmatch            " set show matching parenthesis
 set hlsearch             " enable search highlights
 set scrolloff=10         " cursor remains at ~center of the window
@@ -137,11 +165,11 @@ set shortmess+=c         " Shut off completion messages
 set belloff+=ctrlg       " If Vim beeps during completion
 set noshowmode           " hide current mode label
 set mouse=a              " enable mouse for `a`ll modes
+" set list
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set completeopt+=menuone
-set nohlsearch
+" set completeopt+=menuone
 set magic
 set t_Co=256
 set undofile	         " maintain undo history bw sessions
@@ -192,6 +220,29 @@ autocmd FileType python setlocal completeopt-=preview
 
 " remappings
 " ----------
+"
+"
+nnoremap <leader>i :GoImport 
+" open current file in NERDTree
+nnoremap <leader>j :GitGutterPrevHunk<CR>
+
+" disable search results highlighting
+" nnoremap <CR> :nohlsearch<CR>
+
+" correct previous spelling mistakes
+" https://castel.dev/post/lecture-notes-1/
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
+" add quotes
+nnoremap <silent> <Leader>" ysiw"
+nnoremap <silent> <Leader>' ysiw'
+
+" skip to next git change
+nnoremap <leader>j :GitGutterPrevHunk<CR>
+nnoremap <leader>k :GitGutterNextHunk<CR>
+
+" focus current file in NERDTree
+nnoremap <leader>n :NERDTreeFind<CR>
 
 " remap c-u and c-d to use lesser jumps
 nnoremap <C-d> 8j
@@ -204,8 +255,11 @@ nnoremap <leader>t :Tags<CR>
 nnoremap <leader>jj :r! echo %<CR>
 
 " cycle through buffers
-nnoremap <silent><C-n> :bnext<CR>
-nnoremap <silent><C-p> :bprevious<CR>
+" nnoremap <silent><C-n> :bnext<CR>
+" nnoremap <silent><C-p> :bprevious<CR>
+
+" open file finder
+" nnoremap <silent><C-p> :Files<CR>
 
 " add new line(o/O) without entering insert mode
 nnoremap <leader>o o<esc>
@@ -221,13 +275,13 @@ nnoremap <C-_> gcc
 nnoremap <leader>gt :GitGutterToggle<CR>
 
 " open file finder
-nnoremap <leader>1 :Files<CR>
+nnoremap <silent> <leader><leader> :Files<CR>
 
 " open line finder
-nnoremap <leader>2 :Lines<CR>
+nnoremap <silent> <leader>l :Lines<CR>
 
 " open buffer finder
-nnoremap <leader>b :Buffers<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
 
 " search using rg
 nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
@@ -236,7 +290,7 @@ nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
 onoremap <leader>_ :<C-U>normal! `[v`]<CR>
 
 " remap return to ':'
-nnoremap <CR> :
+nnoremap <CR> :echo "nope"<CR>
 
 " start nerdtree 
 nnoremap <leader>nd :NERDTreeToggle<CR>
@@ -269,18 +323,18 @@ nnoremap <leader>v :vnew<cr>:Files<cr>
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
 
-" comment using commentary
+" close current buffer
 nnoremap <silent><leader>q :bd<cr>
 
 " save current file
-nnoremap <leader>p <esc>:w<cr>
+nnoremap <leader>w <esc>:w<cr>
 
 " surround current word with double-quotes
-nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+" nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 " open vimrc in vertial split and source it
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>so :so $MYVIMRC<cr>
+nnoremap <silent> <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <silent> <leader>so :so $MYVIMRC<cr>
 
 " move around wrapped lines as if separate lines
 noremap <silent> j gj
@@ -293,12 +347,17 @@ nnoremap L $
 "move 5 lines up and down while holding Shift and j/k
 " nnoremap <silent> <C-j> :+5 <CR>
 " nnoremap <silent> <C-k> :-5 <CR>
+nnoremap <silent> <C-j> <nop>
+nnoremap <silent> <C-k> <nop>
 
 " source plugin file (dev)
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
 
 " flash the current line when changing window position using `zz`
-nnoremap <silent>zz zz :call StrobeCursorLine()<CR>
+" nnoremap <silent>zz zz :call StrobeCursorLine()<CR>
+
+" :w!! to save with sudo
+ca w!! w !sudo tee >/dev/null "%"
 
 
 
@@ -307,28 +366,29 @@ nnoremap <silent>zz zz :call StrobeCursorLine()<CR>
 " colors
 " ------
 
-syntax on
-colorscheme preto
+colorscheme base16-grayscale-dark
 filetype on
 filetype plugin indent on
+syntax on
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
 " hi LineNr ctermbg=236 
 " hi Default guibg=238
-" hi Normal guibg=238
-" hi Search ctermbg=58 ctermfg=15
+hi Normal gui=None
+hi Search guibg=1 guifg=15
 " hi CursorLine guibg=#363b47
 " hi CursorLineNr guibg=#363b47 guifg=#ffffff 
+hi CursorLineNr guibg=#363b47 guifg=#ffffff 
 
 " hi clear SignColumn
-" hi SignColumn ctermbg=238
+" hi SignColumn ctermbg=None
 " hi EndOfBuffer ctermfg=235 ctermbg=235
 " hi GitGutterAdd ctermbg=235 ctermfg=235
 " hi GitGutterChange ctermbg=235 ctermfg=235
 " hi GitGutterDelete ctermbg=235 ctermfg=235
 " hi GitGutterChangeDelete ctermbg=235 ctermfg=235
-hi CursorLine ctermbg=235
+hi CursorLine ctermfg=none
 hi Visual ctermbg=darkgray ctermfg=black cterm=bold
 
 " settings are specific to preto colorscheme
@@ -339,13 +399,13 @@ hi Comment cterm=none
 " hi VertSplit guibg=235
 
 " enable 256 color support
-" if (has("nvim"))
-"     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-" endif
+if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
 
-" if (has("termguicolors"))
-"     set termguicolors
-" endif
+if (has("termguicolors"))
+    set termguicolors
+endif
 
 
 
@@ -353,44 +413,68 @@ hi Comment cterm=none
 " statusline
 " ----------
 
-" function to return branch name of working directory
-function! GitBranch() abort
-    let l:branch = system("git symbolic-ref HEAD 2&> /dev/null | awk 'BEGIN{FS=\"/\"} {print $3}'")
-    return len(l:branch) > 0 ? substitute(l:branch, '\n', '', '') : '!' 
-endfunction
+" " function to return branch name of working directory
+" function! GitBranch() abort
+"     let l:branch = system("git symbolic-ref HEAD 2&> /dev/null | awk 'BEGIN{FS=\"/\"} {print $3}'")
+"     return len(l:branch) > 0 ? substitute(l:branch, '\n', '', '') : '!' 
+" endfunction
 
-set statusline=                         " clear the statusline
-set statusline+=%#FilePath#             " filepath highlight group
-set statusline+=\ %f\                   " name of the file
+" set statusline=                         " clear the statusline
+" set statusline+=%#FilePath#             " filepath highlight group
+" set statusline+=\ %f\                   " name of the file
 
-if GitBranch() !=# '!'
-    set statusline+=%#GitBranch#            " git branch highlight group
-    set statusline+=\ [%{GitBranch()}]\     " git branch
-endif
+" if GitBranch() !=# '!'
+"     set statusline+=%#GitBranch#            " git branch highlight group
+"     set statusline+=\ [%{GitBranch()}]\     " git branch
+" endif
 
-set statusline+=%#Sep1#                 " empty space in the middle
-set statusline+=%=                      " right align items henceforth
-set statusline+=%#FileType#\ -          " filetype highlight group
-set statusline+=\ %Y\ -                 " filetype
-set statusline+=%#CursorInfo#           " cursor info highlight group
-set statusline+=\ [%l:%c]               " current row and column
-set statusline+=\ %p\                   " percentage of file at current cursor position
+" set statusline+=%#Sep1#                 " empty space in the middle
+" set statusline+=%=                      " right align items henceforth
+" set statusline+=%#FileType#\ -          " filetype highlight group
+" set statusline+=\ %Y\ -                 " filetype
+" set statusline+=%#CursorInfo#           " cursor info highlight group
+" set statusline+=\ [%l:%c]               " current row and column
+" set statusline+=\ %p\                   " percentage of file at current cursor position
 
-" statusline colors
-" " NOTE: use cterm if `set termguicolors`
-" hi statusline guibg=#3d3e3f guifg=#3d3e3f
-" hi FilePath guibg=#88C0D0 guifg=#8f8f8f
-" hi FileType guibg=#4C566A guifg=#4f4f4f
-" hi CursorInfo guibg=#4C566A guifg=#4f4f4f
-" hi Sep1 guibg=#2E3440 guifg=#282C34
+" " statusline colors
+" " " NOTE: use cterm if `set termguicolors`
+" " hi statusline guibg=#3d3e3f guifg=#3d3e3f
+" " hi FilePath guibg=#88C0D0 guifg=#8f8f8f
+" " hi FileType guibg=#4C566A guifg=#4f4f4f
+" " hi CursorInfo guibg=#4C566A guifg=#4f4f4f
+" " hi Sep1 guibg=#2E3440 guifg=#282C34
 hi StatusLine ctermbg=236
-hi GitBranch ctermfg=white ctermbg=236
+" hi GitBranch ctermfg=white ctermbg=236
 
 set fillchars=eob:\ 
 
 
+
 " functions
 " ---------
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
 
 " enable focused writing mode
 function! FocusedMode()
@@ -402,19 +486,19 @@ function! FocusedMode()
 endfunction
 
 " blink cursorline for searches
-nnoremap <silent> n n:cal StrobeCursorLine()<cr>
-nnoremap <silent> N N:call StrobeCursorLine()<cr>
+" nnoremap <silent> n n:cal StrobeCursorLine()<cr>
+" nnoremap <silent> N N:call StrobeCursorLine()<cr>
 
-function! StrobeCursorLine()
-    for l:count in range(3)
-        set invcursorline
-        redraw
-        exec 'sleep 10m'
-        set invcursorline
-        redraw
-        exec 'sleep 10m'
-    endfor
-endfunction
+" function! StrobeCursorLine()
+"     for l:count in range(3)
+"         set invcursorline
+"         redraw
+"         exec 'sleep 10m'
+"         set invcursorline
+"         redraw
+"         exec 'sleep 10m'
+"     endfor
+" endfunction
 
 " reload file if changed outside of vim (think branch changes)
 " Triger `autoread` when files changes on disk
@@ -425,3 +509,48 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checkti
 " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
 autocmd FileChangedShellPost *
   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+
+
+" temp coc.nvim configuration
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=1
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
