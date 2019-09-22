@@ -1,4 +1,12 @@
-# dotfiles
-:nut_and_bolt: dotfiles - mac
+> "less is more"
 
-![img](https://i.redditmedia.com/fSS0eU09QTfh9EJwWkgDtJ3JbIa58sVNyIIagJVRKeA.png?s=3876ca2f4ee0dc420e23316421329227)
+![img](https://imgur.com/SehOajN.png)
+
+```text
+editor      : nvim
+colorscheme : vim-yami
+terminal    : iTerm2
+font        : Fira Mono
+mux         : tmux
+shell       : zsh
+os          : macOS

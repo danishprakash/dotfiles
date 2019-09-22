@@ -112,7 +112,7 @@ function git_branch () {
     then
         :
     else
-        echo ' ('$branch')'
+        echo '('$branch') '
     fi
 }
 
@@ -151,7 +151,7 @@ setopt    SHARE_HISTORY      # Share history across terminals
 
 # lines configured by zsh-newuser-install
 export TERM=xterm-256color
-PROMPT='%F{yellow}%2~%F{green}$(git_branch) %F{red}$ %F{reset}'
+PROMPT='%F{green}$(git_branch)%F{yellow}%2~ $ %F{reset}'
 
 zstyle ':completion:*' menu select
 
@@ -194,7 +194,7 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 # ------
 
 # autocomplete pairs of delimiters
-source ~/autopair.zsh
+# source ~/autopair.zsh
 
 # syntax highlighting for zsh
 # source ~/zsh-syntax-highlighting.zsh
@@ -214,16 +214,22 @@ source ~/z.sh
 # prints the complete command referred by the alias
 # function kubectl() { echo "+ kubectl $@"; command kubectl $@; }
 
+# echo aws profile in use when executing aws or sam commands
+function sam() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command sam $@; }
+function aws() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command aws $@; }
 
 
-# alias
+
+# aliases
 # -----
 
+# alias awsdev='export AWS_DEFAULT_PROFILE=default'
+# alias awsprod='export AWS_DEFAULT_PROFILE=production'
 alias H='--help'
 alias V='--version'
 
-alias dgc='CLOUDSDK_CORE_PROJECT=coderunner-dev gcloud'
-alias pgc='CLOUDSDK_CORE_PROJECT=coderunner gcloud'
+alias gcdev='export CLOUDSDK_CORE_PROJECT=coderunner-dev'
+alias gcprod='export CLOUDSDK_CORE_PROJECT=coderunner'
 alias -s py=nvim
 alias hgrep='cat ~/.zsh_history | fzf'
 
@@ -258,8 +264,14 @@ alias dots='find ~/dotfiles -not -path "*/\.git/*" -type d -maxdepth 6 | fzf --l
 
 alias blog='bundle exec jekyll serve'	       # deploy blog to localhost
 
+alias atag='kubectl get pods | head -n 2 | grep coderunner | awk '{print $1}' | xargs kubectl describe pod | grep git | awk -F ":" '{print $3}''
+
 alias go2='$GOPATH/bin/go1.12'
 export GO111MODULE=on
+
+export HOMEBREW_NO_AUTO_UPDATE=1               # disable homebrew update before install
+
+export LC_ALL=en_US.UTF-8                      # some weird warning nvim was throwing about locales
 
 autoload -Uz compinit
 autoload -U zmv
@@ -280,6 +292,7 @@ export PATH=$PATH:$GOPATH
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 export AWS_REGION=us-west-2
+
 
 
 

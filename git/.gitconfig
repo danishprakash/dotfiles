@@ -1,10 +1,10 @@
 [user]
-	name = danishprakash
+	name = Danish Prakash
 	email = grafitykoncept@gmail.com
 
 [core]
 	editor = /usr/local/bin/nvim
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/danish/.gitignore
 
 [alias]
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
