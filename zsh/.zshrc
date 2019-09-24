@@ -132,22 +132,28 @@ function mans () {
 # options
 # -------
 
-setopt AUTO_LIST             # automatically list choices on ambiguous completion
-setopt MENU_COMPLETE	     # insert first suggestion while autocompleting
-setopt PROMPT_SUBST          # allow command, param and arithmetic expansion in the prompt
-setopt AUTO_MENU             # automatically use menu completion
-setopt ALWAYS_TO_END         # move cursor to end if word had one match
-setopt INC_APPEND_HISTORY
 
+setopt ALWAYS_TO_END          # move cursor to end if word had one match
+setopt APPEND_HISTORY         # Append history to the history file (no overwriting)
+setopt AUTO_LIST              # automatically list choices on ambiguous completion
+setopt AUTO_MENU              # automatically use menu completion
+setopt HIST_EXPIRE_DUPS_FIRST # remove oldest duplicate entry when history needs to be trimmed
+setopt HIST_FIND_NO_DUPS      # don't show duplicates when searching history
+setopt HIST_IGNORE_ALL_DUPS   # remove older duplicate entries from history
+setopt HIST_IGNORE_DUPS       # don't add duplicate entry to history file
+setopt HIST_REDUCE_BLANKS     # remove superfluous blanks from history items
+setopt INC_APPEND_HISTORY     # write history file as soon as command is entered
+setopt MENU_COMPLETE          # insert first suggestion while autocompleting
+setopt PROMPT_SUBST           # allow command, param and arithmetic expansion in the prompt
+setopt SHARE_HISTORY          # Share history across terminals
+setopt CORRECT                # correct spellings for misspelled commands
+setopt LIST_PACKED            # make completion list smaller
+setopt LIST_ROWS_FIRST        # match completions horizontally, not vertically
 
-HISTSIZE=5000               # How many lines of history to keep in memory
-HISTFILE=~/.zsh_history     # Where to save history to disk
-SAVEHIST=8000               # Number of history entries to save to disk
-HISTDUP=erase               # Erase duplicates in the history file
-setopt HIST_IGNORE_ALL_DUPS  # remove older duplicate entries from history
-setopt HIST_REDUCE_BLANKS    # remove superfluous blanks from history items
-setopt    APPEND_HISTORY     # Append history to the history file (no overwriting)
-setopt    SHARE_HISTORY      # Share history across terminals
+HISTSIZE=5000                 # How many lines of history to keep in memory
+HISTFILE=~/.zsh_history       # Where to save history to disk
+SAVEHIST=8000                 # Number of history entries to save to disk
+HISTDUP=erase                 # Erase duplicates in the history file
 
 # lines configured by zsh-newuser-install
 export TERM=xterm-256color
