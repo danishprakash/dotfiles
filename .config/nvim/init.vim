@@ -215,6 +215,7 @@ autocmd FileType python setlocal completeopt-=preview
 "
 "
 "
+
 nnoremap <silent><c-[> :nohlsearch<CR>
 
 nnoremap <leader>i :GoImport 
@@ -329,7 +330,7 @@ nnoremap <leader>w <esc>:w<cr>
 
 " open vimrc in vertial split and source it
 nnoremap <silent> <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <silent> <leader>so :so $MYVIMRC<cr>
+nnoremap <silent> <leader>so :so $MYVIMRC<cr> :CocRestart<CR>
 
 " move around wrapped lines as if separate lines
 noremap <silent> j gj

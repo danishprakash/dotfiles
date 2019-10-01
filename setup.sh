@@ -22,6 +22,10 @@ brew install python3
 brew install zsh-completions
 brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
+brew install rg
+brew install ctags
+brew install fzf
+brew install jq
 
 brew tap homebrew/cask
 
@@ -37,7 +41,8 @@ brew cask install transmission
 
 # ====== SYMLINKS ====== #
 echo "--> Symlinking config files..."
-ln -fs {$PWD}/nvim/init.vim ~/.config/nvim/init.vim
-ln -fs {$PWD}/.zshrc ~/.zshrc
+sudo ln -sf {$PWD}/nvim/.config/nvim/init.vim ~/.config/nvim/init.vim
+sudo ln -sf {$PWD}/zsh/.zshrc ~/.zshrc
 
+# download the autopair and other plugins
 

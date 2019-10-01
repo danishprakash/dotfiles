@@ -1,0 +1,75 @@
+!  __  __                                            
+!  \ \/ /_ __ ___  ___  ___  _   _ _ __ ___ ___  ___ 
+!   \  /| '__/ _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+!   /  \| | |  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+!  /_/\_\_|  \___||___/\___/ \__,_|_|  \___\___||___/
+!
+
+
+! URxvt
+! -----
+
+URxvt.externalBorder : 16
+URxvt.scrollBar      : False
+URxvt.font           : xft: Iosevka Term Light: size=10: antialias=true
+URxvt.letterSpace    : 0
+Urxvt.lineSpace      : -1
+URxvt.antialias      : true
+
+! Clipboard
+URxvt.keysym.M-c      : perl:clipboard:copy
+URxvt.keysym.M-v      : perl:clipboard:paste
+URxvt.keysym.M-C-v    : perl:clipboard:paste_escaped
+Urxvt.perl-ext-common : selection-to-clipboard
+
+
+! ROFI Color theme
+! ----------------
+
+rofi.color-enabled: true
+rofi.color-window: #2e3440, #4c566a, #2e3440
+rofi.color-normal: #2e3440, #e5e9f0, #2E3440, #434c5e, #eceff4
+rofi.color-active: #2e3440, #81a1c1, #2e3440, #81a1c1, #fdf6e3
+rofi.color-urgent: #2e3440, #d08770, #2e3440, #d08770, #fdf6e3
+
+
+! Nord color scheme
+! -----------------
+
+#define nord0 #383c4a
+#define nord1 #3B4252
+#define nord2 #434C5E
+#define nord3 #4C566A
+#define nord4 #D8DEE9
+#define nord5 #E5E9F0
+#define nord6 #ECEFF4
+#define nord7 #8FBCBB
+#define nord8 #88C0D0
+#define nord9 #81A1C1
+#define nord10 #5E81AC
+#define nord11 #BF616A
+#define nord12 #D08770
+#define nord13 #EBCB8B
+#define nord14 #A3BE8C
+#define nord15 #B48EAD
+
+*.foreground:   nord4
+*.background:   nord0
+*.cursorColor:  nord4
+
+*.color0: nord1
+*.color1: nord11
+*.color2: nord14
+*.color3: nord13
+*.color4: nord9
+*.color5: nord15
+*.color6: nord8
+*.color7: nord5
+*.color8: nord3
+*.color9: nord11
+*.color10: nord14
+*.color11: nord13
+*.color12: nord9
+*.color13: nord15
+*.color14: nord7
+*.color15: nord6
