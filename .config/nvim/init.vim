@@ -8,72 +8,54 @@
 
 
 
-" vim-zen
+" plugins
 " -------
 
 call plug#begin()
 
 " code formatting
-Plug 'w0rp/ale'
 Plug 'ambv/black'
-Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'sheerun/vim-polyglot'
+Plug 'w0rp/ale'
 
-" colorschemes
+" colorschemes (when someone else is using)
 Plug 'ewilazarus/preto'
-Plug '/Users/danish/programming/vim-yami'
-
-" when someone else is using my setup
-" they will need colors
 Plug 'sickill/vim-monokai'
 
-" Go development
-Plug 'fatih/vim-go'
-
-" table mode
-Plug 'godlygeek/tabular'
-Plug 'dhruvasagar/vim-table-mode'
-
-" general utils
+" utils
+Plug '/usr/local/opt/fzf'
+Plug 'RRethy/vim-illuminate'
+Plug 'SirVer/ultisnips'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
 Plug 'danishprakash/vim-githubinator'
 Plug 'danishprakash/vimport'
-Plug 'ludovicchabant/vim-gutentags'
-Plug '/usr/local/opt/fzf'
+Plug 'davidhalter/jedi-vim'
+Plug 'fatih/vim-go'
+Plug 'godlygeek/tabular'
+Plug 'honza/vim-snippets'
+Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf.vim'
-" Plug 'ervandew/supertab'
 Plug 'junegunn/goyo.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'scrooloose/nerdtree'
 Plug 'simeji/winresizer'
-Plug 'tpope/vim-surround'
 Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-gitgutter'
-Plug 'davidhalter/jedi-vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
-" Plug 'ap/vim-buftabline'
-Plug 'itchyny/lightline.vim'
-Plug 'Yggdroot/indentLine'
-Plug 'RRethy/vim-illuminate'
+Plug 'tpope/vim-surround'
+
+" plugin development
 Plug '/Users/danish/programming/vim-docker'
-
-
-
-" tmux
-Plug 'christoomey/vim-tmux-navigator'
-
-
-" self
-" Plug '/Users/danishprakash/programming/vim-md'
-" Plug '/Users/danishprakash/programming/vimport'
+Plug '/Users/danish/programming/vim-yami'
 " Plug '/Users/danishprakash/programming/vim-blameline'
 " Plug '/Users/danishprakash/programming/vim-githubinator'
+" Plug '/Users/danishprakash/programming/vim-md'
+" Plug '/Users/danishprakash/programming/vimport'
+
 
 call plug#end()
-
-
 
 
 
@@ -96,9 +78,9 @@ let g:githubinator_no_default_mapping=0
 
 " vim-jedi
 let g:jedi#auto_vim_configuration = 0
-let g:jedi#use_splits_not_buffers = 'left'
 let g:jedi#popup_select_first = 0
 let g:jedi#show_call_signatures = '1'
+let g:jedi#use_splits_not_buffers = 'left'
 
 " scroll through suggestion in up->down manner
 " let g:SuperTabDefaultCompletionType = '<C-n>'
@@ -110,8 +92,8 @@ let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 let g:ale_python_flake8_options = '--ignore=E501'
 
 " UltiSnipps
-let g:UltiSnipsJumpForwardTrigger='<c-r>'
 let g:UltiSnipsJumpBackwardTrigger='<c-t>'
+let g:UltiSnipsJumpForwardTrigger='<c-r>'
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit='vertical'
@@ -142,48 +124,46 @@ let g:go_def_mapping_enabled = 0
 " configurations
 " --------------
 
-set linebreak
 set background=dark
-set ignorecase           " ignore case while searching
-set number               " always show line number
-set relativenumber       " show line numbers relative to the current line
-set cursorline           " highlight current cursor column
-set showmatch            " set show matching parenthesis
-set hlsearch             " enable search highlights
-set scrolloff=10         " cursor remains at ~center of the window
-set shortmess+=c         " Shut off completion messages
-set belloff+=ctrlg       " If Vim beeps during completion
-set noshowmode           " hide current mode label
-set mouse=a              " enable mouse for `a`ll modes
-set tabstop=4
-set shiftwidth=4
+set belloff+=ctrlg                 " If Vim beeps during completion
+set cursorline                     " highlight current cursor column
 set expandtab
-set magic
-set t_Co=256
-set undofile	         " maintain undo history bw sessions
-set undodir=~/.config/nvim/undodir
-
-" folding
-set foldmethod=indent
 set foldlevel=10
-set nomodeline           " vim reading random lines as modelines
+set foldmethod=indent
+set hlsearch                       " enable search highlights
+set ignorecase                     " ignore case while searching
+set linebreak
+set magic
+set mouse=a                        " enable mouse for `a`ll modes
+set nomodeline                     " vim reading random lines as modelines
+set noshowmode                     " hide current mode label
 set nowrap
+set number                         " always show line number
+set relativenumber                 " show line numbers relative to the current line
+set scrolloff=10                   " cursor remains at ~center of the window
+set shiftwidth=4
+set shortmess+=c                   " Shut off completion messages
+set showmatch                      " set show matching parenthesis
+set t_Co=256
+set tabstop=4
+set undodir=~/.config/nvim/undodir
+set undofile                       " maintain undo history bw sessions
 
-" set ruler
-" set ai                   " auto indent
-" set si                   " smart indent
-" set mouse=a              " allows mouse interaction within vim
-" set completeopt-=preview " deoplete: turn off preview window
-" set clipboard=unnamed    " set system clipboard as vim clipboard
-" set smartcase
+" set ai                           " auto indent
+" set clipboard=unnamed            " set system clipboard as vim clipboard
 " set completeopt+=menuone
+" set completeopt-=preview         " deoplete: turn off preview window
 " set list
+" set mouse=a                      " allows mouse interaction within vim
+" set ruler
+" set si                           " smart indent
+" set smartcase
 
 
 
 
 
-" autocmds
+" autocommands
 " --------
 
 " " remember cursor position while switching buffer
@@ -206,7 +186,31 @@ autocmd FileType markdown set wrap
 
 autocmd FileType python setlocal completeopt-=preview
 
+" reload file if changed outside of vim (think branch changes)
+" Triger `autoread` when files changes on disk
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" Notification after file change
+" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
+
+" configure vim for writing
+function! s:goyo_enter()
+    set nocursorline
+    syntax off
+endfunction
+
+function! s:goyo_leave()
+    set cursorline
+    syntax on
+    colorscheme yami
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 
 
@@ -295,7 +299,7 @@ nnoremap <leader>nd :NERDTreeToggle<CR>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " enable Goyo for markdown writing and toggle ALE
-nnoremap <silent> <leader>go :Goyo 90<cr> :call FocusedMode()<cr> :set showtabline=0<CR>
+nnoremap <silent> <leader>go :Goyo 90<cr>
 
 " execute current buffer with python3 
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
@@ -403,33 +407,6 @@ endfunc
 " Useful when studying strange source code.
 " Type z/ to toggle highlighting on/off.
 nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
-
-" enable focused writing mode
-function! FocusedMode()
-    exec 'normal :Goyo'
-    set showtabline=0
-    set nocursorline
-    syntax off
-    exec 'normal! :ALEToggle'
-endfunction
 
 " blink cursorline for searches
 " nnoremap <silent> n n:cal StrobeCursorLine()<cr>
@@ -445,16 +422,6 @@ endfunction
 "         exec 'sleep 10m'
 "     endfor
 " endfunction
-
-" reload file if changed outside of vim (think branch changes)
-" Triger `autoread` when files changes on disk
-" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
-" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-" Notification after file change
-" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 
 " temp coc.nvim configuration
