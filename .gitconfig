@@ -22,6 +22,7 @@
     ca = commit --amend
     can = commit --amend --no-edit
     cfp = !git commit --amend --no-edit && git push -f origin
+    diffs = diff --indent-heuristic --minimal --color-words
     dbl = branch --delete
     dbr = push origin --delete
     f = fetch
@@ -43,3 +44,7 @@
 	autoCorrect = -1
 [push]
 	default = current
+[diff]
+    tool = vimdiff
+[commit]
+    verbose = true
