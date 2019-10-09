@@ -7,7 +7,6 @@
 
 
 
-
 # functions
 # ---------
 
@@ -20,6 +19,7 @@ function dex {
     docker exec -it $CID sh
 }
 
+
 # move to the top-level parent directory
 function cdp() {
     TEMP_PWD=`pwd`
@@ -29,6 +29,7 @@ function cdp() {
     OLDPWD=$TEMP_PWD
 }
 
+
 # serve current directory using python HTTP server
 function servedir() {
     # TODO: add handling for python3 and python
@@ -36,6 +37,7 @@ function servedir() {
     echo "Serving at: https://$ip_addr:8000"
     python3 -m http.server 8000
 }
+
 
 # search for a pattern and open the file
 function rf() {
@@ -45,6 +47,7 @@ function rf() {
     nvim $file_path +$line_number
 }
 
+
 # find and kill process by pid
 function kp() {
     kill -9 $(ps -ef | fzf --reverse | awk '{print $2}') &> /dev/null
@@ -53,6 +56,7 @@ function kp() {
         echo "Unable to kill process"
     fi
 }
+
 
 # facilitate new git repo
 function create_repo() {
@@ -67,6 +71,7 @@ function create_repo() {
     fi
 }
 
+
 # open fzf window with dirs and cd into it
 function quick_find () {
     dir=$(find . ~/programming -not -path '*/\.*' -type d -maxdepth 2 | fzf --layout=reverse --preview "ls -FG {}")
@@ -77,6 +82,7 @@ function quick_find () {
 
 zle -N quick_find_widget quick_find # define a widget for the func above
 bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
+
 
 # list all files in current dir tree wit preview
 # select one to open in vim
@@ -93,6 +99,7 @@ function edit_files () {
 # zle -N edit_files_widget edit_files
 # bindkey "^w" edit_files_widget
 
+
 # function to start a timer in bg / pomodoro
 alias pomo='doro'
 function doro () {
@@ -105,6 +112,7 @@ function doro () {
     (osascript -e 'tell application "System Events" to display dialog "Time for a water break!" buttons "OK" default button "OK"' && say "time up. STOP") &
 }
 
+
 # figuring out current branch while supressing `not git repo` errors
 function git_branch () {
     branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $NF}')
@@ -116,22 +124,17 @@ function git_branch () {
     fi
 }
 
+
 # open man with `less` pager directly at a given switch
 # e.g. mans ls -G -> will open man page for ls at -G option
 function mans () {
     man -P "less -p \"^ +$2\"" $1
 }
 
-# start tmux on startup
-# if [ "$TMUX" = "" ]; then tmux; fi
-
-
-
 
 
 # options
 # -------
-
 
 setopt ALWAYS_TO_END          # move cursor to end if word had one match
 setopt APPEND_HISTORY         # Append history to the history file (no overwriting)
@@ -165,7 +168,6 @@ fpath=(~/.zsh/completion $fpath)
 
 
 
-
 # keybindings
 # -----------
 
@@ -191,8 +193,6 @@ bindkey "^]" insert-last-word
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/danishprakash/.zshrc'
-
-
 
 
 
@@ -229,61 +229,45 @@ function aws() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command aws $@; }
 # aliases
 # -----
 
-# alias awsdev='export AWS_DEFAULT_PROFILE=default'
-# alias awsprod='export AWS_DEFAULT_PROFILE=production'
-alias H='--help'
-alias V='--version'
-
-alias gcdev='export CLOUDSDK_CORE_PROJECT=coderunner-dev'
-alias gcprod='export CLOUDSDK_CORE_PROJECT=coderunner'
-alias -s py=nvim
-alias hgrep='cat ~/.zsh_history | fzf'
-
-alias :q=exit
-
-alias -g C='| wc -l'
-alias -g L='| less'
-alias -g P='| pbcopy'
-alias -g J='| jq -M'
-alias h='cat ~/.zsh_history | rg'
-
-
 # git
-alias bra='git checkout $(git branch | fzf --layout=reverse) 2> /dev/null'
 alias gpu='git push origin'
 alias gp='git pull origin'
 alias gd='git diff'
 alias gpuf='git push -f origin'
 alias gn='git num | wc -l'
+alias bra='git checkout $(git branch | fzf --layout=reverse) 2> /dev/null'
 
 # general
-alias rm='rm -i'                               # ask for confirmation before rm
-alias ls='ls -F'                              # adds trailing '/' for dirs and -G for colors
-alias ll='ls -althF'	                           # list mode for ls with above flags
-alias ez='nvim ~/.zshrc'	                   # open .zshrc for editing
-alias sz='source ~/.zshrc 2> /dev/null'	                   # source .zshrc
-alias lt='tree -I '.git''	                   # skip .git dir in trees
-alias grep='grep --colour=auto'                # colored output in grep
-alias vi='nvim'
-alias venv='workon $(workon | fzf --layout=reverse)'
-alias dots='find ~/dotfiles -not -path "*/\.git/*" -type d -maxdepth 6 | fzf --layout=reverse --preview "ls -FG {}"'
+alias hgrep='cat ~/.zsh_history | fzf'               # fuzzy search history
+alias :q=exit                                        # consistency bw terminal and editor, not really
+alias -g C='| wc -l'                                 # append C to count lines via pipe
+alias -g L='| less'                                  # append L to pipe output to less
+alias -g P='| pbcopy'                                # append P to copy command output via pipe
+alias -g J='| jq -M'                                 # format JSON output, -M - monochrome flag
+alias h='cat ~/.zsh_history | rg'                    # quick history grep
+alias rm='rm -i'                                     # ask for confirmation before rm
+alias ls='ls -F'                                     # adds trailing '/' for dirs and -G for colors
+alias ll='ls -althF'                                 # list mode for ls with above flags
+alias ez='nvim ~/.zshrc'                             # open .zshrc for editing
+alias sz='source ~/.zshrc 2> /dev/null'              # source .zshrc
+alias lt='tree -I '.git''                            # skip .git dir in trees
+alias grep='grep --colour=auto'                      # colored output in grep
+alias vi='nvim'                                      # save to chars
+alias venv='workon $(workon | fzf --layout=reverse)' # fuzzy choose a venv to work on
+alias blog='bundle exec jekyll serve'                # deploy blog to localhost
 
-alias blog='bundle exec jekyll serve'	       # deploy blog to localhost
-
+# specifics
+alias gcdev='export CLOUDSDK_CORE_PROJECT=coderunner-dev'
+alias gcprod='export CLOUDSDK_CORE_PROJECT=coderunner'
 alias atag='kubectl get pods | head -n 2 | grep coderunner | awk '{print $1}' | xargs kubectl describe pod | grep git | awk -F ":" '{print $3}''
+alias dots='find ~/dotfiles -not -path "*/\.git/*" -type d -maxdepth 6 | fzf --layout=reverse --preview "ls -FG {}"'
 
 alias go2='$GOPATH/bin/go1.12'
 export GO111MODULE=on
 
-export HOMEBREW_NO_AUTO_UPDATE=1               # disable homebrew update before install
-
-export LC_ALL=en_US.UTF-8                      # some weird warning nvim was throwing about locales
-
 autoload -Uz compinit
 autoload -U zmv
 compinit -i
-
-
 
 
 
@@ -294,12 +278,10 @@ export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:/Libr
 export EDITOR="/usr/local/bin/nvim"
 export GOPATH=$HOME/programming/go
 export PATH=$PATH:$GOPATH
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-export AWS_REGION=us-west-2
-
-
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export AWS_REGION=us-west-2        # default region for aws/sam
+export HOMEBREW_NO_AUTO_UPDATE=1   # disable homebrew update before install
+export LC_ALL=en_US.UTF-8          # some weird warning nvim was throwing about locales
 
 
 
