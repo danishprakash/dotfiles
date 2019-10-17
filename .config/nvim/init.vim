@@ -220,6 +220,9 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 "
 "
 
+
+inoremap <Esc> <Esc>
+
 nnoremap <silent><c-[> :nohlsearch<CR>
 
 nnoremap <leader>i :GoImport 
@@ -252,7 +255,7 @@ nnoremap <C-u> 8k
 nnoremap <leader>t :Tags<CR>
 
 " add daily journal title
-nnoremap <leader>jj :r! echo %<CR>
+nnoremap <leader>jj :call SetJournalHeader()<CR>
 
 " cycle through buffers
 " nnoremap <silent><C-n> :bnext<CR>
@@ -394,6 +397,16 @@ set fillchars=eob:\
 
 " functions
 " ---------
+
+" set header title for journal
+" and enter writing mode
+function! SetJournalHeader()
+    execute 'normal gg'
+    let filename = '#' . ' ' . expand('%:r')
+    call setline(1, filename)
+    execute 'normal o'
+    execute 'Goyo'
+endfunction
 
 " figure out highlight group under cursor
 function! SynStack()
