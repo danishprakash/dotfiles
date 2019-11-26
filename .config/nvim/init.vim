@@ -19,9 +19,10 @@ Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 Plug 'sheerun/vim-polyglot'
 Plug 'w0rp/ale'
 
-" colorschemes (when someone else is using)
-Plug 'ewilazarus/preto'
-Plug 'sickill/vim-monokai'
+" colorschemes
+Plug 'danishprakash/vim-yami'   " defaul monochrome
+Plug 'ayu-theme/ayu-vim'        " light scheme for writing
+Plug 'sickill/vim-monokai'      " for other users
 
 " utils
 Plug '/usr/local/opt/fzf'
@@ -65,6 +66,8 @@ call plug#end()
 " define leader key
 let mapleader=' '
 
+let ayucolor="light"
+
 " hide bloat in NERDTree
 let g:NERDTreeMinimalUI=1
 
@@ -81,11 +84,6 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#show_call_signatures = '1'
 let g:jedi#use_splits_not_buffers = 'left'
-
-" scroll through suggestion in up->down manner
-" let g:SuperTabDefaultCompletionType = '<C-n>'
-" let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
-" set omnifunc=jedi#completions
 
 " linters for ale
 let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
@@ -118,6 +116,7 @@ let g:lightline = {
       \ },
       \ } 
 
+" use lsp for go-to-def, disable vim-go
 let g:go_def_mapping_enabled = 0
 
 
@@ -137,7 +136,7 @@ set magic
 set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
-set nowrap
+set wrap
 set number                         " always show line number
 set relativenumber                 " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
@@ -148,8 +147,8 @@ set t_Co=256
 set tabstop=4
 set undodir=~/.config/nvim/undodir
 set undofile                       " maintain undo history bw sessions
+set ai                             " auto indent
 
-" set ai                           " auto indent
 " set clipboard=unnamed            " set system clipboard as vim clipboard
 " set completeopt+=menuone
 " set completeopt-=preview         " deoplete: turn off preview window
@@ -200,6 +199,7 @@ autocmd FileChangedShellPost *
 " configure vim for writing
 function! s:goyo_enter()
     set nocursorline
+    colorscheme ayu
     syntax off
 endfunction
 
@@ -216,10 +216,6 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " remappings
 " ----------
-"
-"
-"
-
 
 inoremap <Esc> <Esc>
 
