@@ -29,7 +29,7 @@
     fr = !git fetch origin && git rebase origin/master
     hash = rev-parse --short HEAD
     ll = log --oneline -n 15
-    l = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short -n 15
+    l = log --pretty=format:\"%h %ad | %s [%an]\" --graph --date=short -n 15
     p = push origin
     pf = push -f origin
     num = log --pretty=oneline
@@ -47,4 +47,4 @@
 [diff]
     tool = vimdiff
 [commit]
-    verbose = true
+    verbose = true      # viw more details(diff) while committing changes
