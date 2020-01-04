@@ -165,11 +165,21 @@ set ai                             " auto indent
 " autocommands
 " --------
 
-" " remember cursor position while switching buffer
-" if v:version >= 700
-"   au BufLeave * let b:winview = winsaveview()
-"   au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
-" endif
+" workflow for daily journal
+augroup journal
+    autocmd!
+
+    " populate journal template
+    autocmd VimEnter */journal/**   0r ~/.config/nvim/templates/journal.skeleton
+
+    " set header for the particular journal
+    autocmd VimEnter */journal/**   :call SetJournalHeader()
+
+    " other configurations
+    autocmd VimEnter */journal/**   set ft=md
+    autocmd VimEnter */journal/**   set syntax off
+augroup END
+
 
 " source vimrc when saved 
 augroup VimReload
@@ -196,7 +206,7 @@ autocmd FileChangedShellPost *
   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 
-" configure vim for writing
+" configure goyo.vim for writing
 function! s:goyo_enter()
     set nocursorline
     colorscheme ayu
@@ -274,7 +284,7 @@ nnoremap <C-_> gcc
 nnoremap <leader>gt :GitGutterToggle<CR>
 
 " open file finder
-nnoremap <silent> <leader><leader> :Files<CR>
+nnoremap <silent> <leader><leader> :GFiles<CR>
 
 " open line finder
 nnoremap <silent> <leader>l :Lines<CR>
@@ -287,9 +297,6 @@ nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
 
 " \_ uses last changed or yanked text as an object
 onoremap <leader>_ :<C-U>normal! `[v`]<CR>
-
-" remap return to ':'
-nnoremap <CR> :echo "nope"<CR>
 
 " start nerdtree 
 nnoremap <leader>nd :NERDTreeToggle<CR>
@@ -317,7 +324,7 @@ nnoremap <C-l> <C-w>l
 " nnoremap <C-k> <C-w>k
 
 " open a vertical split window and fire up FZF
-nnoremap <leader>v :vnew<cr>:Files<cr>
+nnoremap <silent><leader>v :vnew<cr>:GFiles<CR>
 
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
