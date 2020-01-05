@@ -28,7 +28,6 @@ Plug 'sickill/vim-monokai'      " for other users
 Plug '/usr/local/opt/fzf'
 Plug 'RRethy/vim-illuminate'
 Plug 'SirVer/ultisnips'
-Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'danishprakash/vim-githubinator'
 Plug 'danishprakash/vimport'
@@ -103,18 +102,19 @@ let g:lightline = {
       \ 'colorscheme': 'yami',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ], ['tabline']],
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'percent' ],
-      \              [ 'filetype' ] ]
+      \             [ 'filename', 'gitbranch', 'readonly', 'modified' ], ['tabline']],
+      \   'right': [[ 'lineinfo', 'filetype' ]]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head'
       \ },
       \ 'separator': {
-      \ 'right': ''
+      \ 'right': '',
+      \ 'left': ''
       \ },
       \ } 
+
+let g:lightline.subseparator = { 'left': '/', 'right': '/' }
 
 " use lsp for go-to-def, disable vim-go
 let g:go_def_mapping_enabled = 0
@@ -136,7 +136,7 @@ set magic
 set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
-set wrap
+set nowrap
 set number                         " always show line number
 set relativenumber                 " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
@@ -177,7 +177,7 @@ augroup journal
 
     " other configurations
     autocmd VimEnter */journal/**   set ft=md
-    autocmd VimEnter */journal/**   set syntax off
+    autocmd VimEnter */journal/**   syntax off
 augroup END
 
 
@@ -209,14 +209,12 @@ autocmd FileChangedShellPost *
 " configure goyo.vim for writing
 function! s:goyo_enter()
     set nocursorline
-    colorscheme ayu
     syntax off
 endfunction
 
 function! s:goyo_leave()
     set cursorline
     syntax on
-    colorscheme yami
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -235,16 +233,9 @@ nnoremap <leader>i :GoImport
 " open current file in NERDTree
 nnoremap <leader>j :GitGutterPrevHunk<CR>
 
-" disable search results highlighting
-" nnoremap <CR> :nohlsearch<CR>
-
 " correct previous spelling mistakes
 " https://castel.dev/post/lecture-notes-1/
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-
-" add quotes
-nnoremap <silent> <leader>" ysiw"
-nnoremap <silent> <leader>' ysiw'
 
 " skip to next git change
 nnoremap <leader>j :GitGutterPrevHunk<CR>
@@ -375,7 +366,7 @@ ca w!! w !sudo tee >/dev/null "%"
 colorscheme yami
 filetype on
 filetype plugin indent on
-syntax on
+syntax off
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
