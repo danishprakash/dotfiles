@@ -199,7 +199,7 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 # ALIAS ---
 
 # open new file in vim with previous day's date (journal)
-alias journal='nvim $(date -v+1d "+%d-%m-%Y").md'    
+alias journal='nvim $(date -v-1d "+%d-%m-%Y").md'
 
 # alias for function `doro` defined above
 # runs a trivial pomodoro timer on the cli
