@@ -1,10 +1,11 @@
 [user]
-	name = Danish Prakash
+	name = danishprakash
 	email = grafitykoncept@gmail.com
 
 [core]
 	editor = /usr/local/bin/nvim
 	excludesfile = /Users/danish/.gitignore
+	page = nvim -R
 
 [alias]
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
@@ -48,3 +49,5 @@
     tool = vimdiff
 [commit]
     verbose = true      # viw more details(diff) while committing changes
+[http]
+	cookiefile = /Users/danish/.gitcookies
