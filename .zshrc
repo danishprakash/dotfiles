@@ -9,6 +9,12 @@
 
 # FUNCTIONS ---
 
+
+# history command
+function fh {
+    print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history | uniq) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
 # exec into compile, execute container
 function dex {
     PS=$(docker ps)
@@ -158,7 +164,8 @@ HISTDUP=erase                 # Erase duplicates in the history file
 
 # lines configured by zsh-newuser-install
 export TERM=xterm-256color
-PROMPT='%F{green}$(git_branch)%F{yellow}%2~ $ %F{reset}'
+PROMPT='%F{green}$(git_branch)'
+PROMPT+='%F{yellow}%1~ $ %F{reset}'
 
 zstyle ':completion:*' menu select
 
@@ -214,17 +221,8 @@ alias hgrep='cat ~/.zsh_history | fzf'
 # consistency bw terminal and editor, not really
 alias :q=exit                                        
 
-# append C to count lines via pipe
-alias -g C='| wc -l'                                 
-
-# append L to pipe output to less
-alias -g L='| less'                                  
-
 # append P to copy command output via pipe
 alias -g P='| pbcopy'                                
-
-# format JSON output, -M - monochrome flag
-alias -g J='| jq -M'                                 
 
 # quick history grep
 alias h='cat ~/.zsh_history | rg'                    
@@ -303,12 +301,13 @@ export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:/Libr
 export EDITOR="/usr/local/bin/nvim"
 export GOPATH=$HOME/programming/go
 export PATH=$PATH:$GOPATH
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export AWS_REGION=us-west-2      # default region for aws/sam
-export HOMEBREW_NO_AUTO_UPDATE=1 # disable homebrew update before install
-export LC_ALL=en_US.UTF-8        # some weird warning nvim was throwing about locales
-export DOCKER_BUILDKIT=1         # enable buildkit integration while doing docker build
-export GO111MODULE=on            # enable `go mod` support in golang
+export PATH="$PATH:$HOME/.rvm/bin"       # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export AWS_REGION=us-west-2              # default region for aws/sam
+export HOMEBREW_NO_AUTO_UPDATE=1         # disable homebrew update before install
+export LC_ALL=en_US.UTF-8                # some weird warning nvim was throwing about locales
+export DOCKER_BUILDKIT=1                 # enable buildkit integration while doing docker build
+export GO111MODULE=on                    # enable `go mod` support in golang
+export MANPAGER="nvim -c 'set ft=man' -" # use nvim for reading manpages
 
 
 
