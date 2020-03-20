@@ -16,7 +16,6 @@ call plug#begin()
 " code formatting
 Plug 'ambv/black'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
-Plug 'sheerun/vim-polyglot'
 Plug 'w0rp/ale'
 
 " colorschemes
@@ -44,7 +43,7 @@ Plug 'simeji/winresizer'
 Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 
 " plugin development
 Plug '/Users/danish/programming/vim-docker'
@@ -148,6 +147,7 @@ set tabstop=4
 set undodir=~/.config/nvim/undodir
 set undofile                       " maintain undo history bw sessions
 set ai                             " auto indent
+set inccommand=nosplit             " interactive substitution
 
 " set clipboard=unnamed            " set system clipboard as vim clipboard
 " set completeopt+=menuone
@@ -165,6 +165,19 @@ set ai                             " auto indent
 " autocommands
 " --------
 
+" autocommands for go development
+augroup GoDev
+    autocmd!
+
+    " run `GoImports` on every buffer write for go files
+    autocmd BufWritePost *.go :GoImports
+augroup END
+
+augroup NERDTree
+    autocmd!
+    autocmd FileType nerdtree set syntax=ON
+augroup END
+
 " workflow for daily journal
 augroup journal
     autocmd!
@@ -176,8 +189,11 @@ augroup journal
     autocmd VimEnter */journal/**   :call SetJournalHeader()
 
     " other configurations
-    autocmd VimEnter */journal/**   set ft=md
+    autocmd VimEnter */journal/**   set ft=markdown
     autocmd VimEnter */journal/**   syntax off
+
+    " https://stackoverflow.com/questions/12094708/include-a-directory-recursively-for-vim-autocompletion
+    autocmd VimEnter */journal/**   set complete=k/Users/danish/programming/mine/journal/**/*
 augroup END
 
 
@@ -275,7 +291,7 @@ nnoremap <C-_> gcc
 nnoremap <leader>gt :GitGutterToggle<CR>
 
 " open file finder
-nnoremap <silent> <leader><leader> :GFiles<CR>
+nnoremap <silent> <leader><leader> :Files<CR>
 
 " open line finder
 nnoremap <silent> <leader>l :Lines<CR>
@@ -315,7 +331,7 @@ nnoremap <C-l> <C-w>l
 " nnoremap <C-k> <C-w>k
 
 " open a vertical split window and fire up FZF
-nnoremap <silent><leader>v :vnew<cr>:GFiles<CR>
+nnoremap <silent><leader>v :vnew<cr>:Files<CR>
 
 " convert current word to uppercase and enter insert mode
 nnoremap <S-u> viwU<esc>el
@@ -366,7 +382,7 @@ ca w!! w !sudo tee >/dev/null "%"
 colorscheme yami
 filetype on
 filetype plugin indent on
-syntax off
+syntax manual
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
@@ -391,6 +407,25 @@ set fillchars=eob:\
 
 " functions
 " ---------
+
+nnoremap <silent> <leader>ue :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
+
+" WIP
+func! UnescapeNewlines()
+    let l:beg = col("'<")
+    let l:end =  col("'>")
+    echo beg
+    echo end
+endfunc
+
+
+" custom completion source test
+" func! ListNames()
+"     call complete(col('.'), ['Danish', 'Aman', 'Hallelujah'])
+"     return ''
+" endfunc
+
+" inoremap <leader>y <C-R>=ListNames()<CR>
 
 " set header title for journal
 " and enter writing mode
