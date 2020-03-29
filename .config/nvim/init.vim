@@ -117,6 +117,7 @@ let g:lightline.subseparator = { 'left': '/', 'right': '/' }
 
 " use lsp for go-to-def, disable vim-go
 let g:go_def_mapping_enabled = 0
+let g:fzf_preview_window = ''
 
 
 " configurations
@@ -148,6 +149,8 @@ set undodir=~/.config/nvim/undodir
 set undofile                       " maintain undo history bw sessions
 set ai                             " auto indent
 set inccommand=nosplit             " interactive substitution
+set shortmess+=a
+set shortmess+=I
 
 " set clipboard=unnamed            " set system clipboard as vim clipboard
 " set completeopt+=menuone
@@ -403,6 +406,8 @@ endif
 " clear end of buffer chars
 set fillchars=eob:\ 
 
+" highlight matching parens with a darker shade (required when using no syntax)
+hi MatchParen guifg=white guibg=gray
 
 
 " functions
