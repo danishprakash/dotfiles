@@ -10,6 +10,13 @@
 # FUNCTIONS ---
 
 
+# exec into docker container
+function de() {
+  local cid
+  cid=$(docker ps -a --format "{{.ID}} \t{{.Names}}\t {{.Status}}\t{{.Image}}" | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+  [ -n "$cid" ] && docker exec -it "$cid" sh
+}
+
 # history command
 function fh {
     print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history | uniq) | fzf +s --tac | sed 's/ *[0-9]* *//')
@@ -308,6 +315,7 @@ export LC_ALL=en_US.UTF-8                # some weird warning nvim was throwing 
 export DOCKER_BUILDKIT=1                 # enable buildkit integration while doing docker build
 export GO111MODULE=on                    # enable `go mod` support in golang
 export MANPAGER="nvim -c 'set ft=man' -" # use nvim for reading manpages
+# export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
 
 
 
