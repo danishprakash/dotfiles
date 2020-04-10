@@ -48,7 +48,7 @@ Plug 'machakann/vim-sandwich'
 " plugin development
 Plug '/Users/danish/programming/vim-docker'
 Plug '/Users/danish/programming/vim-yami'
-" Plug '/Users/danishprakash/programming/vim-blameline'
+Plug '/Users/danish/programming/vim-blameline'
 " Plug '/Users/danishprakash/programming/vim-githubinator'
 " Plug '/Users/danishprakash/programming/vim-md'
 " Plug '/Users/danishprakash/programming/vimport'
@@ -87,16 +87,14 @@ let g:jedi#use_splits_not_buffers = 'left'
 let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 let g:ale_python_flake8_options = '--ignore=E501'
 
-" UltiSnipps
+" UltiSnips motions
 let g:UltiSnipsJumpBackwardTrigger='<c-t>'
 let g:UltiSnipsJumpForwardTrigger='<c-r>'
 
-" If you want :UltiSnipsEdit to split your window.
+" If you want :UltiSnipsEdit to vertically split your window.
 let g:UltiSnipsEditSplit='vertical'
 
-let g:vimwiki_list = [{'path': '~/vimwiki/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
-
+" configuration for lightline (statusline)
 let g:lightline = {
       \ 'colorscheme': 'yami',
       \ 'active': {
@@ -113,11 +111,27 @@ let g:lightline = {
       \ },
       \ } 
 
+" set separators bw objects in lightline (statusline)
 let g:lightline.subseparator = { 'left': '/', 'right': '/' }
 
 " use lsp for go-to-def, disable vim-go
 let g:go_def_mapping_enabled = 0
+
+" disable preview window while picking files
 let g:fzf_preview_window = ''
+
+" this is analogous to the height flag
+let g:fzf_layout = { 'down': '~25%' }
+
+" disable colors for fzf
+let $FZF_DEFAULT_OPTS="--color='bw'"
+
+" delay for displaying blameline
+let g:blameline_delay = 1000
+
+" set goimports as the fmt command for vim-go
+let g:go_fmt_command = "goimports"
+
 
 
 " configurations
@@ -126,42 +140,33 @@ let g:fzf_preview_window = ''
 set background=dark
 set belloff+=ctrlg                 " If Vim beeps during completion
 set cursorline                     " highlight current cursor column
-set expandtab
-set foldlevel=10
-set foldmethod=indent
+set expandtab                      " expand tab to spaces
 set hlsearch                       " enable search highlights
 set ignorecase                     " ignore case while searching
-set linebreak
-set magic
+set magic                          " :h pattern
 set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
-set nowrap
+set nowrap                         " disable line wrapping
 set number                         " always show line number
 set relativenumber                 " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
-set shiftwidth=4
-set shortmess+=c                   " Shut off completion messages
+set shiftwidth=4                   " tab width while autoindenting
+set tabstop=4                      " tab width for things like :retab
+set shortmess+=c                   " disable completion messages in statusline
+set shortmess+=a                   " suppress a bunch of info messages
+set shortmess+=I                   " don't show intro messages on startup
 set showmatch                      " set show matching parenthesis
-set t_Co=256
-set tabstop=4
-set undodir=~/.config/nvim/undodir
+set undodir=~/.config/nvim/undodir " undo meta file location
 set undofile                       " maintain undo history bw sessions
 set ai                             " auto indent
 set inccommand=nosplit             " interactive substitution
-set shortmess+=a
-set shortmess+=I
-
-" set clipboard=unnamed            " set system clipboard as vim clipboard
-" set completeopt+=menuone
-" set completeopt-=preview         " deoplete: turn off preview window
-" set list
-" set mouse=a                      " allows mouse interaction within vim
-" set ruler
-" set si                           " smart indent
-" set smartcase
-
-
+set smartindent                    " smart indent
+set smartcase                      " override ignorecase if case is searched for explicitly
+set signcolumn=yes                 " always show signcolumns
+set cmdheight=1                    " prompt height
+set hidden                         " temp coc.nvim configuration, if hidden is not set, TextEdit might fail.
+set updatetime=300                 " Smaller updatetime for CursorHold & CursorHoldI
 
 
 
@@ -169,12 +174,12 @@ set shortmess+=I
 " --------
 
 " autocommands for go development
-augroup GoDev
-    autocmd!
+" augroup GoDev
+"     autocmd!
 
-    " run `GoImports` on every buffer write for go files
-    autocmd BufWritePost *.go :GoImports
-augroup END
+"     " run `GoImports` on every buffer write for go files
+"     autocmd BufWritePost *.go :GoImports
+" augroup END
 
 augroup NERDTree
     autocmd!
@@ -244,11 +249,9 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " remappings
 " ----------
 
-inoremap <Esc> <Esc>
-
+" clear search highlight on <c-[> (esc)
 nnoremap <silent><c-[> :nohlsearch<CR>
 
-nnoremap <leader>i :GoImport 
 " open current file in NERDTree
 nnoremap <leader>j :GitGutterPrevHunk<CR>
 
@@ -330,8 +333,8 @@ nnoremap <leader>al :ALEToggle<cr>
 " moving across splits
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
 
 " open a vertical split window and fire up FZF
 nnoremap <silent><leader>v :vnew<cr>:Files<CR>
@@ -363,8 +366,8 @@ nnoremap L $
 "move 5 lines up and down while holding Shift and j/k
 " nnoremap <silent> <C-j> :+5 <CR>
 " nnoremap <silent> <C-k> :-5 <CR>
-nnoremap <silent> <C-j> <nop>
-nnoremap <silent> <C-k> <nop>
+" nnoremap <silent> <C-j> <nop>
+" nnoremap <silent> <C-k> <nop>
 
 " source plugin file (dev)
 nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
@@ -470,26 +473,6 @@ nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 "     endfor
 " endfunction
 
-
-" temp coc.nvim configuration
-" if hidden is not set, TextEdit might fail.
-set hidden
-
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
-
-" Better display for messages
-set cmdheight=1
-
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
