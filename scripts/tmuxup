@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+
+# tmuxup - setup predefined tmux workspaces
+
+# set - xtrace
+
+function create_session       { tmux new-session -s $1 -d; }
+function select_window        { tmux select-window -t $1:$2; }
+function rename_window        { tmux rename-window -t $1 $2; }
+function new_window           { tmux new-window -t $1 -n $2; }
+function split_window         { tmux split-window -t $1:$2 $3; }
+function send_keys            { tmux send-keys -t $1:$2 "$3" C-m; }
+function send_keys_clear      { tmux send-keys -t $1:$2 "$3" C-m 'clear' C-m; }
+function send_keys_pane_clear { tmux send-keys -t $1:$2.$3 "$4" C-m 'clear' C-m; }
+
+function create_workspace {
+    case $1 in
+        coderunner )
+            session="coderunner"
+            create_session ${session}
+
+            rename_window ${session} "vim"
+            send_keys ${session} "vim" "z coderunner && vi"
+
+            new_window ${session} "sh"
+            for f in "-h" "-v"; do split_window ${session} "sh" ${f}; done
+            for i in {0..2}; do send_keys_pane_clear ${session} "sh" ${i} "z coderunner"; done
+
+            declare -a windows=("docker" "tmp")
+            for window in "${windows[@]}"
+            do 
+                new_window ${session} ${window}
+                send_keys_clear ${session} ${window} "z coderunner"
+            done
+
+            select_window ${session} "vim"
+            ;;
+
+        vim-dev )
+            session="vim-dev"
+            create_session ${session}
+
+            rename_window ${session} "vim"
+            send_keys ${session} "vim" "z vim-blameline && vi"
+
+            new_window ${session} "sh"
+            send_keys ${session} "sh" "z vim-blameline"
+
+            split_window ${session} "sh" "-v"
+            send_keys_pane_clear ${session} "sh" "1" "z vim-blameline"
+
+            select_window ${session} "vim"
+            ;;
+
+        blog )
+            session="blog"
+            create_session ${session}
+
+            rename_window ${session} "vim"
+            send_keys ${session} "vim" "z danishprakash.github.io && vi"
+
+            new_window ${session} "sh"
+            send_keys ${session} "sh" "z danishprakash.github.io && bundle exec jekyll serve"
+
+            split_window ${session} "sh" "-v"
+            send_keys_pane_clear ${session} "sh" "1" "z danishprakash.github.io"
+
+            select_window ${session} "vim"
+            ;;
+
+        * )
+            usage;
+
+    esac
+}
+
+declare -a workspaces=("coderunner", "blog", "vim-dev")
+function create_all_workspaces {
+    for ws in "${workspaces[@]}"
+    do
+        create_workspace $ws
+    done
+}
+
+function clear_workspace { tmux kill-session -t $1; }
+function clear_all_workspaces { tmux kill-session -a; }
+
+function usage {
+    echo "Usage:"
+    echo "  tmuxup [command]"
+    echo
+    echo "Options:"
+    echo "  create [option] [template...]:     setup coderunner workspace"
+    echo "  clear  [option] [template...]:      setup blogging workspace"
+    echo "  --help|-h:              show help (this message)"
+}
+
+case $1 in
+    create )
+        shift
+        if [[ "$1" -eq "--all" ]]; then create_all_workspaces; exit 0; fi
+        for arg in "$@"
+        do
+            echo setupws $arg
+            # setup_workspace $arg
+        done
+        ;;
+    
+    clear )
+        shift
+        if [[ "$1" -eq "--all" ]]; then clear_all_workspaces; exit 0; fi
+        for arg in "$@"
+        do
+            clear_workspace $arg
+        done
+        ;;
+
+    --help|-h|* )
+        usage;
+        ;;
+esac
