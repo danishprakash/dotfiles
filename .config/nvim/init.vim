@@ -24,6 +24,7 @@ Plug 'ayu-theme/ayu-vim'        " light scheme for writing
 Plug 'sickill/vim-monokai'      " for other users
 
 " utils
+Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 Plug '/usr/local/opt/fzf'
 Plug 'RRethy/vim-illuminate'
 Plug 'SirVer/ultisnips'
@@ -44,11 +45,12 @@ Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'machakann/vim-sandwich'
+Plug 'danishprakash/nvim-blameline'
 
 " plugin development
 Plug '/Users/danish/programming/vim-docker'
 Plug '/Users/danish/programming/vim-yami'
-Plug '/Users/danish/programming/vim-blameline'
+" Plug '/Users/danish/programming/nvim-blameline'
 " Plug '/Users/danishprakash/programming/vim-githubinator'
 " Plug '/Users/danishprakash/programming/vim-md'
 " Plug '/Users/danishprakash/programming/vimport'
@@ -132,6 +134,12 @@ let g:blameline_delay = 1000
 " set goimports as the fmt command for vim-go
 let g:go_fmt_command = "goimports"
 
+" format shell script on save using shfmt
+let g:shfmt_fmt_on_save = 1
+
+" formatting options as per Google's Style Guide
+let g:shfmt_extra_args = '-i 4 -ci'
+
 
 
 " configurations
@@ -173,6 +181,10 @@ set updatetime=300                 " Smaller updatetime for CursorHold & CursorH
 " autocommands
 " --------
 
+" disable statusline when fzf is active
+autocmd! FileType fzf set laststatus=0 noshowmode noruler
+        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
 " autocommands for go development
 " augroup GoDev
 "     autocmd!
@@ -206,10 +218,10 @@ augroup END
 
 
 " source vimrc when saved 
-augroup VimReload
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
+" augroup VimReload
+"     autocmd!
+"     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+" augroup END
 
 " setting wrap while editing markdown files
 autocmd FileType markdown set wrap
@@ -233,12 +245,10 @@ autocmd FileChangedShellPost *
 " configure goyo.vim for writing
 function! s:goyo_enter()
     set nocursorline
-    syntax off
 endfunction
 
 function! s:goyo_leave()
     set cursorline
-    syntax on
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -252,9 +262,6 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " clear search highlight on <c-[> (esc)
 nnoremap <silent><c-[> :nohlsearch<CR>
 
-" open current file in NERDTree
-nnoremap <leader>j :GitGutterPrevHunk<CR>
-
 " correct previous spelling mistakes
 " https://castel.dev/post/lecture-notes-1/
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
@@ -264,7 +271,7 @@ nnoremap <leader>j :GitGutterPrevHunk<CR>
 nnoremap <leader>k :GitGutterNextHunk<CR>
 
 " focus current file in NERDTree
-nnoremap <leader>n :NERDTreeFind<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
 
 " remap c-u and c-d to use lesser jumps
 nnoremap <C-d> 8j
@@ -318,7 +325,7 @@ nnoremap <leader>nd :NERDTreeToggle<CR>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " enable Goyo for markdown writing and toggle ALE
-nnoremap <silent> <leader>go :Goyo 90<cr>
+nnoremap <silent> <leader>go :Goyo<cr>
 
 " execute current buffer with python3 
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
