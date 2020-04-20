@@ -7,8 +7,34 @@
 
 
 
-# FUNCTIONS ---
+# Functions
 
+# simple wrapper over aws cli
+# to run specific subcommands
+function s3cmd () {
+    case $1 in
+        --req)
+            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/request.json - | jq -M
+            ;;
+
+        --resp)
+            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/response.json - | jq -M
+            ;;
+
+        --crresp)
+            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/coderunner.json - | jq -M
+            ;;
+
+        --crsresp)
+            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/coderunner-staging.json - | jq -M
+            ;;
+    esac
+}
+
+# open temp file for ad-hoc note-taking
+function temp () {
+    nvim +"set filetype=$1" + /tmp/temp-$(date +'%Y%m%d-%H%M%S')
+}
 
 # exec into docker container
 function de() {
@@ -94,7 +120,6 @@ function quick_find () {
 
 zle -N quick_find_widget quick_find # define a widget for the func above
 bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
-
 
 # list all files in current dir tree wit preview
 # select one to open in vim
@@ -206,6 +231,10 @@ bindkey '^[[3^' kill-word
 # insert arg from previous command
 bindkey "^]" insert-last-word
 
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey -M vicmd '/' history-incremental-pattern-search-backward
+
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 
@@ -262,7 +291,7 @@ alias vi='nvim'
 alias venv='workon $(workon | fzf --layout=reverse)' 
 
 # deploy blog to localhost
-alias blog='bundle exec jekyll serve'                
+alias bejs='bundle exec jekyll serve'
 
 # gcloud
 alias gcdev='export CLOUDSDK_CORE_PROJECT=coderunner-dev'
@@ -272,8 +301,10 @@ alias gcprod='export CLOUDSDK_CORE_PROJECT=coderunner'
 alias atag='kubectl get pods | head -n 2 | grep coderunner | awk '{print $1}' | xargs kubectl describe pod | grep git | awk -F ":" '{print $3}''
 
 
+# Source
 
-# SOURCES ---
+# work-specific configuration and exports
+source ~/.hackerrank.sh
 
 # autocomplete pairs of delimiters
 # source ~/autopair.zsh
@@ -302,7 +333,7 @@ source ~/z.sh
 
 
 
-# EXPORTS ---
+# Environment Variables
 
 export PATH=/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:/Library/TeX/Root/bin/x86_64-darwin/:$GOPATH/bin
 export EDITOR="/usr/local/bin/nvim"
@@ -315,7 +346,7 @@ export LC_ALL=en_US.UTF-8                # some weird warning nvim was throwing 
 export DOCKER_BUILDKIT=1                 # enable buildkit integration while doing docker build
 export GO111MODULE=on                    # enable `go mod` support in golang
 export MANPAGER="nvim -c 'set ft=man' -" # use nvim for reading manpages
-# export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
+export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
 
 
 
