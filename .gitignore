@@ -1,4 +1,22 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# (n)vim
 plugged/
 undodir/
 .netrwhist
-.DS_Store
+[._]*.sw[a-z]
+[._]sw[a-z]
+
+# tags
+tags
+
+# go
+*.o
+*.a
+*.so
+
+# python
+.venv
