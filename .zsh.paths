@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Paths ---------------------------------------------------
+
+export GOPATH=$HOME/programming/go
+
+export PATH="/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:$GOPATH/bin:$GOPATH:/usr/local/bin/:${PATH}"
+
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
+
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv

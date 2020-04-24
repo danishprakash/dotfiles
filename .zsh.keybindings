@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Keybindings ---------------------------------------------
+
+bindkey '^h' backward-delete-word
+bindkey '^j' beginning-of-line
+bindkey '^e' end-of-line
+bindkey '^k' vi-change-eol
+bindkey '^p' up-line-or-search
+bindkey '^n' down-line-or-search
+bindkey '^i' complete-word
+bindkey '^f' emacs-forward-word
+bindkey '^b' emacs-backward-word
+bindkey '^b' emacs-backward-word
+bindkey '^a' vi-beginning-of-line
+bindkey '^k' vi-kill-eol
+bindkey '^H' backward-kill-word
+bindkey "^g" backward-word
+bindkey "^f" forward-word
+bindkey '^[[3^' kill-word
+
+# insert arg from previous command
+bindkey "^]" insert-last-word
+
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey -M vicmd '/' history-incremental-pattern-search-backward
