@@ -1,4 +1,7 @@
-# Configuration for Alacritty, the GPU enhanced terminal emulator.
+# alacritty.yml - alacritty configuration
+# =========================================================
+# - https://github.com/danishprakash/dotfiles
+# - danishpraka.sh
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
@@ -84,7 +87,7 @@ scrolling:
   # to allow mouse scrolling for applications like `man`.
   #
   # Specifying `0` will disable faux scrolling.
-  faux_multiplier: 3
+  # faux_multiplier: 3
 
   # Scroll to the bottom when new text is written to the terminal.
   auto_scroll: false
@@ -336,7 +339,7 @@ selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
-  save_to_clipboard: false
+  save_to_clipboard: true
 
 # Allow terminal applications to change Alacritty's window title.
 dynamic_title: true
@@ -366,10 +369,10 @@ live_config_reload: true
 #   - (macOS) /bin/bash --login
 #   - (Linux) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
-#  args:
-#    - --login
+shell:
+  program: /usr/local/bin/zsh
+  # args:
+  #   - --login
 
 # Startup directory
 #
