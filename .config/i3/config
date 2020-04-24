@@ -1,9 +1,7 @@
-#   _ _____ 
-#  (_)___ / 
-#  | | |_ \ 
-#  | |___) |
-#  |_|____/ 
-#
+# config - i3 configuration
+# =========================================================
+# - https://github.com/danishprakash/dotfiles
+# - danishpraka.sh
 
 
 set $mod Mod4
