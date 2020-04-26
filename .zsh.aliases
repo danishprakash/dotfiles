@@ -13,43 +13,43 @@ alias pomo='doro'
 alias bra='git checkout $(git branch | fzf --layout=reverse) 2> /dev/null'
 
 # fuzzy search history
-alias hgrep='cat ~/.zsh_history | fzf'               
+alias hgrep='cat ~/.zsh_history | fzf'
 
 # consistency bw terminal and editor, not really
-alias :q=exit                                        
+alias :q=exit
 
 # append P to copy command output via pipe
-alias -g P='| pbcopy'                                
+alias -g P='| pbcopy'
 
 # quick history grep
-alias h='cat ~/.zsh_history | rg'                    
+alias h='cat ~/.zsh_history | rg'
 
 # ask for confirmation before rm
-alias rm='rm -i'                                     
-    
+alias rm='rm -i'
+
 # adds trailing '/' for dirs and -G for colors
-alias ls='ls -aF'                                     
-    
+alias ls='ls -aF'
+
 # list mode for ls with above flags
-alias ll='ls -alhF'                                 
-    
+alias ll='ls -alhF'
+
 # open .zshrc for editing
-alias ez='nvim ~/.zshrc'                             
-    
+alias ez='nvim ~/.zshrc'
+
 # source .zshrc
-alias sz='source ~/.zshrc 2> /dev/null'              
+alias sz='source ~/.zshrc 2> /dev/null'
 
 # skip .git dir in trees
-alias lt='tree -I '.git''                            
+alias lt='tree -I '.git''
 
 # colored output in grep
-alias grep='grep --colour=auto'                      
+alias grep='grep --colour=auto'
 
 # save to chars
-alias vi='nvim'                                      
+alias vi='nvim'
 
 # fuzzy choose a venv to work on
-alias venv='workon $(workon | fzf --layout=reverse)' 
+alias venv='workon $(workon | fzf --layout=reverse)'
 
 # deploy blog to localhost
 alias bejs='bundle exec jekyll serve'
