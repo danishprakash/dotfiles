@@ -1,13 +1,14 @@
 " init.vim - nvim configuration
 " =========================================================
 " - https://github.com/danishprakash/dotfiles
-" - danishpraka.sh
+" - https://danishpraka.sh
+
 
 
 " Configurations ------------------------------------------
 
 set background=dark
-set belloff+=ctrlg                 " If Vim beeps during completion
+set belloff+=ctrlg                 " if Vim beeps during completion
 set cursorline                     " highlight current cursor column
 set expandtab                      " expand tab to spaces
 set hlsearch                       " enable search highlights
@@ -26,7 +27,7 @@ set shortmess+=c                   " disable completion messages in statusline
 set shortmess+=a                   " suppress a bunch of info messages
 set shortmess+=I                   " don't show intro messages on startup
 set showmatch                      " set show matching parenthesis
-set undodir=~/.config/nvim/undodir " undo meta file location
+set undodir=~/.config/nvim/undodir " dir to store undo files
 set undofile                       " maintain undo history bw sessions
 set ai                             " auto indent
 set inccommand=nosplit             " interactive substitution
@@ -40,11 +41,20 @@ set backspace=eol,start,indent     " more natural backspace
 set breakindent                    " indented line break
 
 
+
 " Sources -------------------------------------------------
 
-source ~/.config/nvim/plugins.vim
-source ~/.config/nvim/extras.vim
-source ~/.config/nvim/colors.vim
-source ~/.config/nvim/mappings.vim
-source ~/.config/nvim/functions.vim
-source ~/.config/nvim/autocommands.vim
+let config_dir = "~/.config/nvim/"
+let config_files = [
+            \ 'plugins',
+            \ 'extras',
+            \ 'colors',
+            \ 'mappings',
+            \ 'functions',
+            \ 'autocommands',
+            \ 'statusline'
+            \ ]
+
+for file in config_files
+    execute(printf("source %s%s.vim", config_dir, file))
+endfor
