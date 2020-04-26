@@ -1,6 +1,10 @@
 " Functions -----------------------------------------------
 
-nnoremap <silent> <leader>ue :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
+func! TrimWhitespaces()
+    let @/ = '\s\+$'
+    execute "%s///ge"
+endfunc
+command! -bang TrimWS call TrimWhitespaces()
 
 " WIP
 func! UnescapeNewlines()
@@ -9,15 +13,6 @@ func! UnescapeNewlines()
     echo beg
     echo end
 endfunc
-
-
-" custom completion source test
-" func! ListNames()
-"     call complete(col('.'), ['Danish', 'Aman', 'Hallelujah'])
-"     return ''
-" endfunc
-
-" inoremap <leader>y <C-R>=ListNames()<CR>
 
 " set header title for journal
 " and enter writing mode
