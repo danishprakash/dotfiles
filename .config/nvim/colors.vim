@@ -7,6 +7,8 @@ syntax manual
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
 
+highlight ExtraWhitespace guibg=#db6969
+match ExtraWhitespace /\s\+\%#\@<!$/
 
 " settings are specific to preto colorscheme
 hi ALEError cterm=none
