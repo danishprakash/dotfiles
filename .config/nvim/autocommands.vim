@@ -36,7 +36,7 @@ augroup journal
 augroup END
 
 
-" source vimrc when saved 
+" source vimrc when saved
 " augroup VimReload
 "     autocmd!
 "     autocmd BufWritePost $MYVIMRC source $MYVIMRC
@@ -45,7 +45,7 @@ augroup END
 " setting wrap while editing markdown files
 autocmd FileType markdown set wrap
 
-" start nerdtree on start-up 
+" start nerdtree on start-up
 " autocmd VimEnter * NERDTree
 
 autocmd FileType python setlocal completeopt-=preview
@@ -60,23 +60,12 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checkti
 autocmd FileChangedShellPost *
   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
+" highlight superfluous whitespace
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
-" configure goyo.vim for writing
-function! s:goyo_enter()
-    set nocursorline
-endfunction
+" don't highlight it while in insert mode
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 
-function! s:goyo_leave()
-    set cursorline
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-
-
-
-
-
-
-
+" clear superfluous whitespace buffer write
+" autocmd BufWritePre * %s/\s\+$//e
