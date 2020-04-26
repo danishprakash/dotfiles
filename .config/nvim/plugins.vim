@@ -7,20 +7,14 @@ Plug 'ambv/black'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 
 
-" colorschemes
+" Colors
 
-" defaul monochrome
-Plug 'danishprakash/vim-yami'   
+Plug 'danishprakash/vim-yami'       " defaul monochrome
 
-" light scheme for writing
-Plug 'ayu-theme/ayu-vim'        
+Plug 'ayu-theme/ayu-vim'            " light scheme for writing
 let ayucolor="light"
 
-" for other users
-Plug 'sickill/vim-monokai'      
-
-
-" utils
+Plug 'sickill/vim-monokai'          " for other users
 
 " async linting
 Plug 'w0rp/ale'
@@ -47,26 +41,6 @@ Plug 'fatih/vim-go'
 let g:go_def_mapping_enabled = 0      " use lsp for go-to-def, disable vim-go
 let g:go_fmt_command = "goimports"    " set goimports as the fmt command for vim-go
 
-" status line
-Plug 'itchyny/lightline.vim'
-" configuration for lightline (statusline)
-let g:lightline = {
-      \ 'colorscheme': 'yami',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'filename', 'gitbranch', 'readonly', 'modified' ], ['tabline']],
-      \   'right': [[ 'lineinfo', 'filetype' ]]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ 'separator': {
-      \ 'right': '',
-      \ 'left': ''
-      \ },
-      \ } 
-let g:lightline.subseparator = { 'left': '/', 'right': '/' }    " set separators bw objects in lightline (statusline)
-
 " UltiSnips
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsJumpBackwardTrigger='<c-t>'
@@ -87,12 +61,26 @@ let g:githubinator_no_default_mapping=0     " use default mappings for vim-githu
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeMinimalUI=1                   " hide bloat in NERDTree
 
+" writing mode
+Plug 'junegunn/goyo.vim'
+" configure goyo.vim for writing
+function! s:goyo_enter()
+    set nocursorline
+endfunction
+
+function! s:goyo_leave()
+    set cursorline
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+
 Plug 'RRethy/vim-illuminate'
 Plug 'airblade/vim-gitgutter'
 Plug 'danishprakash/vimport'
 Plug 'godlygeek/tabular'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/goyo.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'simeji/winresizer'
 Plug 'townk/vim-autoclose'
