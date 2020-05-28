@@ -20,3 +20,6 @@ tags
 
 # python
 .venv
+
+# tmux
+tmux-*
