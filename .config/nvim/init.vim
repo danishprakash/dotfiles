@@ -19,13 +19,14 @@ set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
 set nowrap                         " disable line wrapping
 set number                         " always show line number
-set relativenumber                 " show line numbers relative to the current line
+set norelativenumber                 " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
 set shiftwidth=4                   " tab width while autoindenting
 set tabstop=4                      " tab width for things like :retab
 set shortmess+=c                   " disable completion messages in statusline
 set shortmess+=a                   " suppress a bunch of info messages
 set shortmess+=I                   " don't show intro messages on startup
+set shortmess+=W                   " don't show 'written' when writing a file
 set showmatch                      " set show matching parenthesis
 set undodir=~/.config/nvim/undodir " dir to store undo files
 set undofile                       " maintain undo history bw sessions
@@ -40,6 +41,9 @@ set updatetime=300                 " Smaller updatetime for CursorHold & CursorH
 set backspace=eol,start,indent     " more natural backspace
 set breakindent                    " indented line break
 
+set filetype=on
+filetype plugin indent on
+syntax manual
 
 
 " Sources -------------------------------------------------
