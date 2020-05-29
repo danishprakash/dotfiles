@@ -45,11 +45,11 @@ endfunction
 
 set statusline=                   " start off empty
 set statusline+=\                 " left pad
-set statusline+=%{Mode()}         " mode
+" set statusline+=%{Mode()}         " mode
+" set statusline+=\ \\\             " item separator
+set statusline+=%{BaseFileName()} " filename
 set statusline+=\ \\\             " item separator
 set statusline+=%{GitBranch()}    " git branch
-set statusline+=\ \\\             " item separator
-set statusline+=%{BaseFileName()} " filename
 set statusline+=\                 " pad
 set statusline+=%M                " modified indicator
 
@@ -60,4 +60,5 @@ set statusline+=%{FileType()}     " filetype sans []
 set statusline+=\                 " right pad
 
 " monochrome statusline
-highlight StatusLine guifg=#000000 guibg=#d0d0d0
+highlight StatusLine guifg=#050505 guibg=#bfbfbf
+highlight StatusLineNC guifg=#8f8f8f
