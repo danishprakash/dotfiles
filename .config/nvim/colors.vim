@@ -1,8 +1,6 @@
 " Colors --------------------------------------------------
 
 colorscheme yami
-filetype on
-filetype plugin indent on
 syntax manual
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│
