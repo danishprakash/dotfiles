@@ -103,7 +103,13 @@ nnoremap <leader>w <esc>:w<cr>
 " nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 " open vimrc in vertial split and source it
-nnoremap <silent> <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <silent> <leader>evi :vsplit $MYVIMRC<cr>
+nnoremap <silent> <leader>evm :vsplit $NVIM_HOME/mappings.vim<cr>
+nnoremap <silent> <leader>evf :vsplit $NVIM_HOME/functions.vim<cr>
+nnoremap <silent> <leader>evp :vsplit $NVIM_HOME/plugins.vim<cr>
+nnoremap <silent> <leader>evc :vsplit $NVIM_HOME/colors.vim<cr>
+nnoremap <silent> <leader>eva :vsplit $NVIM_HOME/autocommands.vim<cr>
+nnoremap <silent> <leader>evs :vsplit $NVIM_HOME/statusline.vim<cr>
 nnoremap <silent> <leader>so :so $MYVIMRC<cr> :CocRestart<CR>
 
 " move around wrapped lines as if separate lines
