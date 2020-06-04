@@ -4,7 +4,10 @@ call plug#begin()
 
 " code formatting
 Plug 'ambv/black'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+autocmd CursorHold * silent call CocActionAsync("highlight")
+nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
+nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
 
 
 " Colors
@@ -76,7 +79,6 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 
-Plug 'RRethy/vim-illuminate'
 Plug 'airblade/vim-gitgutter'
 Plug 'danishprakash/vimport'
 Plug 'godlygeek/tabular'
