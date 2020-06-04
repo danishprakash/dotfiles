@@ -16,6 +16,19 @@ function send_keys_pane_clear() { tmux send-keys -t $1:$2.$3 "$4" C-m 'clear' C-
 
 function create_workspace() {
     case $1 in
+        temp)
+            session="temp"
+            create_session ${session}
+            rename_window ${session} "temp"
+
+            new_window ${session} "sh"
+            for f in "-h" "-v"; do split_window ${session} "sh" ${f}; done
+
+            select_window ${session} "sh"
+
+            if [[ "${SWITCH_CLIENT}" -eq "true" ]]; then switch_client ${session}; fi
+            ;;
+
         coderunner)
             session="coderunner"
             create_session ${session}
