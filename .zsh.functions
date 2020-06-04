@@ -2,9 +2,43 @@
 
 # Functions -----------------------------------------------
 
-# simple wrapper over aws cli
-# to run specific subcommands
-function s3cmd () {
+
+# wrapper over frequently used kubectl subcommands
+kr() {
+    POD_ID=$(kubectl get pods | fzf --reverse | awk '{print $1}')
+    case $1 in
+        --delete|-d)
+            CMD="kubectl delete pod '${POD_ID}'"
+            echo "${CMD}"; eval "${CMD}"
+            if [[ $? != "0" ]]
+            then
+                echo "unable to kill pod"
+            fi
+            ;;
+        --exec|-e)
+            CONTAINER=$(echo "${POD_ID}" | sed 's/\-[a-zA-Z0-9]\{8,10\}.*//g')
+            CMD="kubectl exec '${POD_ID}' --container '${CONTAINER}' --stdin --tty -- sh"
+            echo "${CMD}"; eval "${CMD}"
+            if [[ $? != "0" ]]
+            then
+                echo "unable to exec into pod"
+            fi
+            ;;
+        --logs|-l)
+            CONTAINER=$(echo "${POD_ID}" | sed 's/\-[a-zA-Z0-9]\{8,10\}.*//g')
+            CMD="kubectl logs --follow '${POD_ID}' --container '${CONTAINER}'"
+            echo "${CMD}"; eval "${CMD}"
+            if [[ $? != "0" ]]
+            then
+                echo "unable to fetch logs for pod"
+            fi
+            ;;
+    esac
+}
+
+
+# aws cli wrapper to run frequently used subcmds
+s3() {
     case $1 in
         --req)
             aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/request.json - | jq -M
@@ -30,7 +64,7 @@ function s3cmd () {
 
 
 # create a temporary file and open it for editing
-tmpf () {
+tmpf() {
     ${EDITOR} +"set filetype=$1" + /tmp/temp-$(date +'%Y%m%d-%H%M%S')
 }
 
@@ -48,7 +82,7 @@ tmpd() {
 
 
 # exec into docker container
-function de() {
+de() {
   local cid
   cid=$(docker ps -a --format "{{.ID}} \t{{.Names}}\t {{.Status}}\t{{.Image}}" | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
   [ -n "$cid" ] && docker exec -it "$cid" sh
@@ -67,13 +101,13 @@ serve() {
 
 
 # better history command
-function fh {
+fh() {
     print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history | uniq) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
 
 # exec into compile, execute container
-function dex {
+dex() {
     PS=$(docker ps)
     CID=$(echo $PS | grep $1 | awk '{print $1}')
     CNAME=$(echo $PS | grep $1 | awk '{print $3}')
@@ -83,17 +117,17 @@ function dex {
 
 
 # move to the top-level parent directory
-function cdp() {
+cdp() {
     TEMP_PWD=`pwd`
     while ! [ -d .git ]; do
-    cd ..
+        cd ..
     done
     OLDPWD=$TEMP_PWD
 }
 
 
 # search for a pattern and open the file
-function rf() {
+rf() {
     result=$(rg --no-heading -n $1 . | fzf --reverse)
     file_path=$(echo $result | awk -F ':' '{print $1}')
     line_number=$(echo $result | awk -F ':' '{print $2}')
@@ -102,7 +136,7 @@ function rf() {
 
 
 # find and kill process by pid
-function kp() {
+kp() {
     kill -9 $(ps -ef | fzf --reverse | awk '{print $2}') &> /dev/null
     if [[ $? != "0" ]]
     then
@@ -112,7 +146,7 @@ function kp() {
 
 
 # facilitate new git repo
-function create_repo() {
+create_repo() {
     git init &> /dev/null && echo "Created repo"
     echo -n "Add remote (y/n): "
     read choice
@@ -126,7 +160,7 @@ function create_repo() {
 
 
 # open fzf window with dirs and cd into it
-function quick_find () {
+quick_find() {
     dir=$(find . ~/programming -not -path '*/\.*' -type d -maxdepth 2 | fzf --layout=reverse --preview "ls -FG {}")
     if [[ "$?" != "0" ]]; then return; fi;
     cd $dir
@@ -137,7 +171,7 @@ bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
 
 # list all files in current dir tree wit preview
 # select one to open in vim
-function edit_files () {
+edit_files() {
     file=$(find . -type f -not -path '*/\.git/*' | fzf --layout=reverse --preview "cat {}")
 
     if [[ "$?" != "0" ]]; then
@@ -151,7 +185,7 @@ function edit_files () {
 
 
 # function to start a timer in bg / pomodoro
-function doro () {
+doro() {
     if [[ $# == 0 ]]; then
         let duration=1500           # no arguments -> 25 minutes
     else
@@ -164,13 +198,13 @@ function doro () {
 
 # open man with `less` pager directly at a given switch
 # e.g. mans ls -G -> will open man page for ls at -G option
-function mans () {
+mans() {
     man -P "less -p \"^ +$2\"" $1
 }
 
 # prints the complete command referred by the alias
-# function kubectl() { echo "+ kubectl $@"; command kubectl $@; }
+# kubectl() { echo "+ kubectl $@"; command kubectl $@; }
 
 # echo aws profile in use when executing aws or sam commands
-# function sam() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command sam $@; }
-# function aws() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command aws $@; }
+# sam() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command sam $@; }
+# aws() { echo "+ using profile: $AWS_DEFAULT_PROFILE"; command aws $@; }
