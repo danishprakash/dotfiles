@@ -2,6 +2,9 @@
 
 # Aliases -------------------------------------------------
 
+# print ansi color codes
+alias colors='for code in {000..255}; do print -P -- "$code: %F{$code}Color%f"; done'
+
 # open new file in vim with previous day's date (journal)
 alias journal='nvim $(date -v-1d "+%d-%m-%Y").md'
 
