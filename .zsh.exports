@@ -35,6 +35,7 @@ export HISTDUP=erase
 export MANPAGER="nvim -c 'set ft=man' -"
 
 export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 export TERM=xterm-256color
 
