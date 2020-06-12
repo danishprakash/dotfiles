@@ -1,5 +1,8 @@
 " Mappings ------------------------------------------------
 
+" search for visually selected text with *
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 " define leader key
 let mapleader=' '
 
