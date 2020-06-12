@@ -16,6 +16,19 @@ function send_keys_pane_clear() { tmux send-keys -t $1:$2.$3 "$4" C-m 'clear' C-
 
 function create_workspace() {
     case $1 in
+        notes)
+            session="notes"
+            create_session ${session}
+            rename_window ${session} "vim"
+            send_keys ${session} "vim" "z notes && vi"
+
+            new_window ${session} "sh"
+            send_keys ${session} "sh" "z notes"
+
+            select_window ${session} "vim"
+            if [[ "${SWITCH_CLIENT}" -eq "true" ]]; then switch_client ${session}; fi
+            ;;
+
         temp)
             session="temp"
             create_session ${session}
