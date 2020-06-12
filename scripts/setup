@@ -1,17 +1,18 @@
-#! /bin/bash
-# System setup script for macOS
+#! /usr/bin/env bash
 
+# setup - system setup script for macOS
+# =========================================================
+# - https://github.com/danishprakash/dotfiles
+# - danishpraka.sh
 
-# ====== VARIABLES ===== #
+# variables
 DOT_DIR = ~/dotfiles
 
-
-# ====== INSTALL BREW ===== #
+# install brew
 echo "--> Installing homebrew..."
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-
-# ====== INSTALL APPLICATIONS ===== #
+# cli
 echo "--> Installing applications..."
 brew install zsh
 brew install tmux
@@ -37,12 +38,3 @@ brew cask install firefox
 brew cask install lastpass
 brew cask install tunnelbear
 brew cask install transmission
-
-
-# ====== SYMLINKS ====== #
-echo "--> Symlinking config files..."
-sudo ln -sf {$PWD}/nvim/.config/nvim/init.vim ~/.config/nvim/init.vim
-sudo ln -sf {$PWD}/zsh/.zshrc ~/.zshrc
-
-# download the autopair and other plugins
-
