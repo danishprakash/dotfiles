@@ -78,17 +78,21 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
+" resize buffers
+Plug 'simeji/winresizer'
+let g:winresizer_vert_resize=2              " vertical resize step
+let g:winresizer_horiz_resize=2             " vertical resize step
+
 
 Plug 'airblade/vim-gitgutter'
 Plug 'danishprakash/vimport'
 Plug 'godlygeek/tabular'
 Plug 'honza/vim-snippets'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'simeji/winresizer'
+Plug 'machakann/vim-sandwich'
 Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'machakann/vim-sandwich'
 
 
 " plugin development
