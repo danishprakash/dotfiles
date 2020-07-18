@@ -65,7 +65,7 @@ nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
 " \_ uses last changed or yanked text as an object
 onoremap <leader>_ :<C-U>normal! `[v`]<CR>
 
-" start nerdtree 
+" start nerdtree
 nnoremap <leader>nd :NERDTreeToggle<CR>
 
 " hit enter to insert highlighted item in popup list
@@ -74,12 +74,8 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " enable Goyo for markdown writing and toggle ALE
 nnoremap <silent> <leader>go :Goyo<cr>
 
-" execute current buffer with python3 
+" execute current buffer with python3
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
-
-" codefmt 
-nnoremap <leader>fm :FormatCode<cr>
-vnoremap <leader>fm :FormatLines<cr>
 
 " ALE toggle
 nnoremap <leader>al :ALEToggle<cr>
@@ -137,4 +133,3 @@ nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen
 
 " :w!! to save with sudo
 ca w!! w !sudo tee >/dev/null "%"
-
