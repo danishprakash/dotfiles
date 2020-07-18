@@ -1,5 +1,8 @@
 " Autocommands --------------------------------------------
 
+" set indent rules for yaml files
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 " disable statusline when fzf is active
 autocmd! FileType fzf set laststatus=0 noshowmode noruler
         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
