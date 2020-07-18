@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# .zshrc - z shell configuration
+# =========================================================
+# - https://github.com/danishprakash/dotfiles
+# - danishpraka.sh
+
+# firefox
+ctrl + cmd - f : open -a firefox
+
+# iTerm
+ctrl + cmd - a : open -a iTerm
+
+# slack
+ctrl + cmd - s: open -a Slack
+
+# zoom
+ctrl + cmd - m: open -a zoom.us
