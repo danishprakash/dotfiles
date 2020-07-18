@@ -33,6 +33,13 @@ kr() {
                 echo "unable to fetch logs for pod"
             fi
             ;;
+        --tag|-t)
+            CMD="kubectl describe pod '${POD_ID}' | grep Image | grep -i coderunner:git | awk -F'-' '{print \$NF}'"
+            echo "${CMD}"; eval "${CMD}"
+            if [[ $? != "0" ]]
+            then
+                echo "unable to fetch image tag for pod"
+            fi
     esac
 }
 
