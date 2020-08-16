@@ -21,9 +21,9 @@ setopt INC_APPEND_HISTORY     # write history file as soon as command is entered
 setopt MENU_COMPLETE          # insert first suggestion while autocompleting
 setopt PROMPT_SUBST           # allow command, param and arithmetic expansion in the prompt
 setopt SHARE_HISTORY          # Share history across terminals
-setopt CORRECT                # correct spellings for misspelled commands
 setopt LIST_PACKED            # make completion list smaller
 setopt LIST_ROWS_FIRST        # match completions horizontally, not vertically
+# setopt CORRECT                # correct spellings for misspelled commands
 
 zstyle ':completion:*' menu select
 fpath=(~/.zsh/completion $fpath)
@@ -57,10 +57,10 @@ source ~/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/danish/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danish/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/danish/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danish/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/danish/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danish/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/danish/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danish/google-cloud-sdk/completion.zsh.inc'; fi
 
 # added by travis gem
 [ -f /Users/danish/.travis/travis.sh ] && source /Users/danish/.travis/travis.sh
