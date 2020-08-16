@@ -16,4 +16,11 @@ SEP=' %F{reset}\ '
 
 PROMPT='%F{green}$(git_branch)'
 PROMPT+='%F{yellow}%1~ '
-PROMPT+='%F{yellow}$ %F{reset}'
+
+# conditional expression
+# checks the result of the previous
+# command executed, the string after
+# the first "." is executed when the
+# command returned successfully and the
+# string after the second "." otherwise
+PROMPT+='%(?.%F{yellow}$%F .%F{red}$ )%F{reset}'
