@@ -72,7 +72,8 @@ s3() {
 
 # create a temporary file and open it for editing
 tmpf() {
-    ${EDITOR} +"set filetype=$1" + /tmp/temp-$(date +'%Y%m%d-%H%M%S')
+    dir=$(mktemp "tmp.$(date +'%Y%m%d-%H%M%S').XXXXX")
+    ${EDITOR} +"set filetype=$1" + "$dir"
 }
 
 
