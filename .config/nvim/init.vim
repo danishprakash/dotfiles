@@ -40,6 +40,7 @@ set hidden                         " temp coc.nvim configuration, if hidden is n
 set updatetime=300                 " Smaller updatetime for CursorHold & CursorHoldI
 set backspace=eol,start,indent     " more natural backspace
 set breakindent                    " indented line break
+set linebreak
 
 set filetype=on
 filetype plugin indent on
