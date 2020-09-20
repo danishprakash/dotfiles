@@ -5,14 +5,20 @@
 # - https://github.com/danishprakash/dotfiles
 # - danishpraka.sh
 
-# firefox
+# Firefox
 ctrl + cmd - f : open -a firefox
 
 # iTerm
 ctrl + cmd - a : open -a iTerm
 
-# slack
+# Slack
 ctrl + cmd - s: open -a Slack
 
-# zoom
+# Zoom
 ctrl + cmd - m: open -a zoom.us
+
+# Notion
+ctrl + cmd - n: open -a Notion
+
+# Preview (PDF viewer)
+ctrl + cmd - p: open -a Preview
