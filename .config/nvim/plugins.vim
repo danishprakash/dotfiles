@@ -12,8 +12,6 @@ nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
 
 " Colors
 
-Plug 'danishprakash/vim-yami'       " defaul monochrome
-
 Plug 'ayu-theme/ayu-vim'            " light scheme for writing
 let ayucolor="light"
 
@@ -89,8 +87,6 @@ Plug 'danishprakash/vimport'
 Plug 'godlygeek/tabular'
 Plug 'honza/vim-snippets'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'machakann/vim-sandwich'
-Plug 'townk/vim-autoclose'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
@@ -98,10 +94,12 @@ Plug 'tpope/vim-fugitive'
 " plugin development
 Plug '/Users/danish/programming/vim-docker'
 Plug '/Users/danish/programming/vim-yami'
+Plug '/Users/danish/programming/vim-yuki'
 " Plug '/Users/danish/programming/nvim-blameline'
 " Plug '/Users/danishprakash/programming/vim-githubinator'
 " Plug '/Users/danishprakash/programming/vim-md'
 " Plug '/Users/danishprakash/programming/vimport'
+" Plug 'danishprakash/vim-yami'       " default monochrome
 
 
 call plug#end()
