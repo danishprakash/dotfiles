@@ -4,7 +4,7 @@
 
 # figuring out current branch while supressing `not git repo` errors
 function git_branch() {
-    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | awk 'BEGIN{FS="/"} {print $NF}')
+    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [[ ${branch} == "" ]]; then
         :
     else
