@@ -61,4 +61,5 @@ set statusline+=\                 " right pad
 
 " monochrome statusline
 highlight StatusLine guifg=#050505 guibg=#bfbfbf
-highlight StatusLineNC guifg=#8f8f8f
+highlight StatusLineNC guifg=#050505 guibg=#bfbfbf
+" highlight StatusLineNC guifg=#8f8f8f
