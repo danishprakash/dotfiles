@@ -22,3 +22,6 @@ ctrl + cmd - n: open -a Notion
 
 # Preview (PDF viewer)
 ctrl + cmd - p: open -a Preview
+
+# Anki
+ctrl + cmd - r: open -a Anki\ 2
