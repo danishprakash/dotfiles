@@ -8,7 +8,12 @@ set $mod Mod4
 
 gaps outer 3
 gaps inner 7
-for_window [class="^.*"] border pixel 5
+
+for_window [class="^.*"] border pixel 3
+for_window [class="Firefox"] border pixel 0
+
+smart_gaps on
+smart_borders on
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -18,13 +23,13 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start rofi
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 500 -opacity "92" -bw 0 -font "Gohu GohuFont 12"
+bindsym $mod+space exec rofi -show run
 
 # change focus
 bindsym $mod+j focus left
@@ -68,7 +73,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+d focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -76,9 +81,23 @@ bindsym $mod+a focus parent
 # focus the child container
 # bindsym $mod+d focus child
 
+# suspend
+bindsym $mod+q exec systemctl suspend
+
+set $ws1 workspace 1
+set $ws2 workspace 2
+set $ws3 workspace 3
+set $ws4 workspace 4
+set $ws5 workspace 5
+set $ws6 workspace 6
+set $ws7 workspace 7
+set $ws8 workspace 8
+set $ws9 workspace 9
+set $ws10 workspace 10
+
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
+bindsym $mod+1 $ws1
+bindsym $mod+2 $ws2
 bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
@@ -117,16 +136,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym j resize shrink width 2 px or 2 ppt
+        bindsym k resize grow height 2 px or 2 ppt
+        bindsym l resize shrink height 2 px or 2 ppt
+        bindsym semicolon resize grow width 2 px or 2 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 2 px or 2 ppt
+        bindsym Down resize grow height 2 px or 2 ppt
+        bindsym Up resize shrink height 2 px or 2 ppt
+        bindsym Right resize grow width 2 px or 2 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -149,11 +168,19 @@ client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-col
 client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $active-window
 client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $active-window
 
-# set wallpaper
-# exec_always feh --bg-scale /home/danish/Downloads/wall.jpg
+for_window [class="Firefox"] move to workspace 2
+for_window [class="Anki"] move to workspace 5
+for_window [class="Todoist"] move to workspace 4
+for_window [class="Lotion"] move to workspace 4
+for_window [class="Slack"] move to workspace 3
+for_window [class="zoom"] move to workspace 6
 
-# Set wallpaper as a solid bg
-exec_always --no-startup-id hsetroot -solid '#404552'
+# startup applications
+exec_always feh --bg-fill /home/danish/Downloads/veronica-benavides-uot7iJxhK80-unsplash.jpg
+# exec_always --no-startup-id xmodmap ~/.xmodmaprc
 exec_always xrdb ~/.Xresources
-exec_always polybar top
+exec_always bash ~/.config/polybar/launch.sh
 exec_always --no-startup-id compton --inactive-dim=0.1 -f
+exec_always --no-startup-id nm-applet --sm-disable
+exec_always --no-startup-id redshift
+# exec_always --no-startup-id hsetroot -solid '#404552'
