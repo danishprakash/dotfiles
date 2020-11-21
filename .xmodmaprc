@@ -1,0 +1,13 @@
+keycode 64 = Alt_L
+keycode 133 = Super_L
+remove Mod1 = Alt_L
+remove Mod4 = Super_L
+add Mod1 = Super_L
+add Mod4 = Alt_L
+
+remove Lock = Caps_Lock
+remove Control = Control_L
+keysym Caps_Lock = Control_L
+keysym Control_L = Caps_Lock
+add Lock = Caps_Lock
+add Control = Control_L
