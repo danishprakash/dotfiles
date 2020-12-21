@@ -13,11 +13,12 @@
 URxvt.externalBorder : 0
 URxvt.internalBorder : 0
 URxvt.scrollBar      : False
-URxvt.font	         : xft:Terminus (TTF):size=12: antialias=true
-URxvt.boldFont	     : xft:Terminus (TTF):size=12: antialias=true
+URxvt.font	         : xft:SF Mono:size=11: antialias=true
+URxvt.boldFont	     : xft:SF Mono:size=11: antialias=true
 URxvt.letterSpace    : 0
 Urxvt.lineSpace      : 0
 URxvt.antialias      : true
+URxvt*cursorColor    : magenta
 
 ! Clipboard
 URxvt.keysym.M-c      : perl:clipboard:copy
@@ -26,11 +27,11 @@ URxvt.keysym.M-C-v    : perl:clipboard:paste_escaped
 Urxvt.perl-ext-common : selection-to-clipboard
 
 Xft.autohint: 1
-Xft.antialias: 1
-Xft.hingting: true
-Xft.hintstyle: hintsfull
-Xft.rgba: none
+Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: none
 
 ! pain to use multiple displays
 Xft.dpi: 94
