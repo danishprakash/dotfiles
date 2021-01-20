@@ -2,6 +2,20 @@
 
 # Functions -----------------------------------------------
 
+# override fzf history widget to use history from mysql
+fzf-history-widget() {
+  selected=( $(mysql -B -e "select distinct(command) from sh.history;" |
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" fzf) )
+  local ret=$?
+
+  BUFFER="$selected"    # populate input prompt
+  CURSOR=$#RBUFFER      # set cursor position at the end of the command inserted
+  zle reset-prompt
+
+  return $ret
+}
+zle     -N   fzf-history-widget
+bindkey '^R' fzf-history-widget
 
 # wrapper over frequently used kubectl subcommands
 kr() {
@@ -40,32 +54,6 @@ kr() {
             then
                 echo "unable to fetch image tag for pod"
             fi
-    esac
-}
-
-
-# aws cli wrapper to run frequently used subcmds
-s3() {
-    case $1 in
-        --req)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/request.json - | jq -M
-            ;;
-
-        --resp)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/response.json - | jq -M
-            ;;
-
-        --crresp)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/coderunner.json - | jq -M
-            ;;
-
-        --crsresp)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/coderunner-staging.json - | jq -M
-            ;;
-
-        --ls)
-            aws --profile production s3 ls s3://$S3_RESP_BUCKET/$2/
-            ;;
     esac
 }
 
