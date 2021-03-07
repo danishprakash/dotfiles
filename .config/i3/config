@@ -170,17 +170,24 @@ client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color       
 
 for_window [class="Firefox"] move to workspace 2
 for_window [class="Anki"] move to workspace 5
+for_window [class="Spotify"] move to workspace 5
 for_window [class="Todoist"] move to workspace 4
 for_window [class="Lotion"] move to workspace 4
-for_window [class="Slack"] move to workspace 3
-for_window [class="zoom"] move to workspace 6
+for_window [class="Slack"] move to workspace 6
+for_window [class="zoom"] move to workspace 3
+
+# resize and move anki to center on startup
+for_window [class="Anki"] floating enable
+for_window [class="Anki"] resize set 730 690
+for_window [class="Anki"] move position center
 
 # startup applications
 exec_always feh --bg-fill /home/danish/Downloads/veronica-benavides-uot7iJxhK80-unsplash.jpg
-# exec_always --no-startup-id xmodmap ~/.xmodmaprc
+# exec_always feh --bg-fill /home/danish/Pictures/japan_garden_1.jpeg
+# exec_always xmodmap ~/.xmodmaprc
 exec_always xrdb ~/.Xresources
 exec_always bash ~/.config/polybar/launch.sh
 exec_always --no-startup-id compton --inactive-dim=0.1 -f
-exec_always --no-startup-id nm-applet --sm-disable
-exec_always --no-startup-id redshift
+# exec_always --no-startup-id nm-applet --sm-disable
+# exec_always --no-startup-id redshift
 # exec_always --no-startup-id hsetroot -solid '#404552'
