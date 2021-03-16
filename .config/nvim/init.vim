@@ -9,7 +9,7 @@
 
 set background=dark
 set belloff+=ctrlg                 " if Vim beeps during completion
-set cursorline                     " highlight current cursor column
+set nocursorline                   " highlight current cursor column
 set expandtab                      " expand tab to spaces
 set hlsearch                       " enable search highlights
 set ignorecase                     " ignore case while searching
@@ -18,8 +18,8 @@ set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
 set nowrap                         " disable line wrapping
-set number                         " always show line number
-set norelativenumber                 " show line numbers relative to the current line
+set nonumber                       " always show line number
+set norelativenumber               " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
 set shiftwidth=4                   " tab width while autoindenting
 set tabstop=4                      " tab width for things like :retab
