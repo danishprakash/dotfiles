@@ -4,7 +4,7 @@
 
 # override fzf history widget to use history from mysql
 fzf-history-widget() {
-  selected=( $(mysql -B -e "select distinct(command) from sh.history;" |
+selected=( $(mysql -B -e "select distinct command from sh.history group by command order by max(created) desc, command;" |
     FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" fzf) )
   local ret=$?
 
@@ -60,7 +60,7 @@ kr() {
 
 # create a temporary file and open it for editing
 tmpf() {
-    dir=$(mktemp "tmp.$(date +'%Y%m%d-%H%M%S').XXXXX")
+    dir=$(mktemp /var/tmp/"tmp.$(date +'%Y%m%d-%H%M%S').XXXXX")
     ${EDITOR} +"set filetype=$1" + "$dir"
 }
 
