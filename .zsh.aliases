@@ -2,6 +2,9 @@
 
 # Aliases -------------------------------------------------
 
+alias kc='kubectl'
+alias kx='kubectx'
+
 # print ansi color codes
 alias colors='for code in {000..255}; do print -P -- "$code: %F{$code}Color%f"; done'
 
