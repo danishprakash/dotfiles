@@ -1,14 +1,14 @@
 configuration {
-	modi: "calc,window,run,ssh";
-	width: 100;
+	modi: "combi,calc";
+	width: 30;
 	lines: 5;
 	font: "Terminus (TTF) 9";
 	bw: 1;
-	padding: 475;
+	padding: 50;
 	fullscreen: false;
 	terminal: "urxvt";
-/*	yoffset: 0;*/
-/*	xoffset: 0;*/
+	xoffset: 0;
+	yoffset: -200;
 /*	fixed-num-lines: true;*/
 /*	show-icons: false;*/
 /*	ssh-client: "ssh";*/
@@ -55,7 +55,7 @@ configuration {
 	color-normal: "#000000, #ffffff, #000000, #ffffff, #000000";
 	color-urgent: "#2e3440, #d08770, #2e3440, #d08770, #fdf6e3";
 	color-active: "#000000, #ffffff, #2e3440, #81a1c1, #fdf6e3";
-	color-window: "#000000, #000000, #000000";
+	color-window: "#000000, #ffffff, #000000";
 /*	max-history-size: 25;*/
 /*	combi-hide-mode-prefix: false;*/
 /*	matching-negate-char: '-' /* unsupported */;*/
