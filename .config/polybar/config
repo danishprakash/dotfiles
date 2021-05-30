@@ -6,23 +6,24 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #2f343f
+background = #000000
 background-alt = #2f343f
 ;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
+foreground = #ffffff
 foreground-alt = #555
-primary = #ffb52a
+primary = #ffffff
 secondary = #e60053
 alert = #bd2c40
 
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 30
+height = 20
 ;offset-x = 10%
 ;offset-y = 0
 radius = 0
 fixed-center = true
+
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -34,29 +35,37 @@ border-size = 0
 border-color = #00000000
 
 padding-left = 0
-padding-right = 2
+padding-right = 0
 
 
-module-margin-left = 0
-module-margin-right = 2
+module-margin-left = 1
+module-margin-right = 0
 
 font-0 = Terminus (TTF):pixelsize=9;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
+; font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
+; font-2 = siji:pixelsize=10;1
 
-modules-left = i3
+modules-left = workspaces
 modules-center = xwindow
-modules-right = volume memory cpu eth temperature date
+modules-right = volume wlan battery date
+
+; Value to be used to set the WM_NAME atom
+; If the value is empty or undefined, the atom value
+; will be created from the following template: polybar-[BAR]_[MONITOR]
+; NOTE: The placeholders are not available for custom values
+wm-name = i3-gaps
 
 tray-position = right
 tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
 
-;wm-restack = bspwm
-;wm-restack = i3
 
-;override-redirect = true
+; override-redirect = true
+
+; wm-restack = i3
+
+; override-redirect = true
 
 ;scroll-up = bspwm-desknext
 ;scroll-down = bspwm-deskprev
@@ -66,6 +75,38 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = true
+
+[module/workspaces]
+type = internal/xworkspaces
+
+pin-workspaces = false
+
+enable-click = true
+enable-scroll = true
+
+format = <label-state>
+format-padding = 0
+
+label-monitor = %name%
+
+label-active = %name%
+label-active-foreground = ${colors.background}
+label-active-background = ${colors.foreground}
+
+label-occupied = %index%
+
+label-urgent = %index%
+label-urgent-foreground = #fffffff
+label-urgent-background = ${colors.background}
+
+label-empty = %name%
+label-empty-background = ${colors.background}
+label-empty-foreground = #fffffff
+
+label-active-padding = 2
+label-urgent-padding = 2
+label-occupied-padding = 2
+label-empty-padding = 2
 
 [module/player-mpris-simple]
 type = custom/script
@@ -79,7 +120,7 @@ click-middle = playerctl play-pause<Paste>
 
 [module/xwindow]
 type = internal/xwindow
-label = %title% 
+label = %title%
 ;0:30:...%
 
 [module/xkeyboard]
@@ -129,37 +170,119 @@ label-empty-padding = 2
 
 [module/i3]
 type = internal/i3
-format = <label-state> <label-mode>
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; This will split the workspace name on ':'
+; Default: false
+strip-wsnumbers = true
+
+; Sort the workspaces by index instead of the default
+; sorting that groups the workspaces by output
+; Default: false
 index-sort = true
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle workspaces
+; Default: true
+enable-scroll = false
+
+; Wrap around when reaching the first/last workspace
+; Default: true
 wrapping-scroll = false
 
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+; Set the scroll cycle direction
+; Default: true
+reverse-scroll = false
 
+; Use fuzzy (partial) matching on labels when assigning
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+
+; ws-icon-[0-9]+ = <label>;<icon>
+; NOTE: The <label> needs to match the name of the i3 workspace
+; Neither <label> nor <icon> can contain a semicolon (;)
+ws-icon-0 = 1;♚
+ws-icon-1 = 2;♛
+ws-icon-2 = 3;♜
+ws-icon-3 = 4;♝
+ws-icon-4 = 5;♞
+ws-icon-default = ♟
+; NOTE: You cannot skip icons, e.g. to get a ws-icon-6
+; you must also define a ws-icon-5.
+; NOTE: Icon will be available as the %icon% token inside label-*
+
+; Available tags:
+;   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
+;   <label-mode> (default)
+format = <label-state> <label-mode>
+
+; Available tokens:
+;   %mode%
+; Default: %mode%
+label-mode = %mode%
 label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
+label-mode-background = #e60053
 
-; focused = Active workspace on focused monitor
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
 label-focused = %index%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = #ffffff
-label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused-foreground = #ffffff
+label-focused-background = #3f3f3f
+label-focused-underline = #fba922
+label-focused-padding = 4
 
-; unfocused = Inactive workspace on any monitor
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
 label-unfocused = %index%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused-padding = 4
 
-; visible = Active workspace on unfocused monitor
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
 label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
+label-visible-underline = #555555
+label-visible-padding = 4
 
-; urgent = Workspace with urgency hint set
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
 label-urgent = %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent-foreground = #000000
+label-urgent-background = #bd2c40
+label-urgent-padding = 4
+
+; Separator in between workspaces
+label-separator = |
+label-separator-padding = 2
+label-separator-foreground = #ffb52a
+
 
 [module/mpd]
 type = internal/mpd
@@ -214,15 +337,16 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = net1
+interface = wlp2s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
+; format-connected = <ramp-signal> <label-connected>
+format-connected = <label-connected>
 format-connected-underline = #9f78e1
 label-connected = %essid%
 
-format-disconnected =
-;format-disconnected = <label-disconnected>
+; format-disconnected =
+format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
@@ -254,7 +378,7 @@ format-disconnected-underline = #ef5f5f
 type = internal/date
 interval = 5
 
-date =
+date = " %Y-%m-%d"
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
@@ -265,6 +389,17 @@ format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #ffffff
 
 label = %date% %time%
+
+[module/pavolume]
+type = custom/script
+format-underline = #ffffff
+tail = true
+label = VOL:%output%
+exec = ~/.config/polybar/pavolume.sh --listen
+click-right = exec pavucontrol
+click-left = ~/.config/polybar/pavolume.sh --togmute
+scroll-up = ~/.config/polybar/pavolume.sh --up
+scroll-down = ~/.config/polybar/pavolume.sh --down
 
 [module/volume]
 type = internal/volume
@@ -301,14 +436,15 @@ adapter = ADP1
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+format-charging-underline = #2aff58
 
 format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+; format-discharging-underline = ${self.format-charging-underline}
+format-discharging-underline = #ffb52a
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+format-full-underline = #2aff58
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -329,7 +465,7 @@ warn-temperature = 60
 format = <ramp> <label>
 format-underline = #ffffff
 format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+; format-warn-underline = ${self.format-underline}
 
 label = %temperature%
 label-warn = %temperature%
