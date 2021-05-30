@@ -1,46 +1,36 @@
 [user]
 	name = danishprakash
 	email = grafitykoncept@gmail.com
+	signingkey = 00C8C873955EB43F
 
 [core]
-	editor = /usr/local/bin/nvim
-	excludesfile = /Users/danish/.gitignore
+	editor = /bin/nvim
+	excludesfile = /home/danish/.gitignore
 	page = nvim -R
 
 [alias]
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
     browse = !git open
-    which = !git branch | rg
-    s = status -sb
+    s = status -s
     a = add
-    b = branch -vvv
     acp = !git add . && git commit --amend --no-edit && git push -f origin
-    cl = clone
-    c = commit
     ch = checkout
     chb = checkout -b
     cm = commit -m
-    ca = commit --amend
-    can = commit --amend --no-edit
     cfp = !git commit --amend --no-edit && git push -f origin
     diffs = diff --indent-heuristic --minimal --color-words
-    dbl = branch --delete
-    dbr = push origin --delete
-    f = fetch
     fr = !git fetch origin && git rebase origin/master
     hash = rev-parse --short HEAD
-    ll = log --oneline -n 15
     l = log --pretty=format:\"%h %ad | %s [%an]\" --graph --date=short -n 15
     p = push origin
     pf = push -f origin
-    num = log --pretty=oneline
     stash = !git stash
-    staash = !git stash --include-untracked
-    staaash = !git stash --all
     standup = log --all \
         --author=danishprakash \
         --since='9am yesterday' \
         --format=%s
+[status]
+	branch = false
 [help]
 	autoCorrect = -1
 [push]
@@ -49,5 +39,6 @@
     tool = vimdiff
 [commit]
     verbose = true      # viw more details(diff) while committing changes
+	gpgsign = true
 [http]
 	cookiefile = /Users/danish/.gitcookies
