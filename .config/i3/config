@@ -181,6 +181,10 @@ for_window [class="Anki"] floating enable
 for_window [class="Anki"] resize set 730 690
 for_window [class="Anki"] move position center
 
+for_window [class="Todoist"] floating enable
+for_window [class="Todoist"] resize set 730 890
+for_window [class="Todoist"] move position center
+
 # startup applications
 exec_always feh --bg-fill /home/danish/Downloads/kentaro-toma-f8s-LkryMXg-unsplash.jpg # background
 exec_always xrdb ~/.Xresources
