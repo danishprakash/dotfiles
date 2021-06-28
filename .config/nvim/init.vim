@@ -18,7 +18,7 @@ set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
 set nowrap                         " disable line wrapping
-set nonumber                       " always show line number
+set number                         " always show line number
 set norelativenumber               " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
 set shiftwidth=4                   " tab width while autoindenting
@@ -119,6 +119,8 @@ Plug 'scrooloose/nerdtree'
 let g:NERDTreeMinimalUI=1                   " hide bloat in NERDTree
 
 Plug 'Yggdroot/indentLine'
+let g:vim_json_syntax_conceal = 0
+let g:indentLine_concealcursor='nc'
 
 " writing mode
 Plug 'junegunn/goyo.vim'
@@ -268,12 +270,6 @@ nnoremap <leader>w <esc>:w<cr>
 
 " open vimrc in vertial split and source it
 nnoremap <silent> <leader>evi :vsplit $MYVIMRC<cr>
-nnoremap <silent> <leader>evm :vsplit $NVIM_HOME/mappings.vim<cr>
-nnoremap <silent> <leader>evf :vsplit $NVIM_HOME/functions.vim<cr>
-nnoremap <silent> <leader>evp :vsplit $NVIM_HOME/plugins.vim<cr>
-nnoremap <silent> <leader>evc :vsplit $NVIM_HOME/colors.vim<cr>
-nnoremap <silent> <leader>eva :vsplit $NVIM_HOME/autocommands.vim<cr>
-nnoremap <silent> <leader>evs :vsplit $NVIM_HOME/statusline.vim<cr>
 nnoremap <silent> <leader>so :so $MYVIMRC<cr> :CocRestart<CR>
 
 " move around wrapped lines as if separate lines
@@ -302,6 +298,13 @@ ca w!! w !sudo tee >/dev/null "%"
 
 
 " Functions -----------------------------------------------
+
+nnoremap <silent> <leader>Y :call YankBuffer()<CR>
+function! YankBuffer()
+    let l:curview = winsaveview()
+    norm! gg"+yG
+    call winrestview(l:curview)
+endfunction
 
 " from Practical Vim (pg 217)
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
