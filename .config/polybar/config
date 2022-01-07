@@ -47,7 +47,7 @@ font-0 = Terminus (TTF):pixelsize=9;1
 
 modules-left = workspaces
 modules-center = xwindow
-modules-right = volume wlan battery date
+modules-right = memory volume wlan battery date
 
 ; Value to be used to set the WM_NAME atom
 ; If the value is empty or undefined, the atom value
@@ -330,10 +330,11 @@ label = %percentage:2%%
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+format-prefix = "M: "
+; format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-foreground = #ffffff
 format-underline = #ffffff
-label = %percentage_used%%
+label = %percentage_used%% (%gb_used%)
 
 [module/wlan]
 type = internal/network
@@ -456,6 +457,20 @@ animation-charging-1 = 
 animation-charging-2 = 
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
+
+; and add a polypomo module
+[module/polypomo]
+type = custom/script
+
+exec = /home/danish/work/personal/dotfiles/.config/polybar/polypomo
+tail = true
+
+label = %output%
+click-left = /path/to/polypomo toggle
+click-right = /path/to/polypomo end
+click-middle = /path/to/polypomo lock
+scroll-up = /path/to/polypomo time +60
+scroll-down = /path/to/polypomo time -60
 
 [module/temperature]
 type = internal/temperature
