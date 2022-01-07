@@ -94,6 +94,11 @@ let g:blameline_delay = 1000 " delay for displaying blameline
 Plug 'fatih/vim-go'
 let g:go_def_mapping_enabled = 0      " use lsp for go-to-def, disable vim-go
 let g:go_fmt_command = "goimports"    " set goimports as the fmt command for vim-go
+let g:go_gopls_enabled = 0
+" let g:go_gopls_options = ['-remote=auto']
+" let g:go_def_mode='gopls'
+" let g:go_info_mode='gopls'
+" let g:go_referrers_mode = 'gopls'
 
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
@@ -140,6 +145,8 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 Plug 'simeji/winresizer'
 let g:winresizer_vert_resize=2              " vertical resize step
 let g:winresizer_horiz_resize=2             " vertical resize step
+
+Plug 'plasticboy/vim-markdown'
 
 
 Plug 'airblade/vim-gitgutter'
@@ -298,6 +305,10 @@ ca w!! w !sudo tee >/dev/null "%"
 
 
 " Functions -----------------------------------------------
+
+function! WritingMode()
+    set background=light
+endfunction
 
 nnoremap <silent> <leader>Y :call YankBuffer()<CR>
 function! YankBuffer()
