@@ -170,7 +170,7 @@ client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color       
 
 for_window [class="Anki"]     move to workspace 5
 for_window [class="Firefox"]  move to workspace 2
-for_window [class="Lotion"]   move to workspace 4
+for_window [class="Lotion"]   move to workspace 8
 for_window [class="Slack"]    move to workspace 6
 for_window [class="Spotify"]  move to workspace 10
 for_window [class="Todoist"]  move to workspace 4
@@ -178,7 +178,7 @@ for_window [class="zoom"]     move to workspace 3
 
 # resize and move anki to center on startup
 for_window [class="Anki"] floating enable
-for_window [class="Anki"] resize set 730 690
+for_window [class="Anki"] resize set 880 800
 for_window [class="Anki"] move position center
 
 for_window [class="Todoist"] floating enable
@@ -186,7 +186,7 @@ for_window [class="Todoist"] resize set 730 890
 for_window [class="Todoist"] move position center
 
 # startup applications
-exec_always feh --bg-fill /home/danish/Downloads/kentaro-toma-f8s-LkryMXg-unsplash.jpg # background
+exec_always feh --bg-fill /home/danish/Downloads/thor-alvis-A57akxc-4BQ-unsplash.jpg
 exec_always xrdb ~/.Xresources
 exec_always bash ~/.config/polybar/launch.sh
 # exec_always --no-startup-id compton --fade-in-step 0.01 --fade-out-step 0.01 -D 3 --inactive-dim=0.1 -f
