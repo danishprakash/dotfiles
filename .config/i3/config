@@ -6,10 +6,10 @@
 
 set $mod Mod4
 
-gaps outer 3
-gaps inner 7
+gaps outer 2
+gaps inner 2
 
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 1
 for_window [class="Firefox"] border pixel 0
 
 smart_gaps on
