@@ -2,7 +2,10 @@
 
 # Environment Variables -----------------------------------
 
-export EDITOR="/usr/local/bin/nvim"
+export EDITOR=$(which nvim)
+
+# anki messes up if this is not disabled
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
 
 # default region for aws/sam
 export AWS_REGION=us-west-2
@@ -18,6 +21,7 @@ export DOCKER_BUILDKIT=1
 
 # enable `go mod` support in golang
 export GO111MODULE=on
+export GOPATH=${HOME}/work/interviewstreet/go
 
 # How many lines of history to keep in memory
 export HISTSIZE=5000
@@ -35,8 +39,13 @@ export HISTDUP=erase
 export MANPAGER="nvim -c 'set ft=man' -"
 
 export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 
 export TERM=xterm-256color
 
 export NVIM_HOME="~/.config/nvim"
+
+export SDK_DPI_SCALE=0.5
+
+export SDK_SCALE=2
