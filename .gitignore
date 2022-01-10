@@ -20,6 +20,8 @@ tags
 
 # python
 .venv
+*.pyc
+**/__pycache__
 
 # tmux
 tmux-*
