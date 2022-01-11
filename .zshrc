@@ -43,7 +43,7 @@ zstyle :compinstall filename '/Users/danishprakash/.zshrc'
 [ -f ~/.zsh.hackerrank ] && source ~/.zsh.hackerrank
 
 # suggestions from history
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/zsh-autosuggestions.zsh
 
 # z dir switcher
 source ~/z.sh
@@ -67,9 +67,10 @@ if [ -f '/Users/danish/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/da
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$PATH:/usr/local/go/bin"
 
 # source shell config
-for file in ~/.zsh.{functions,prompt,exports,aliases,keybindings,paths,histdb}; do
+for file in ~/.zsh.{functions,prompt,exports,aliases,keybindings,paths,histdb,hackerrank}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		source "$file"
 	fi
