@@ -1,0 +1,478 @@
+[
+  {
+    "key": "AccountsDisplayDensity",
+    "value": false
+  },
+  {
+    "key": "AccountsEmphasizedInflows",
+    "value": false
+  },
+  {
+    "key": "AccountsEmphasizedOutflows",
+    "value": false
+  },
+  {
+    "key": "AccountsStripedRows",
+    "value": true
+  },
+  {
+    "key": "AccountsStripedRowsColor",
+    "value": "#fafafa"
+  },
+  {
+    "key": "AccountsStripedRowsDarkColor",
+    "value": "#1e1e1f"
+  },
+  {
+    "key": "AssistedClear",
+    "value": false
+  },
+  {
+    "key": "AutoDistributeSplits",
+    "value": false
+  },
+  {
+    "key": "AutoEnableRunningBalance",
+    "value": true
+  },
+  {
+    "key": "AutomaticallyMarkAsCleared",
+    "value": false
+  },
+  {
+    "key": "BetterScrollbars",
+    "value": false
+  },
+  {
+    "key": "BottomNotificationBar",
+    "value": true
+  },
+  {
+    "key": "BudgetCategoryFeatures",
+    "value": true
+  },
+  {
+    "key": "BudgetProgressBars",
+    "value": false
+  },
+  {
+    "key": "BudgetQuickSwitch",
+    "value": false
+  },
+  {
+    "key": "BudgetSpendingGoal",
+    "value": false
+  },
+  {
+    "key": "BulkEditMemo",
+    "value": true
+  },
+  {
+    "key": "BulkManagePayees",
+    "value": false
+  },
+  {
+    "key": "CalculateIRR",
+    "value": false
+  },
+  {
+    "key": "CalendarFirstDay",
+    "value": "1"
+  },
+  {
+    "key": "CategoryActivityCopy",
+    "value": false
+  },
+  {
+    "key": "CategoryActivityPopupWidth",
+    "value": false
+  },
+  {
+    "key": "CategorySoloMode",
+    "value": "0"
+  },
+  {
+    "key": "ChangeEnterBehavior",
+    "value": true
+  },
+  {
+    "key": "ChangeMemoEnterBehavior",
+    "value": false
+  },
+  {
+    "key": "CheckCreditBalances",
+    "value": true
+  },
+  {
+    "key": "CheckNumbers",
+    "value": false
+  },
+  {
+    "key": "ClearSelection",
+    "value": false
+  },
+  {
+    "key": "ColourBlindMode",
+    "value": false
+  },
+  {
+    "key": "CompactIncomeVsExpense",
+    "value": false
+  },
+  {
+    "key": "ConfirmEditTransactionCancellation",
+    "value": false
+  },
+  {
+    "key": "ConfirmKeyboardCancelationOfTransactionChanges",
+    "value": false
+  },
+  {
+    "key": "CreditCardEmoji",
+    "value": false
+  },
+  {
+    "key": "CtrlEnterCleared",
+    "value": false
+  },
+  {
+    "key": "CurrentMonthIndicator",
+    "value": false
+  },
+  {
+    "key": "CustomFlagNames",
+    "value": false
+  },
+  {
+    "key": "CustomizeColourScheme",
+    "value": true
+  },
+  {
+    "key": "DateOfMoney",
+    "value": false
+  },
+  {
+    "key": "DaysOfBuffering",
+    "value": false
+  },
+  {
+    "key": "DaysOfBufferingDate",
+    "value": false
+  },
+  {
+    "key": "DaysOfBufferingExcludeCreditCards",
+    "value": false
+  },
+  {
+    "key": "DaysOfBufferingHistoryLookup",
+    "value": "0"
+  },
+  {
+    "key": "DeselectTransactionsOnSave",
+    "value": true
+  },
+  {
+    "key": "DisableToolkit",
+    "value": false
+  },
+  {
+    "key": "DisplayMonthlyGoalsOverview",
+    "value": false
+  },
+  {
+    "key": "DisplayTargetGoalAmount",
+    "value": false
+  },
+  {
+    "key": "DisplayTotalMonthlyGoals",
+    "value": false
+  },
+  {
+    "key": "DisplayTotalOverspent",
+    "value": false
+  },
+  {
+    "key": "DisplayUpcomingAmount",
+    "value": false
+  },
+  {
+    "key": "EasyTransactionApproval",
+    "value": false
+  },
+  {
+    "key": "EditAccountButton",
+    "value": false
+  },
+  {
+    "key": "EnlargeCategoriesDropdown",
+    "value": true
+  },
+  {
+    "key": "EnterToMove",
+    "value": false
+  },
+  {
+    "key": "FilterCategories",
+    "value": false
+  },
+  {
+    "key": "GoalIndicator",
+    "value": false
+  },
+  {
+    "key": "GoalWarningColor",
+    "value": false
+  },
+  {
+    "key": "GoogleFontsSelector",
+    "value": "2"
+  },
+  {
+    "key": "HideAccountBalancesType",
+    "value": false
+  },
+  {
+    "key": "HideAgeOfMoney",
+    "value": false
+  },
+  {
+    "key": "HideClosedAccounts",
+    "value": true
+  },
+  {
+    "key": "HideDebtRatio",
+    "value": false
+  },
+  {
+    "key": "HideHelp",
+    "value": true
+  },
+  {
+    "key": "HideReferralBanner",
+    "value": true
+  },
+  {
+    "key": "HideTotalAvailable",
+    "value": false
+  },
+  {
+    "key": "HighlightNegatives",
+    "value": false
+  },
+  {
+    "key": "HoveredBudgetRows",
+    "value": false
+  },
+  {
+    "key": "ImportNotification",
+    "value": false
+  },
+  {
+    "key": "IncomeFromLastMonth",
+    "value": "0"
+  },
+  {
+    "key": "IncomeVsExpenseHoverHighlight",
+    "value": true
+  },
+  {
+    "key": "LargerClickableIcons",
+    "value": false
+  },
+  {
+    "key": "LastReconciledDate",
+    "value": false
+  },
+  {
+    "key": "LinkToInflows",
+    "value": false
+  },
+  {
+    "key": "LiveOnLastMonthsIncome",
+    "value": false
+  },
+  {
+    "key": "MasterCategoryRowColor",
+    "value": false
+  },
+  {
+    "key": "MasterCategoryRowColorSelect",
+    "value": "#f3f3f3"
+  },
+  {
+    "key": "MasterCategoryRowDarkColorSelect",
+    "value": "#ffffff"
+  },
+  {
+    "key": "MemoAsMarkdown",
+    "value": false
+  },
+  {
+    "key": "MonthlyNotesPopupWidth",
+    "value": false
+  },
+  {
+    "key": "NavDisplayDensity",
+    "value": false
+  },
+  {
+    "key": "NotesAsMarkdown",
+    "value": false
+  },
+  {
+    "key": "POSStyleCurrencyEntryMode",
+    "value": false
+  },
+  {
+    "key": "Pacing",
+    "value": "0"
+  },
+  {
+    "key": "PrintingImprovements",
+    "value": true
+  },
+  {
+    "key": "PrivacyMode",
+    "value": "0"
+  },
+  {
+    "key": "QuickBudgetWarning",
+    "value": false
+  },
+  {
+    "key": "ReconcileBalance",
+    "value": false
+  },
+  {
+    "key": "ReconcileConfetti",
+    "value": false
+  },
+  {
+    "key": "ReconciledTextColor",
+    "value": false
+  },
+  {
+    "key": "RemovePositiveHighlight",
+    "value": false
+  },
+  {
+    "key": "RemoveZeroCategories",
+    "value": false
+  },
+  {
+    "key": "RightClickToEdit",
+    "value": true
+  },
+  {
+    "key": "RowHeight",
+    "value": false
+  },
+  {
+    "key": "RowsHeght",
+    "value": false
+  },
+  {
+    "key": "SavingsRatio",
+    "value": "0.10"
+  },
+  {
+    "key": "ScrollableEditMenu",
+    "value": false
+  },
+  {
+    "key": "SeamlessBudgetHeader",
+    "value": false
+  },
+  {
+    "key": "SetMultipleFlags",
+    "value": false
+  },
+  {
+    "key": "ShowAvailableAfterSavings",
+    "value": false
+  },
+  {
+    "key": "ShowCategoryBalance",
+    "value": true
+  },
+  {
+    "key": "SpareChange",
+    "value": false
+  },
+  {
+    "key": "SplitTransactionAutoAdjust",
+    "value": false
+  },
+  {
+    "key": "SplitTransactionAutoFillPayee",
+    "value": false
+  },
+  {
+    "key": "SplitTransactionTabExpand",
+    "value": false
+  },
+  {
+    "key": "SquareNegativeMode",
+    "value": false
+  },
+  {
+    "key": "StealingFromFuture",
+    "value": false
+  },
+  {
+    "key": "StripedBudgetRows",
+    "value": false
+  },
+  {
+    "key": "SubtractUpcomingFromAvailable",
+    "value": "0"
+  },
+  {
+    "key": "SwapClearedFlagged",
+    "value": false
+  },
+  {
+    "key": "TargetBalanceWarning",
+    "value": false
+  },
+  {
+    "key": "ToBeBudgetedWarning",
+    "value": false
+  },
+  {
+    "key": "ToggleAccountColumns",
+    "value": true
+  },
+  {
+    "key": "ToggleMasterCategories",
+    "value": true
+  },
+  {
+    "key": "ToggleSplits",
+    "value": true
+  },
+  {
+    "key": "ToggleTransactionFilters",
+    "value": false
+  },
+  {
+    "key": "ToolkitReports",
+    "value": true
+  },
+  {
+    "key": "UnclearedAccountHighlight",
+    "value": true
+  },
+  {
+    "key": "ViewZeroAsEmpty",
+    "value": true
+  },
+  {
+    "key": "l10n",
+    "value": "0"
+  },
+  {
+    "key": "options.dark-mode",
+    "value": false
+  }
+]
