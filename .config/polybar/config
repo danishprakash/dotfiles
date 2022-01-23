@@ -391,19 +391,9 @@ format-underline = #ffffff
 
 label = %date% %time%
 
-[module/pavolume]
-type = custom/script
-format-underline = #ffffff
-tail = true
-label = VOL:%output%
-exec = ~/.config/polybar/pavolume.sh --listen
-click-right = exec pavucontrol
-click-left = ~/.config/polybar/pavolume.sh --togmute
-scroll-up = ~/.config/polybar/pavolume.sh --up
-scroll-down = ~/.config/polybar/pavolume.sh --down
-
 [module/volume]
 type = internal/volume
+interval = 2
 
 format-volume = <label-volume> <bar-volume>
 label-volume = VOL
