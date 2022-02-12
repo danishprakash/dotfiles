@@ -16,7 +16,7 @@
     acp = !git add . && git commit --amend --no-edit && git push -f origin
     ch = checkout
     chb = checkout -b
-    cm = commit -m
+    cm = commit --signoff --message
     cfp = !git commit --amend --no-edit && git push -f origin
     diffs = diff --indent-heuristic --minimal --color-words
     fr = !git fetch origin && git rebase origin/master
@@ -41,4 +41,4 @@
     verbose = true      # viw more details(diff) while committing changes
 	gpgsign = true
 [http]
-	cookiefile = /Users/danish/.gitcookies
+	cookiefile = /home/danish/.gitcookies
