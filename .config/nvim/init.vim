@@ -52,7 +52,6 @@ syntax manual
 call plug#begin()
 
 " code formatting
-" Plug 'ambv/black'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 autocmd CursorHold * silent call CocActionAsync("highlight")
 nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
@@ -61,18 +60,12 @@ nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
 
 " Colors
 
-" Plug 'ayu-theme/ayu-vim'            " light scheme for writing
-" let ayucolor="light"
-
-
-Plug 'joshdick/onedark.vim'
-
-" Plug 'sickill/vim-monokai'          " for other users
-
 " async linting
 Plug 'w0rp/ale'
 let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 let g:ale_python_flake8_options = '--ignore=E501'
+let g:ale_linters = {'cpp': ['g++']}
+let g:ale_cpp_cc_executable = "g++"
 
 " sh(ell) script formatter
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
