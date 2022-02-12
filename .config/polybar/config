@@ -6,19 +6,19 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #000000
+background = #ffffff
 background-alt = #2f343f
 ;foreground = ${xrdb:color7:#222}
-foreground = #ffffff
+foreground = #000000
 foreground-alt = #555
-primary = #ffffff
+primary = #000000
 secondary = #e60053
 alert = #bd2c40
 
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 20
+height = 25
 ;offset-x = 10%
 ;offset-y = 0
 radius = 0
@@ -38,10 +38,11 @@ padding-left = 0
 padding-right = 0
 
 
-module-margin-left = 1
-module-margin-right = 0
+module-margin-left = 2
+module-margin-right = 3
 
-font-0 = Terminus (TTF):pixelsize=9;1
+font-0 = SF Mono:pixelsize=8;1
+; font-0 = Terminus (TTF):pixelsize=9;1
 ; font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 ; font-2 = siji:pixelsize=10;1
 
@@ -79,7 +80,7 @@ cursor-scroll = true
 [module/workspaces]
 type = internal/xworkspaces
 
-pin-workspaces = false
+pin-workspaces = true
 
 enable-click = true
 enable-scroll = true
@@ -89,19 +90,20 @@ format-padding = 0
 
 label-monitor = %name%
 
-label-active = %name%
-label-active-foreground = ${colors.background}
-label-active-background = ${colors.foreground}
+label-active = %index%
+label-active-foreground = ${colors.foreground}
+label-active-background = ${colors.background}
 
 label-occupied = %index%
+label-occupied-foreground = #878786
 
 label-urgent = %index%
 label-urgent-foreground = #fffffff
 label-urgent-background = ${colors.background}
 
 label-empty = %name%
-label-empty-background = ${colors.background}
-label-empty-foreground = #fffffff
+label-empty-background = ${colors.foreground}
+label-empty-foreground = #878786
 
 label-active-padding = 2
 label-urgent-padding = 2
@@ -325,7 +327,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #ffffff
-label = %percentage:2%%
+label = CPU:%percentage:2%%
 
 [module/memory]
 type = internal/memory
@@ -334,7 +336,7 @@ format-prefix = "M: "
 ; format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-foreground = #ffffff
 format-underline = #ffffff
-label = %percentage_used%% (%gb_used%)
+label = %{F#878786}MEM:%{F-}%percentage_used%% (%gb_used%)
 
 [module/wlan]
 type = internal/network
@@ -343,8 +345,8 @@ interval = 3.0
 
 ; format-connected = <ramp-signal> <label-connected>
 format-connected = <label-connected>
-format-connected-underline = #9f78e1
-label-connected = %essid%
+; format-connected-underline = #9f78e1
+label-connected = %{F#878786}WLAN:%{F-}%essid%
 
 ; format-disconnected =
 format-disconnected = <label-disconnected>
@@ -379,7 +381,8 @@ format-disconnected-underline = #ef5f5f
 type = internal/date
 interval = 5
 
-date = " %Y-%m-%d"
+; date = " %Y-%b-%d"
+date = " %a %d %b;"
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
@@ -396,7 +399,7 @@ type = internal/volume
 interval = 2
 
 format-volume = <label-volume> <bar-volume>
-label-volume = VOL
+label-volume = %{F#878786}VOL%{F-}
 label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
@@ -424,18 +427,24 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 type = internal/battery
 battery = BAT0
 adapter = ADP1
-full-at = 98
+full-at = 99
 
+label-charging = %{F#878786}+BAT:%{F-}%percentage%
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #2aff58
+; format-charging-underline = #2aff58
 
+label-discharging = %{F#878786}-BAT:%{F-}%percentage%
 format-discharging = <ramp-capacity> <label-discharging>
 ; format-discharging-underline = ${self.format-charging-underline}
-format-discharging-underline = #ffb52a
+; format-discharging-underline = #ffb52a
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = #2aff58
+
+label-full = %{F#878786}+BAT:%{F-}%percentage%
+format-full = <label-full>
+
+; format-full-prefix = " "
+; format-full-prefix-foreground = ${colors.foreground-alt}
+; format-full-underline = #2aff58
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -468,7 +477,7 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #ffffff
+# format-underline = #ffffff
 format-warn = <ramp> <label-warn>
 ; format-warn-underline = ${self.format-underline}
 
