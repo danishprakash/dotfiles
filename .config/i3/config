@@ -6,8 +6,8 @@
 
 set $mod Mod4
 
-gaps outer 2
-gaps inner 2
+gaps outer 0
+gaps inner 0
 
 for_window [class="^.*"] border pixel 1
 for_window [class="Firefox"] border pixel 0
@@ -127,6 +127,9 @@ bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+v exec "LC_ALL=C $HOME/.local/bin/rft --debug sw"
+
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -154,7 +157,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color 	         #2f343f
+set $bg-color 	         #2a2a2e
 set $border-color	     #666666
 set $inactive-bg-color   #2f343f
 set $text-color          #f3f4f5
@@ -168,13 +171,14 @@ client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-col
 client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $active-window
 client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $active-window
 
-for_window [class="Anki"]     move to workspace 5
-for_window [class="Firefox"]  move to workspace 2
-for_window [class="Lotion"]   move to workspace 8
-for_window [class="Slack"]    move to workspace 6
-for_window [class="Spotify"]  move to workspace 10
-for_window [class="Todoist"]  move to workspace 4
-for_window [class="zoom"]     move to workspace 3
+for_window [class="Firefox"]     move to workspace 2
+for_window [class="zoom"]        move to workspace 3
+for_window [class="Zathura"]     move to workspace 3
+for_window [class="Todoist"]     move to workspace 4
+for_window [class="Anki"]        move to workspace 5
+for_window [class="Slack"]       move to workspace 6
+for_window [class="Lotion"]      move to workspace 8
+for_window [class="Spotify"]     move to workspace 10
 
 # resize and move anki to center on startup
 for_window [class="Anki"] floating enable
@@ -182,13 +186,15 @@ for_window [class="Anki"] resize set 880 800
 for_window [class="Anki"] move position center
 
 for_window [class="Todoist"] floating enable
-for_window [class="Todoist"] resize set 730 890
+for_window [class="Todoist"] resize set 1280 920
 for_window [class="Todoist"] move position center
 
 # startup applications
-exec_always feh --bg-fill /home/danish/Downloads/thor-alvis-A57akxc-4BQ-unsplash.jpg
+exec_always feh --bg-fill /home/danish/Downloads/daniel-oberg-iSdpb3NuNWA-unsplash.jpg
 exec_always xrdb ~/.Xresources
 exec_always bash ~/.config/polybar/launch.sh
+
+# animations
 # exec_always --no-startup-id compton --fade-in-step 0.01 --fade-out-step 0.01 -D 3 --inactive-dim=0.1 -f
 # exec_always --no-startup-id nm-applet --sm-disable # network manager applet
 # exec --no-startup-id xsetroot -solid "#000000" # solid background
