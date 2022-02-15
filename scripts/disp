@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+DPI=96
+LAPTOP=eDP-1
+MONITOR=HDMI-1
+RESOLUTION=1920x1080
+
+for arg in "$@"; do
+    case $1 in
+        "monitor")
+            xrandr --output $LAPTOP \
+                --mode $RESOLUTION \
+                --scale 1x1 \
+                --output $MONITOR \
+                --scale 1x1 \
+                --mode $RESOLUTION \
+                --dpi $DPI \
+                --same-as $LAPTOP
+            ;;
+
+        "laptop")
+            xrandr --output $LAPTOP \
+                --mode $RESOLUTION \
+                --scale 1x1 \
+                --output $MONITOR \
+                --scale 1x1 \
+                --mode $RESOLUTION \
+                --dpi $DPI \
+                --same-as $LAPTOP
+            ;;
+
+        "stack")
+            xrandr --output $LAPTOP \
+                --mode $RESOLUTION \
+                --scale 1x1
+            ;;
+    esac
+done
