@@ -8,9 +8,8 @@
 ;background = ${xrdb:color0:#222}
 background = #ffffff
 background-alt = #2f343f
-;foreground = ${xrdb:color7:#222}
 foreground = #000000
-foreground-alt = #555
+foreground-alt = #878786
 primary = #000000
 secondary = #e60053
 alert = #bd2c40
@@ -32,7 +31,7 @@ line-size = 3
 line-color = #f00
 
 border-size = 0
-border-color = #00000000
+border-color = ${colors.foreground}00
 
 padding-left = 0
 padding-right = 0
@@ -42,11 +41,12 @@ module-margin-left = 2
 module-margin-right = 3
 
 font-0 = SF Mono:pixelsize=8;1
-; font-0 = Terminus (TTF):pixelsize=9;1
-; font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-; font-2 = siji:pixelsize=10;1
+font-1 = Noto Sans CJK JP:pixelsize=8;1
+; font-1 = Terminus (TTF):pixelsize=9;1
+; font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+; font-3 = siji:pixelsize=10;1
 
-modules-left = workspaces
+modules-left = i3
 modules-center = xwindow
 modules-right = memory volume wlan battery date
 
@@ -90,20 +90,20 @@ format-padding = 0
 
 label-monitor = %name%
 
-label-active = %index%
+label-active = %icon%
 label-active-foreground = ${colors.foreground}
 label-active-background = ${colors.background}
 
 label-occupied = %index%
-label-occupied-foreground = #878786
+label-occupied-foreground = ${colors.foreground-alt}
 
 label-urgent = %index%
-label-urgent-foreground = #fffffff
+label-urgent-foreground = ${colors.background}f
 label-urgent-background = ${colors.background}
 
 label-empty = %name%
 label-empty-background = ${colors.foreground}
-label-empty-foreground = #878786
+label-empty-foreground = ${colors.foreground-alt}
 
 label-active-padding = 2
 label-urgent-padding = 2
@@ -113,7 +113,7 @@ label-empty-padding = 2
 [module/player-mpris-simple]
 type = custom/script
 exec = ~/current_track.sh
-format-underline = #ffffff
+format-underline = ${colors.background}
 ;label = ♫
 interval = 3
 click-left = playerctl previous
@@ -125,22 +125,6 @@ type = internal/xwindow
 label = %title%
 ;0:30:...%
 
-[module/xkeyboard]
-type = internal/xkeyboard
-blacklist-0 = num lock
-
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
-
-label-layout = %layout%
-label-layout-underline = ${colors.secondary}
-
-label-indicator-padding = 2
-label-indicator-margin = 1
-label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
-
 [module/filesystem]
 type = internal/fs
 interval = 25
@@ -150,25 +134,6 @@ mount-0 = /
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
-
-[module/bspwm]
-type = internal/bspwm
-
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 2
-
-label-occupied = %index%
-label-occupied-padding = 2
-
-label-urgent = %index%!
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
-
-label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 2
 
 [module/i3]
 type = internal/i3
@@ -196,7 +161,7 @@ enable-click = false
 
 ; Create scroll handlers used to cycle workspaces
 ; Default: true
-enable-scroll = false
+enable-scroll = true
 
 ; Wrap around when reaching the first/last workspace
 ; Default: true
@@ -216,11 +181,17 @@ fuzzy-match = true
 ; ws-icon-[0-9]+ = <label>;<icon>
 ; NOTE: The <label> needs to match the name of the i3 workspace
 ; Neither <label> nor <icon> can contain a semicolon (;)
-ws-icon-0 = 1;♚
-ws-icon-1 = 2;♛
-ws-icon-2 = 3;♜
-ws-icon-3 = 4;♝
-ws-icon-4 = 5;♞
+ws-icon-0 = 1;一
+ws-icon-1 = 2;二
+ws-icon-2 = 3;三
+ws-icon-3 = 4;四
+ws-icon-4 = 5;五
+ws-icon-5 = 6;六
+ws-icon-6 = 7;七
+ws-icon-7 = 8;八
+ws-icon-8 = 9;九
+ws-icon-9 = 10;十
+
 ws-icon-default = ♟
 ; NOTE: You cannot skip icons, e.g. to get a ws-icon-6
 ; you must also define a ws-icon-5.
@@ -235,8 +206,9 @@ format = <label-state> <label-mode>
 ;   %mode%
 ; Default: %mode%
 label-mode = %mode%
-label-mode-padding = 2
-label-mode-background = #e60053
+label-mode-padding = 1
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
 
 ; Available tokens:
 ;   %name%
@@ -244,11 +216,11 @@ label-mode-background = #e60053
 ;   %index%
 ;   %output%
 ; Default: %icon%  %name%
-label-focused = %index%
-label-focused-foreground = #ffffff
-label-focused-background = #3f3f3f
-label-focused-underline = #fba922
-label-focused-padding = 4
+label-focused = %icon%
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.background}
+; label-focused-underline = #fba922
+label-focused-padding = 2
 
 ; Available tokens:
 ;   %name%
@@ -256,8 +228,10 @@ label-focused-padding = 4
 ;   %index%
 ;   %output%
 ; Default: %icon%  %name%
-label-unfocused = %index%
-label-unfocused-padding = 4
+label-unfocused = %icon%
+label-unfocused-padding = 2
+label-unfocused-foreground = ${colors.foreground-alt}
+label-unfocused-background = ${colors.background}
 
 ; Available tokens:
 ;   %name%
@@ -265,9 +239,10 @@ label-unfocused-padding = 4
 ;   %index%
 ;   %output%
 ; Default: %icon%  %name%
-label-visible = %index%
-label-visible-underline = #555555
-label-visible-padding = 4
+label-visible = %icon%
+label-visible-background = ${colors.background}
+; label-visible-underline = #555555
+label-visible-padding = 2
 
 ; Available tokens:
 ;   %name%
@@ -276,14 +251,14 @@ label-visible-padding = 4
 ;   %output%
 ; Default: %icon%  %name%
 label-urgent = %index%
-label-urgent-foreground = #000000
+label-urgent-foreground = ${colors.foreground}
 label-urgent-background = #bd2c40
-label-urgent-padding = 4
+label-urgent-padding = 2
 
 ; Separator in between workspaces
-label-separator = |
-label-separator-padding = 2
-label-separator-foreground = #ffb52a
+; label-separator = |
+; label-separator-padding = 2
+; label-separator-foreground = #ffb52a
 
 
 [module/mpd]
@@ -326,7 +301,7 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #ffffff
+format-underline = ${colors.background}
 label = CPU:%percentage:2%%
 
 [module/memory]
@@ -334,9 +309,9 @@ type = internal/memory
 interval = 2
 format-prefix = "M: "
 ; format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-foreground = #ffffff
-format-underline = #ffffff
-label = %{F#878786}MEM:%{F-}%percentage_used%% (%gb_used%)
+format-prefix-foreground = ${colors.background}
+format-underline = ${colors.background}
+label = %{F#878786}メム:%{F-}%percentage_used%% (%gb_used%)
 
 [module/wlan]
 type = internal/network
@@ -346,7 +321,7 @@ interval = 3.0
 ; format-connected = <ramp-signal> <label-connected>
 format-connected = <label-connected>
 ; format-connected-underline = #9f78e1
-label-connected = %{F#878786}WLAN:%{F-}%essid%
+label-connected = %{F#878786}ネト:%{F-}%essid%
 
 ; format-disconnected =
 format-disconnected = <label-disconnected>
@@ -390,7 +365,7 @@ time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #ffffff
+format-underline = ${colors.background}
 
 label = %date% %time%
 
@@ -399,7 +374,7 @@ type = internal/volume
 interval = 2
 
 format-volume = <label-volume> <bar-volume>
-label-volume = %{F#878786}VOL%{F-}
+label-volume = %{F#878786}ボル%{F-}
 label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
@@ -429,17 +404,17 @@ battery = BAT0
 adapter = ADP1
 full-at = 99
 
-label-charging = %{F#878786}+BAT:%{F-}%percentage%
+label-charging = %{F${colors.foreground-alt}}+バト:%{F-}%percentage%
 format-charging = <animation-charging> <label-charging>
 ; format-charging-underline = #2aff58
 
-label-discharging = %{F#878786}-BAT:%{F-}%percentage%
+label-discharging = %{F${colors.foreground-alt}}-バト:%{F-}%percentage%
 format-discharging = <ramp-capacity> <label-discharging>
 ; format-discharging-underline = ${self.format-charging-underline}
 ; format-discharging-underline = #ffb52a
 
 
-label-full = %{F#878786}+BAT:%{F-}%percentage%
+label-full = %{F${colors.foreground-alt}}+バト:%{F-}%percentage%
 format-full = <label-full>
 
 ; format-full-prefix = " "
@@ -477,7 +452,7 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-# format-underline = #ffffff
+# format-underline = ${colors.background}
 format-warn = <ramp> <label-warn>
 ; format-warn-underline = ${self.format-underline}
 
@@ -489,35 +464,6 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
-
-[module/powermenu]
-type = custom/menu
-
-expand-right = true
-
-format-spacing = 1
-
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true

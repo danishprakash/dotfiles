@@ -1,12 +1,10 @@
 > "less is more"
 
-![img](https://i.imgur.com/4xWMuU9.jpg)
-
+![img](images/desktop-2022-02-20.png)
 ```text
 editor      : nvim
-terminal    : urxvt
-font        : Terminus
+terminal    : alacritty
+font        : SF Mono
 mux         : tmux
 shell       : zsh
 os          : GNU/Linux (Ubuntu)
-```
