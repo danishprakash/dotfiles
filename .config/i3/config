@@ -193,6 +193,7 @@ for_window [class="Todoist"] move position center
 exec_always feh --bg-fill /home/danish/Downloads/daniel-oberg-iSdpb3NuNWA-unsplash.jpg
 exec_always xrdb ~/.Xresources
 exec_always bash ~/.config/polybar/launch.sh
+exec_always synclient Touchpadoff=1
 
 # animations
 # exec_always --no-startup-id compton --fade-in-step 0.01 --fade-out-step 0.01 -D 3 --inactive-dim=0.1 -f
