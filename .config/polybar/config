@@ -94,10 +94,10 @@ label-active = %icon%
 label-active-foreground = ${colors.foreground}
 label-active-background = ${colors.background}
 
-label-occupied = %index%
+label-occupied = %icon%
 label-occupied-foreground = ${colors.foreground-alt}
 
-label-urgent = %index%
+label-urgent = %icon%
 label-urgent-foreground = ${colors.background}f
 label-urgent-background = ${colors.background}
 
@@ -157,7 +157,7 @@ index-sort = true
 
 ; Create click handler used to focus workspace
 ; Default: true
-enable-click = false
+enable-click = true
 
 ; Create scroll handlers used to cycle workspaces
 ; Default: true
@@ -250,7 +250,7 @@ label-visible-padding = 2
 ;   %index%
 ;   %output%
 ; Default: %icon%  %name%
-label-urgent = %index%
+label-urgent = %icon%
 label-urgent-foreground = ${colors.foreground}
 label-urgent-background = #bd2c40
 label-urgent-padding = 2
@@ -357,7 +357,7 @@ type = internal/date
 interval = 5
 
 ; date = " %Y-%b-%d"
-date = " %a %d %b;"
+date = " %d %b %a"
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
@@ -404,17 +404,17 @@ battery = BAT0
 adapter = ADP1
 full-at = 99
 
-label-charging = %{F${colors.foreground-alt}}+バト:%{F-}%percentage%
+label-charging = %{F#878786}+バト:%{F-}%percentage%
 format-charging = <animation-charging> <label-charging>
 ; format-charging-underline = #2aff58
 
-label-discharging = %{F${colors.foreground-alt}}-バト:%{F-}%percentage%
+label-discharging = %{F#878786}-バト:%{F-}%percentage%
 format-discharging = <ramp-capacity> <label-discharging>
 ; format-discharging-underline = ${self.format-charging-underline}
 ; format-discharging-underline = #ffb52a
 
 
-label-full = %{F${colors.foreground-alt}}+バト:%{F-}%percentage%
+label-full = %{F#878786}+バト:%{F-}%percentage%
 format-full = <label-full>
 
 ; format-full-prefix = " "
