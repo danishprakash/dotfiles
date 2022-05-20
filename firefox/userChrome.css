@@ -1,5 +1,9 @@
 /* @namespace xul url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); */
 
+#urlbar {
+  background-color: #000000 !important;
+}
+
 /* Hide main tabs toolbar */
 #TabsToolbar {
     visibility: collapse;
@@ -9,20 +13,22 @@
     max-width: none !important;
     min-width: 0px !important;
 }
+
 /* Hide splitter, when using Tree Style Tab. */
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] + #sidebar-splitter {
-    display: none !important;
-}
+/* #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] + #sidebar-splitter { */
+/*     display: none !important; */
+/* } */
 /* Hide sidebar header, when using Tree Style Tab. */
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
-    visibility: collapse;
-}
+/* #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header { */
+/*     visibility: collapse; */
+/* } */
 
 /* Shrink sidebar until hovered, when using Tree Style Tab. */
-:root {
-    --thin-tab-width: 30px;
-    --wide-tab-width: 200px;
-}
+/* :root { */
+/*     --thin-tab-width: 30px; */
+/*     --wide-tab-width: 200px; */
+/* } */
+
 #sidebar-box:not([sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]) {
     min-width: var(--wide-tab-width) !important;
     max-width: none !important;
@@ -46,3 +52,12 @@
 #sidebar-box #sidebar-header {
   visibility: collapse;
 }
+
+/* Suppress blue dot on pinned tab */
+.tabbrowser-tab > .tab-stack >
+ .tab-content[pinned][titlechanged]:not([selected="true"]){
+  background-image: none !important;
+}
+
+.tabbrowser-tab:-moz-any([image], [pinned]) > .tab-stack > .tab-content[attention]:not([selected="true"]),
+.tabbrowser-tab > .tab-stack > .tab-content[pinned][titlechanged]:not([selected="true"]) {}
