@@ -18,7 +18,7 @@ set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
 set nowrap                         " disable line wrapping
-set number                         " always show line number
+set nonumber                         " always show line number
 set norelativenumber                 " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
 set shiftwidth=4                   " tab width while autoindenting

@@ -82,13 +82,19 @@ let g:winresizer_vert_resize=2              " vertical resize step
 let g:winresizer_horiz_resize=2             " vertical resize step
 
 
+Plug 'pedrohdz/vim-yaml-folds'
+
+
 Plug 'airblade/vim-gitgutter'
 Plug 'danishprakash/vimport'
 Plug 'godlygeek/tabular'
 Plug 'honza/vim-snippets'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+
+Plug 'ludovicchabant/vim-gutentags'
+" https://github.com/ludovicchabant/vim-gutentags/issues/178
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
 
 
 " plugin development

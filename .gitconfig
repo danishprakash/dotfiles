@@ -6,6 +6,7 @@
 	editor = /usr/local/bin/nvim
 	excludesfile = /Users/danish/.gitignore
 	page = nvim -R
+    abbrev = 7
 
 [alias]
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
@@ -39,7 +40,7 @@
     staaash = !git stash --all
     standup = log --all \
         --author=danishprakash \
-        --since='9am yesterday' \
+        --since='3pm yesterday' \
         --format=%s
 [help]
 	autoCorrect = -1

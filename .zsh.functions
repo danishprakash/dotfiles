@@ -2,6 +2,25 @@
 
 # Functions -----------------------------------------------
 
+# CTRL-R - Paste the selected command from history into the command line
+fzf-history-widget() {
+  local selected num
+  # setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+  # TODO: use mysql here
+  selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
+    FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+  local ret=$?
+  if [ -n "$selected" ]; then
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+    fi
+  fi
+  zle reset-prompt
+  return $ret
+}
+zle     -N   fzf-history-widget
+bindkey '^R' fzf-history-widget
 
 # wrapper over frequently used kubectl subcommands
 kr() {
@@ -48,23 +67,23 @@ kr() {
 s3() {
     case $1 in
         --req)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/request.json - | jq -M
+            aws --profile hr-prod s3 cp s3://$S3_RESP_BUCKET/$2/request.json - | jq -M
             ;;
 
         --resp)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/response.json - | jq -M
+            aws --profile hr-prod s3 cp s3://$S3_RESP_BUCKET/$2/response.json - | jq -M
             ;;
 
         --crresp)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/coderunner.json - | jq -M
+            aws --profile hr-prod s3 cp s3://$S3_RESP_BUCKET/$2/coderunner.json - | jq -M
             ;;
 
         --crsresp)
-            aws --profile production s3 cp s3://$S3_RESP_BUCKET/$2/coderunner-staging.json - | jq -M
+            aws --profile hr-prod s3 cp s3://$S3_RESP_BUCKET/$2/coderunner-staging.json - | jq -M
             ;;
 
         --ls)
-            aws --profile production s3 ls s3://$S3_RESP_BUCKET/$2/
+            aws --profile hr-prod s3 ls s3://$S3_RESP_BUCKET/$2/
             ;;
     esac
 }
