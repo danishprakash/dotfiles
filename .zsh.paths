@@ -2,10 +2,13 @@
 
 # Paths ---------------------------------------------------
 
-export GOPATH=$HOME/programming/go
-
-export PATH="/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:$GOPATH/bin:$GOPATH:/usr/local/bin/:${PATH}"
+export GOPATH=$HOME/code/go
 
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
 
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$PATH:/usr/local/go/bin"
+export PATH="/usr/local/bin:/usr/local/Cellar:/bin:/usr/sbin:/sbin:/usr/bin:$GOPATH/bin:$GOPATH:/usr/local/bin/:${PATH}"

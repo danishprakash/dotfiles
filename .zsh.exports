@@ -21,7 +21,6 @@ export DOCKER_BUILDKIT=1
 
 # enable `go mod` support in golang
 export GO111MODULE=on
-export GOPATH=${HOME}/work/interviewstreet/go
 
 # How many lines of history to keep in memory
 export HISTSIZE=5000
@@ -49,3 +48,6 @@ export NVIM_HOME="~/.config/nvim"
 export SDK_DPI_SCALE=0.5
 
 export SDK_SCALE=2
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
