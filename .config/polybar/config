@@ -15,9 +15,9 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/top]
-monitor = ${env:MONITOR:HDMI-1}
+;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 25
+height = 30
 ;offset-x = 10%
 ;offset-y = 0
 radius = 0
@@ -34,14 +34,14 @@ border-size = 0
 border-color = ${colors.foreground}00
 
 padding-left = 0
-padding-right = 0
+padding-right = 2
 
 
 module-margin-left = 2
 module-margin-right = 3
 
-font-0 = SF Mono:pixelsize=8;1
-font-1 = Noto Sans CJK JP:pixelsize=8;1
+font-0 = SF Mono:pixelsize=9;1
+font-1 = Noto Sans JP:pixelsize=8;1
 ; font-1 = Terminus (TTF):pixelsize=9;1
 ; font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
 ; font-3 = siji:pixelsize=10;1
@@ -403,23 +403,26 @@ type = internal/battery
 battery = BAT0
 adapter = ADP1
 full-at = 99
+low-at  = 25
 
-label-charging = %{F#878786}+バト:%{F-}%percentage%
+label-charging = %{F#878786}+バト:%{F-}%percentage% %{}
 format-charging = <animation-charging> <label-charging>
-; format-charging-underline = #2aff58
+format-charging-underline = #3feb78
 
 label-discharging = %{F#878786}-バト:%{F-}%percentage%
 format-discharging = <ramp-capacity> <label-discharging>
-; format-discharging-underline = ${self.format-charging-underline}
+format-discharging-underline = ${self.format-charging-underline}
 ; format-discharging-underline = #ffb52a
 
-
-label-full = %{F#878786}+バト:%{F-}%percentage%
+label-full = %{F#000000} バト:%{F-}%percentage% %{}
 format-full = <label-full>
+format-full-background = #3feb78
+format-full-foreground = #000000
 
-; format-full-prefix = " "
-; format-full-prefix-foreground = ${colors.foreground-alt}
-; format-full-underline = #2aff58
+label-low = %{F#000000} -バト:%{F-}%percentage% %{}
+format-low = <label-low>
+format-low-background = #f03557
+format-low-foreground = #000000
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
