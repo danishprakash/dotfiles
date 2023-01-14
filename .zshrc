@@ -65,12 +65,8 @@ if [ -f '/Users/danish/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/da
 # added by travis gem
 [ -f /Users/danish/.travis/travis.sh ] && source /Users/danish/.travis/travis.sh
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-export PATH="$PATH:/usr/local/go/bin"
-
 # source shell config
-for file in ~/.zsh.{functions,prompt,exports,aliases,keybindings,paths,histdb,hackerrank}; do
+for file in ~/.zsh.{functions,prompt,exports,aliases,keybindings,paths,histdb}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		source "$file"
 	fi
