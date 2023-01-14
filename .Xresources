@@ -34,8 +34,8 @@ Xft.antialias: 1
 Xft.rgba: none
 
 ! pain to use multiple displays
-Xft.dpi: 94
-! Xft.dpi: 116
+! Xft.dpi: 94
+Xft.dpi: 109
 
 
 ! Nord color scheme
