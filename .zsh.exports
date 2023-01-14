@@ -35,7 +35,7 @@ export SAVEHIST=8000
 export HISTDUP=erase
 
 # use nvim for reading manpages
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim +Man! -c 'set ft=man' -"
 
 export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
 
