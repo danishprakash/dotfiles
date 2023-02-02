@@ -1,12 +1,12 @@
 [user]
 	name = danishprakash
-	email = grafitykoncept@gmail.com
-	signingkey = 00C8C873955EB43F
+	email = danish.prakash@suse.com
+	signingkey = 66820561C42B7C0C
 
 [core]
 	editor = /bin/nvim
-	excludesfile = /home/danish/.gitignore
-	page = nvim -R
+	excludesfile = ~/.gitignore
+    pager = cat
 
 [alias]
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
@@ -18,17 +18,13 @@
     chb = checkout -b
     cm = commit --signoff --message
     cfp = !git commit --amend --no-edit && git push -f origin
-    diffs = diff --indent-heuristic --minimal --color-words
+    udiff = diff --indent-heuristic --minimal --color-words
+    diff = diff --no-pager
     fr = !git fetch origin && git rebase origin/master
-    hash = rev-parse --short HEAD
+    hash = rev-parse --short HEAD # helpful for cherry-picking
     l = log --pretty=format:\"%h %ad | %s [%an]\" --graph --date=short -n 15
     p = push origin
     pf = push -f origin
-    stash = !git stash
-    standup = log --all \
-        --author=danishprakash \
-        --since='9am yesterday' \
-        --format=%s
 [status]
 	branch = false
 [help]
@@ -41,4 +37,4 @@
     verbose = true      # viw more details(diff) while committing changes
 	gpgsign = true
 [http]
-	cookiefile = /home/danish/.gitcookies
+	cookiefile = ~/.gitcookies
