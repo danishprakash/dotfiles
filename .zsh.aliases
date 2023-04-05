@@ -62,3 +62,5 @@ alias bejs='bundle exec jekyll serve'
 
 # check current application tag running on cluster
 alias atag='kubectl get pods | head -n 2 | grep coderunner | awk '{print $1}' | xargs kubectl describe pod | grep git | awk -F ":" '{print $3}''
+
+alias isc='osc -A api.suse.de'
