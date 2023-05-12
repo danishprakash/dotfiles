@@ -1,4 +1,4 @@
-" init.vim - nvim configuration
+" init.vit - nvim configuration
 " =========================================================
 " - https://github.com/danishprakash/dotfiles
 " - https://danishpraka.sh
@@ -9,7 +9,7 @@
 
 set background=dark
 set belloff+=ctrlg                 " if Vim beeps during completion
-set nocursorline                   " highlight current cursor column
+set cursorline                     " highlight current cursor column
 set expandtab                      " expand tab to spaces
 set hlsearch                       " enable search highlights
 set ignorecase                     " ignore case while searching
@@ -78,7 +78,7 @@ Plug 'junegunn/fzf.vim'
 let g:fzf_preview_window = ''         " disable preview window while picking files
 let g:fzf_layout = { 'down': '~25%' } " this is analogous to the height flag
 let $FZF_DEFAULT_OPTS=" --color='bw'"  " disable colors for fzf
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore tags -l -g ""'
 
 " current line blameline
 Plug 'danishprakash/nvim-blameline'
@@ -87,7 +87,7 @@ let g:blameline_delay = 1000 " delay for displaying blameline
 Plug 'fatih/vim-go'
 let g:go_def_mapping_enabled = 0      " use lsp for go-to-def, disable vim-go
 let g:go_fmt_command = "goimports"    " set goimports as the fmt command for vim-go
-let g:go_gopls_enabled = 0
+let g:go_gopls_enabled = 1
 " let g:go_gopls_options = ['-remote=auto']
 " let g:go_def_mode='gopls'
 " let g:go_info_mode='gopls'
@@ -150,15 +150,18 @@ Plug 'tpope/vim-fugitive'
 
 
 " plugin development
-Plug '/home/danish/work/interviewstreet/go/src/github.com/danishprakash/vim-gosortstructs'
-Plug '/Users/danish/programming/vim-docker'
-Plug '/home/danish/work/personal/vim-yami'
-Plug '/Users/danish/programming/vim-yuki'
+" Plug '/home/danish/work/interviewstreet/go/src/github.com/danishprakash/vim-gosortstructs'
+" Plug '/Users/danish/programming/vim-docker'
+Plug '/home/danishprakash/code/vim-yami'
+" Plug '/Users/danish/programming/vim-yuki'
 " Plug '/Users/danish/programming/nvim-blameline'
 " Plug '/Users/danishprakash/programming/vim-githubinator'
 " Plug '/Users/danishprakash/programming/vim-md'
 " Plug '/Users/danishprakash/programming/vimport'
 " Plug 'danishprakash/vim-yami'       " default monochrome
+Plug 'plan9-for-vimspace/acme-colors'
+Plug 'koron/vim-monochromenote'
+Plug 'robertmeta/nofrils'
 
 
 call plug#end()
