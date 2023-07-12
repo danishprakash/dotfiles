@@ -53,7 +53,7 @@ call plug#begin()
 
 " code formatting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-autocmd CursorHold * silent call CocActionAsync("highlight")
+autocmd CursorHold * silent! call CocActionAsync("highlight")
 nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
 nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
 
@@ -477,7 +477,9 @@ autocmd FileType python setlocal completeopt-=preview
 " Triger `autoread` when files changes on disk
 " https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
 " https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" The above suggestions don't work anymore, refer - https://vi.stackexchange.com/a/20397
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() == 'n' && getcmdwintype() == '' | silent! | checktime | endif
+
 " Notification after file change
 " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
 autocmd FileChangedShellPost *
