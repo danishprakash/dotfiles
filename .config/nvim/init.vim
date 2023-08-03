@@ -1,8 +1,8 @@
 " init.vit - nvim configuration
+
 " =========================================================
 " - https://github.com/danishprakash/dotfiles
 " - https://danishpraka.sh
-
 
 
 " Configurations ------------------------------------------
@@ -54,11 +54,8 @@ call plug#begin()
 " code formatting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 autocmd CursorHold * silent! call CocActionAsync("highlight")
-nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
-nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
-
-
-" Colors
+" nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
+" nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
 
 " async linting
 Plug 'w0rp/ale'
@@ -80,34 +77,10 @@ let g:fzf_layout = { 'down': '~25%' } " this is analogous to the height flag
 let $FZF_DEFAULT_OPTS=" --color='bw'"  " disable colors for fzf
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore tags -l -g ""'
 
-" current line blameline
-Plug 'danishprakash/nvim-blameline'
-let g:blameline_delay = 1000 " delay for displaying blameline
-
 Plug 'fatih/vim-go'
 let g:go_def_mapping_enabled = 0      " use lsp for go-to-def, disable vim-go
 let g:go_fmt_command = "goimports"    " set goimports as the fmt command for vim-go
 let g:go_gopls_enabled = 1
-" let g:go_gopls_options = ['-remote=auto']
-" let g:go_def_mode='gopls'
-" let g:go_info_mode='gopls'
-" let g:go_referrers_mode = 'gopls'
-
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
-
-" UltiSnips
-" Plug 'SirVer/ultisnips'
-" let g:UltiSnipsJumpBackwardTrigger='<c-t>'
-" let g:UltiSnipsJumpForwardTrigger='<c-r>'
-" let g:UltiSnipsEditSplit='vertical'         " If you want :UltiSnipsEdit to vertically split your window.
-
-" vim-jedi
-" Plug 'davidhalter/jedi-vim'
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#popup_select_first = 0
-" let g:jedi#show_call_signatures = '1'
-" let g:jedi#use_splits_not_buffers = 'left'
 
 Plug 'danishprakash/vim-githubinator'
 let g:githubinator_no_default_mapping=0     " use default mappings for vim-githubinator
@@ -139,9 +112,6 @@ Plug 'simeji/winresizer'
 let g:winresizer_vert_resize=2              " vertical resize step
 let g:winresizer_horiz_resize=2             " vertical resize step
 
-Plug 'plasticboy/vim-markdown'
-
-
 Plug 'airblade/vim-gitgutter'
 Plug 'godlygeek/tabular'
 Plug 'ludovicchabant/vim-gutentags'
@@ -159,10 +129,6 @@ Plug '/home/danishprakash/code/vim-yami'
 " Plug '/Users/danishprakash/programming/vim-md'
 " Plug '/Users/danishprakash/programming/vimport'
 " Plug 'danishprakash/vim-yami'       " default monochrome
-Plug 'plan9-for-vimspace/acme-colors'
-Plug 'koron/vim-monochromenote'
-Plug 'robertmeta/nofrils'
-
 
 call plug#end()
 
@@ -170,22 +136,11 @@ call plug#end()
 
 " Mappings ------------------------------------------------
 
-" search for visually selected text with *
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-" define leader key
-let mapleader=' '
-
 " clear search highlight on <c-[> (esc)
 nnoremap <silent><c-[> :nohlsearch<CR>
 
-" correct previous spelling mistakes
-" https://castel.dev/post/lecture-notes-1/
-inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-
-" skip to next git change
-nnoremap <leader>j :GitGutterPrevHunk<CR>
-nnoremap <leader>k :GitGutterNextHunk<CR>
+" define leader key
+let mapleader=' '
 
 " focus current file in NERDTree
 nnoremap <leader>nf :NERDTreeFind<CR>
@@ -197,58 +152,30 @@ nnoremap <C-u> 8k
 " keybinding for tags fuzzy finder
 nnoremap <leader>t :Tags<CR>
 
-" add daily journal title
-nnoremap <leader>jj :call SetJournalHeader()<CR>
-
-" cycle through buffers
-" nnoremap <silent><C-n> :bnext<CR>
-" nnoremap <silent><C-p> :bprevious<CR>
-
-" open file finder
-" nnoremap <silent><C-p> :Files<CR>
+" search word under cursor in project
+nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
 
 " add new line(o/O) without entering insert mode
 nnoremap <leader>o o<esc>
 nnoremap <leader>O O<esc>
 
-" overwrite write op on protected files
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-" remap C-/ to comment out the current line
-nnoremap <C-_> gcc
-
-" toggle gitgutter
-nnoremap <leader>gt :GitGutterToggle<CR>
-
 " open file finder
 nnoremap <silent> <leader><leader> :Files<CR>
-
-" open line finder
-nnoremap <silent> <leader>l :Lines<CR>
 
 " open buffer finder
 nnoremap <silent> <leader>b :Buffers<CR>
 
 " search using rg
-nnoremap <leader>4 :Rg <c-r>=expand("<cword>")<cr><CR>
-
-" \_ uses last changed or yanked text as an object
-onoremap <leader>_ :<C-U>normal! `[v`]<CR>
+nnoremap <leader>f :Rg <c-r>=expand("<cword>")<cr><CR>
 
 " start nerdtree
 nnoremap <leader>nd :NERDTreeToggle<CR>
-
-" hit enter to insert highlighted item in popup list
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " enable Goyo for markdown writing and toggle ALE
 nnoremap <silent> <leader>go :Goyo<cr>
 
 " execute current buffer with python3
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
-
-" ALE toggle
-nnoremap <leader>al :ALEToggle<cr>
 
 " moving across splits
 nnoremap <C-h> <C-w>h
@@ -259,17 +186,8 @@ nnoremap <C-k> <C-w>k
 " open a vertical split window and fire up FZF
 nnoremap <silent><leader>v :vnew<cr>:Files<CR>
 
-" convert current word to uppercase and enter insert mode
-nnoremap <S-u> viwU<esc>el
-
 " close current buffer
 nnoremap <silent><leader>q :bd<cr>
-
-" save current file
-nnoremap <leader>w <esc>:w<cr>
-
-" surround current word with double-quotes
-" nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 " open vimrc in vertial split and source it
 nnoremap <silent> <leader>evi :vsplit $MYVIMRC<cr>
@@ -278,26 +196,6 @@ nnoremap <silent> <leader>so :so $MYVIMRC<cr> :CocRestart<CR>
 " move around wrapped lines as if separate lines
 noremap <silent> j gj
 noremap <silent> k gk
-
-" move to beginning/end of line
-nnoremap H ^
-nnoremap L $
-
-"move 5 lines up and down while holding Shift and j/k
-" nnoremap <silent> <C-j> :+5 <CR>
-" nnoremap <silent> <C-k> :-5 <CR>
-" nnoremap <silent> <C-j> <nop>
-" nnoremap <silent> <C-k> <nop>
-
-" source plugin file (dev)
-nnoremap <leader>sp :so /Users/danishprakash/.local/share/nvim/site/autoload/zen.vim<cr>
-
-" flash the current line when changing window position using `zz`
-" nnoremap <silent>zz zz :call StrobeCursorLine()<CR>
-
-" :w!! to save with sudo
-ca w!! w !sudo tee >/dev/null "%"
-
 
 
 " Functions -----------------------------------------------
@@ -313,10 +211,6 @@ function! YankBuffer()
     call winrestview(l:curview)
 endfunction
 
-" from Practical Vim (pg 217)
-xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
-xnoremap * :<C-u>call <SID>VSetSearch('?')<CR>/<C-R>=@/<CR><CR>
-
 function! s:VSetSearch(cmd_type)
     let temp = @s
     norm! gv"sy
@@ -330,24 +224,6 @@ func! TrimWhitespaces()
 endfunc
 command! -bang TrimWS call TrimWhitespaces()
 
-" WIP
-func! UnescapeNewlines()
-    let l:beg = col("'<")
-    let l:end =  col("'>")
-    echo beg
-    echo end
-endfunc
-
-" set header title for journal
-" and enter writing mode
-function! SetJournalHeader()
-    execute 'normal gg'
-    let filename = '#' . ' ' . expand('%:r')
-    call setline(1, filename)
-    execute 'normal o'
-    execute 'Goyo'
-endfunction
-
 " figure out highlight group under cursor
 function! SynStack()
   if !exists("*synstack")
@@ -355,26 +231,6 @@ function! SynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
-
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-
-" blink cursorline for searches
-" nnoremap <silent> n n:cal StrobeCursorLine()<cr>
-" nnoremap <silent> N N:call StrobeCursorLine()<cr>
-
-" function! StrobeCursorLine()
-"     for l:count in range(3)
-"         set invcursorline
-"         redraw
-"         exec 'sleep 10m'
-"         set invcursorline
-"         redraw
-"         exec 'sleep 10m'
-"     endfor
-" endfunction
 
 function! s:todo() abort
   let entries = []
@@ -414,26 +270,12 @@ command! -bang AutoSave call s:autosave(<bang>1)
 
 " Autocommands --------------------------------------------
 
-" augroup CursorLine
-"     au!
-"     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-"     au WinLeave * setlocal nocursorline
-" augroup END
-
 " set indent rules for yaml files
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " disable statusline when fzf is active
 autocmd! FileType fzf set laststatus=0 noshowmode noruler
         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-" autocommands for go development
-" augroup GoDev
-"     autocmd!
-
-"     " run `GoImports` on every buffer write for go files
-"     autocmd BufWritePost *.go :GoImports
-" augroup END
 
 augroup NERDTree
     autocmd!
@@ -468,9 +310,6 @@ augroup END
 " setting wrap while editing markdown files
 autocmd FileType markdown set wrap
 
-" start nerdtree on start-up
-" autocmd VimEnter * NERDTree
-
 autocmd FileType python setlocal completeopt-=preview
 
 " reload file if changed outside of vim (think branch changes)
@@ -478,7 +317,8 @@ autocmd FileType python setlocal completeopt-=preview
 " https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
 " https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
 " The above suggestions don't work anymore, refer - https://vi.stackexchange.com/a/20397
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() == 'n' && getcmdwintype() == '' | silent! | checktime | endif
+" FIXME: broke the jumplist, beware
+" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() == 'n' && getcmdwintype() == '' | silent! | checktime | endif
 
 " Notification after file change
 " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
@@ -491,9 +331,6 @@ autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 
 " don't highlight it while in insert mode
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-
-" clear superfluous whitespace buffer write
-" autocmd BufWritePre * %s/\s\+$//e
 
 
 " Colors --------------------------------------------------
@@ -595,24 +432,6 @@ highlight StatusLineNC guifg=#050505 guibg=#ffffff
 
 
 " Extras --------------------------------------------------
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
