@@ -41,6 +41,8 @@ set updatetime=300                 " Smaller updatetime for CursorHold & CursorH
 set backspace=eol,start,indent     " more natural backspace
 set breakindent                    " indented line break
 set linebreak
+set foldmethod=syntax
+set nofoldenable
 
 set filetype=on
 filetype plugin indent on
