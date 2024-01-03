@@ -7,6 +7,8 @@
 
 " Configurations ------------------------------------------
 
+set noendofline
+set nofixeol
 set background=dark
 set belloff+=ctrlg                 " if Vim beeps during completion
 set cursorline                     " highlight current cursor column
@@ -56,6 +58,7 @@ call plug#begin()
 " code formatting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 autocmd CursorHold * silent! call CocActionAsync("highlight")
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
 " nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
 
@@ -137,6 +140,17 @@ call plug#end()
 
 
 " Mappings ------------------------------------------------
+
+nnoremap <silent>gax :xa<CR>
+
+" save and close current buffer
+nnoremap <silent>gx :x<CR>
+
+" open blame
+nnoremap <silent>gb :Git blame<CR>
+
+" close current buffer
+nnoremap <silent>gq :q<CR>
 
 " clear search highlight on <c-[> (esc)
 nnoremap <silent><c-[> :nohlsearch<CR>
@@ -438,8 +452,8 @@ highlight StatusLineNC guifg=#050505 guibg=#ffffff
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gi <Plug>(coc-implementation)
 
 " python execs for nvim
 let g:completor_python_binary = '/usr/local/bin/python3'
