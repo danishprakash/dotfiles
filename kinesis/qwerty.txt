@@ -7,3 +7,14 @@
 [enter]>[bspace]
 [rwin]>[enter]
 [pup]>[delete]
+
+
+** use lctrl to toggle keypad layer
+[lctrl]>[kpshift]
+[kp-lctrl]>[kpshift]
+
+** hjkl as arrow keys on the keypad layer
+[kp-h]>[left]
+[kp4]>[down]
+[kp5]>[up]
+[kp6]>[right]
