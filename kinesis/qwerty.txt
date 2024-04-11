@@ -1,5 +1,8 @@
 [escape]>[lctrl]
 [caps]>[rctrl]
+[kp-V]>[cbrack]
+[kp-C]>[obrack]
+[kp-right]>[kpshift]
 [lctrl]>[escape]
 [delete]>[rwin]
 [bspace]>[enter]
@@ -8,13 +11,29 @@
 [rwin]>[enter]
 [pup]>[delete]
 
+** keypad layer toggles (right and up)
+** symmetrical on both sides
+[up]>[kpshift]
+[kp-up]>[kpshift]
+[right]>[kpshift]
+[kp-right]>[kpshift]
 
-** use lctrl to toggle keypad layer
-[lctrl]>[kpshift]
-[kp-lctrl]>[kpshift]
-
-** hjkl as arrow keys on the keypad layer
-[kp-h]>[left]
+** right side **
+** hjkl as arrow keys on keypad layer
+[kp-H]>[left]
 [kp4]>[down]
 [kp5]>[up]
 [kp6]>[right]
+
+
+** left side **
+** easier to reach []
+[kp-C]>[obrack]
+[kp-V]>[cbrack]
+
+** easier to reach =
+[kp-T]>[=]
+[kp-R]>[`]
+
+** home-row escape (pilot)
+[kp-D]>[escape]
