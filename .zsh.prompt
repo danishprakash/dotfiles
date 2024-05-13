@@ -15,7 +15,7 @@ function git_branch() {
 SEP=' %F{reset}\ '
 
 PROMPT='%F{white}$(git_branch)'
-PROMPT+='%F{white}%1~ '
+PROMPT+='%F{white}%2~ '
 
 # conditional expression
 # checks the result of the previous
@@ -23,4 +23,4 @@ PROMPT+='%F{white}%1~ '
 # the first "." is executed when the
 # command returned successfully and the
 # string after the second "." otherwise
-PROMPT+='%(?.%F{white}$%F .%F{red}$ )%F{reset}'
+PROMPT+='%(?.%F{white}%(!.#.$)%F .%F{red}%(!.#.$) )%F{reset}'
