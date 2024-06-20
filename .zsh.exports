@@ -51,3 +51,6 @@ export SDK_SCALE=2
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+# color for history suggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#5e5d5d'
