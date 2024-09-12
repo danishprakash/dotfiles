@@ -2,9 +2,9 @@
 
 # Functions -----------------------------------------------
 
-# override fzf history widget to use history from mysql
+# override fzf history widget to use history from mariadb
 fzf-history-widget() {
-selected=( $(mysql -ucli-history -B -e "select distinct command from sh.history group by command order by max(created) desc, command;" |
+selected=( $(mariadb -ucli-history -B -e "select distinct command from sh.history group by command order by max(created) desc, command;" |
     FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" fzf) )
   local ret=$?
 
@@ -157,13 +157,13 @@ create_repo() {
 
 # open fzf window with dirs and cd into it
 quick_find() {
-    dir=$(find . ~/programming -not -path '*/\.*' -type d -maxdepth 2 | fzf --layout=reverse --preview "ls -FG {}")
+    dir=$(find . -not -path '*/\.*' -type d -maxdepth 2 | fzf --layout=reverse --preview "ls -FG {}")
     if [[ "$?" != "0" ]]; then return; fi;
     cd $dir
     zle reset-prompt
 }
-zle -N quick_find_widget quick_find # define a widget for the func above
-bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
+# zle -N quick_find_widget quick_find # define a widget for the func above
+# bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
 
 # list all files in current dir tree wit preview
 # select one to open in vim
@@ -176,8 +176,9 @@ edit_files() {
 
     ${EDITOR} $file
 }
-# zle -N edit_files_widget edit_files
-# bindkey "^w" edit_files_widget
+
+zle -N quick_find_widget edit_files # define a widget for the func above
+bindkey "^o" quick_find_widget     # remap ^i to the widget -> func
 
 
 # function to start a timer in bg / pomodoro

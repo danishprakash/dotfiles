@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# catches original bash, writes them to mysql or sqlite3 file
+# catches original bash, writes them to mariadb or sqlite3 file
 # place it to the end of ~/.bashrc
 # need to find original author of preexec_invoke_exec, google it :)
 # source: https://github.com/digitalist/bash_database_history
@@ -35,7 +35,7 @@ preexec() {
     # get current command
     local cur_cmd=$(echo $1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")
     cwd=$(pwd)
-    # optional: ignore alias for mysql history search
+    # optional: ignore alias for mariadb history search
     [[ "$BASH_COMMAND" =~ historyMysql* ]] && return
     # optional: ignore pyenv
     [[ "$BASH_COMMAND" =~ _pyenv_virtualenv_hook* ]] && return
@@ -47,5 +47,5 @@ preexec() {
     printf -v BASH_COMMAND_ESCAPE "%q" "$BASH_COMMAND" # from https://stackoverflow.com/a/4383994/5006740
 
     # trap and write to db
-    mysql -ucli-history -e "INSERT INTO sh.history (oid, command, arguments, cwd, created, tag) values (0, '${BASH_COMMAND_ESCAPE}', '', '$cwd', NOW(), '$HISTORY_TAG' )"
+    mariadb -ucli-history -e "INSERT INTO sh.history (oid, command, arguments, cwd, created, tag) values (0, '${BASH_COMMAND_ESCAPE}', '', '$cwd', NOW(), '$HISTORY_TAG' )"
 }
