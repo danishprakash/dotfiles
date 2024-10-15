@@ -313,6 +313,13 @@ format-prefix-foreground = ${colors.background}
 format-underline = ${colors.background}
 label = %{F#878786}メム:%{F-}%percentage_used%% (%gb_used%)
 
+; warn when memory usage goes beyond 80
+label-warn = %{F#000000} メム:%{F-}%percentage_used%% (%gb_used%) %{}
+format-warn = <label-warn>
+format-warn-background = #f03557
+format-warn-foreground = #000000
+warn-percentage = 80
+
 [module/wlan]
 type = internal/network
 interface = wlp2s0
@@ -371,7 +378,7 @@ label = %date% %time%
 
 [module/volume]
 type = internal/volume
-interval = 2
+interval = 1
 
 format-volume = <label-volume> <bar-volume>
 label-volume = %{F#878786}ボル%{F-}
