@@ -20,7 +20,7 @@ set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
 set nowrap                         " disable line wrapping
-set number                         " always show line number
+set nonumber                       " don't show line number
 set norelativenumber               " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
 set shiftwidth=4                   " tab width while autoindenting
@@ -45,6 +45,8 @@ set breakindent                    " indented line break
 set linebreak
 set foldmethod=syntax
 set nofoldenable
+set conceallevel=1
+set concealcursor=v
 
 set filetype=on
 filetype plugin indent on
@@ -54,6 +56,8 @@ syntax manual
 " Plugins -------------------------------------------------
 
 call plug#begin()
+
+Plug 'tpope/vim-speeddating'
 
 " code formatting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -68,6 +72,9 @@ let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:ale_linters = {'cpp': ['g++']}
 let g:ale_cpp_cc_executable = "g++"
+let g:ale_virtualtext_cursor = 'current'
+let g:ale_sign_column_always = 1
+let g:ale_virtualtext_cursor = 'disabled'
 
 " sh(ell) script formatter
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
@@ -79,6 +86,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 let g:fzf_preview_window = ''         " disable preview window while picking files
 let g:fzf_layout = { 'down': '~25%' } " this is analogous to the height flag
+let g:fzf_preview_window = ['right,50%', 'ctrl-/']
+let g:fzf_tags_command = 'ctags -R'
 let $FZF_DEFAULT_OPTS=" --color='bw'"  " disable colors for fzf
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore tags -l -g ""'
 
@@ -96,7 +105,7 @@ let g:NERDTreeMinimalUI=1                   " hide bloat in NERDTree
 
 Plug 'Yggdroot/indentLine'
 let g:vim_json_syntax_conceal = 0
-let g:indentLine_concealcursor='nc'
+let g:indentLine_concealcursor='v'
 
 " writing mode
 Plug 'junegunn/goyo.vim'
@@ -442,8 +451,8 @@ set statusline+=%{FileType()}     " filetype sans []
 set statusline+=\                 " right pad
 
 " monochrome statusline
-highlight StatusLine guifg=#050505 guibg=#ffffff
-highlight StatusLineNC guifg=#050505 guibg=#ffffff
+" highlight StatusLine guifg=#050505 guibg=#ffffff
+" highlight StatusLineNC guifg=#050505 guibg=#ffffff
 " highlight StatusLineNC guifg=#8f8f8f
 
 
