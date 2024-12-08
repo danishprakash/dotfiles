@@ -1,4 +1,3 @@
-# dynamic_title = true
 # enable_experimental_conpty_backend = false
 live_config_reload = true
 # tabspaces = 8
@@ -8,6 +7,10 @@ working_directory = "None"
 animation = "EaseOutExpo"
 color = "0xffffff"
 duration = 0
+
+[colors]
+vi_mode_cursor = { text = "CellBackground", cursor = "#248c20" }
+line_indicator = { background = "#248c20" }
 
 [colors.bright]
 black = "0x000000"
@@ -34,11 +37,11 @@ white = "0xd4d4d5"
 yellow = "#df8e1d"
 
 [colors.primary]
-background = "#ffffff"
+background = "#eff1f5"
 foreground = "#000000"
 
 [cursor]
-style = "Underline"
+style = {shape = "Block", blinking = "Off"}
 unfocused_hollow = true
 
 [debug]
@@ -49,11 +52,11 @@ print_events = false
 render_timer = false
 
 [font]
-size = 11.5
+size = 12
 
 [font.bold]
 family = "SF Mono"
-style = "Regular"
+style = "Light"
 
 [font.glyph_offset]
 x = 0
@@ -612,6 +615,8 @@ program = "/usr/bin/zsh"
 decorations = "None"
 dynamic_padding = false
 startup_mode = "Maximized"
+title = ""
+dynamic_title = true
 
 [window.dimensions]
 columns = 0
