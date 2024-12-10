@@ -1,4 +1,30 @@
-/* @namespace xul url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); */
+@import "firefox-gnome-theme/userChrome.css";
+
+/* Clean up context menu items */
+#context-sep-navigation,         /************** Separator ***************/
+#context-savepage,               /* Save Page As...                      */
+#context-pocket,                 /* Save Page to Pocket                  */
+#context-selectall,              /* Select All                           */
+#context-sep-selectall,          /************** Separator ***************/
+#context-take-screenshot,        /* Take Screenshot                      */
+/* #context-sep-screenshots,        /************** Separator ***************/
+#context-viewsource,             /* View Page Source                     */
+/* #context-inspect,                /* Inspect (Q)                          */
+#context-inspect-a11y,
+/* #context-media-eme-separator,    /************** Separator ***************/
+#_41f9e51d-35e4-4b29-af66-422ff81c8b41_-menuitem-_toggle-js, /* toggleJS */
+#private-relay_firefox_com-menuitem-_fx-private-relay-manage-aliases,
+#ublock0_raymondhill_net-menuitem-_uBlock0-blockElement, /* uBlock */
+#context-bookmarkpage,
+#context-print-selection,
+#context-bookmarklink,
+#context-savelinktopocket,
+#context-savelink,
+#context-viewpartialsource-selection,
+[id^="leechblockng_proginosko_com-menuitem-"], /* leechblock */
+#_446900e4-71c2-419f-a6a7-df9c091e268b_-menuitem-_root, /* bitwarden */
+#leave_this_dummy_here
+    { display:none !important; }
 
 #urlbar {
   background-color: #000000 !important;
@@ -8,26 +34,12 @@
 #TabsToolbar {
     visibility: collapse;
 }
+
 /* Sidebar min and max width removal */
 #sidebar {
     max-width: none !important;
     min-width: 0px !important;
 }
-
-/* Hide splitter, when using Tree Style Tab. */
-/* #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] + #sidebar-splitter { */
-/*     display: none !important; */
-/* } */
-/* Hide sidebar header, when using Tree Style Tab. */
-/* #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header { */
-/*     visibility: collapse; */
-/* } */
-
-/* Shrink sidebar until hovered, when using Tree Style Tab. */
-/* :root { */
-/*     --thin-tab-width: 30px; */
-/*     --wide-tab-width: 200px; */
-/* } */
 
 #sidebar-box:not([sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]) {
     min-width: var(--wide-tab-width) !important;
@@ -43,21 +55,18 @@
     transition: all 300ms !important;
     min-width: var(--wide-tab-width) !important;
     max-width: var(--wide-tab-width) !important;
-
     /* Negative right-margin to keep page from being pushed to the side. */
     margin-right: calc((var(--wide-tab-width) - var(--thin-tab-width)) * -1) !important;
 }
-
 /* hide top box */
 #sidebar-box #sidebar-header {
   visibility: collapse;
 }
-
 /* Suppress blue dot on pinned tab */
 .tabbrowser-tab > .tab-stack >
  .tab-content[pinned][titlechanged]:not([selected="true"]){
   background-image: none !important;
 }
-
 .tabbrowser-tab:-moz-any([image], [pinned]) > .tab-stack > .tab-content[attention]:not([selected="true"]),
 .tabbrowser-tab > .tab-stack > .tab-content[pinned][titlechanged]:not([selected="true"]) {}
+
