@@ -30,8 +30,8 @@ bindsym $mod+Return exec urxvt
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start rofi
-bindsym $mod+space exec rofi -show combi
+# trigger rofi
+bindsym $mod+space exec "rofi -show combi -combi-modes 'window,drun'"
 
 # change focus
 bindsym $mod+j focus left
@@ -176,7 +176,7 @@ client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color       
 # use `xprop` to find class name
 for_window [class="Firefox"]         move to workspace 2
 for_window [class="obsidian"]        move to workspace 3
-for_window [class="Slack"]           move to workspace 4
+for_window [class="Slack"]           move to workspace 6
 for_window [class="thunderbird"]     move to workspace 5
 for_window [class="Spotify"]         move to workspace 10
 
@@ -186,12 +186,17 @@ for_window [class="Anki"] resize set 880 800
 for_window [class="Anki"] move position center
 
 # startup applications
-# exec_always feh --bg-fill /home/danishprakash/Pictures/danish-prakash-vo7-cpg8Y5s-unsplash.jpg
-exec_always feh --bg-fill /home/danishprakash/Pictures/danish-prakash-sQfLrm5qFPk-unsplash.jpg
+exec_always feh --bg-fill /home/danishprakash/Downloads/danish-prakash-NKw69C6hSt8-unsplash.jpg
 exec_always xrdb ~/.Xresources
 exec_always bash ~/.config/polybar/launch.sh
+
+# disable thinkpad trackpad
 exec_always synclient Touchpadoff=1
-# exec_always --no-startup-id nm-applet --sm-disable --indicator # network manager applet
+
+# network manager applet
+exec_always --no-startup-id nm-applet --sm-disable --indicator
+
+# redshift is wonky and sometimes applies twice
 # exec_always --no-startup-id killall redshift-gtk && redshift-gtk
 
 # animations
