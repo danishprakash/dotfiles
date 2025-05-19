@@ -1,14 +1,14 @@
 configuration {
-	modi: "combi,calc";
-	width: 30;
-	lines: 5;
-	font: "Terminus (TTF) 9";
+    combi-modi: "filebrowser,window,drun,calculator,find:~/.local/share/rofi/finder.sh";
+	modi: "combi,filebrowser";
+	width: 4ch;
+	lines: 4;
+	font: "Berkeley Mono 10";
 	bw: 1;
-	padding: 50;
-	fullscreen: false;
-	terminal: "urxvt";
+	padding: 0;
+	terminal: "Alacritty";
 	xoffset: 0;
-	yoffset: -200;
+	yoffset: 0;
 /*	fixed-num-lines: true;*/
 /*	show-icons: false;*/
 /*	ssh-client: "ssh";*/
@@ -29,7 +29,7 @@ configuration {
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
 /*	sidebar-mode: false;*/
-	eh: 2;
+	eh: 1;
 /*	auto-select: false;*/
 /*	parse-hosts: false;*/
 /*	parse-known-hosts: true;*/
@@ -51,11 +51,6 @@ configuration {
 /*	window-format: "{w}    {c}   {t}";*/
 /*	click-to-exit: true;*/
 /*	show-match: true;*/
-/*	theme: ;*/
-	color-normal: "#000000, #ffffff, #000000, #ffffff, #000000";
-	color-urgent: "#2e3440, #d08770, #2e3440, #d08770, #fdf6e3";
-	color-active: "#000000, #ffffff, #2e3440, #81a1c1, #fdf6e3";
-	color-window: "#000000, #ffffff, #000000";
 /*	max-history-size: 25;*/
 /*	combi-hide-mode-prefix: false;*/
 /*	matching-negate-char: '-' /* unsupported */;*/
@@ -141,3 +136,5 @@ configuration {
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
 }
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+@theme "/home/danishprakash/code/dotfiles/.config/rofi/sumi.rasi"
