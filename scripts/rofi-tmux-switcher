@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+# ==============================================================================
+# Rofi Tmux Session Switcher
+# ==============================================================================
+#
+# Seamless tmux session switching integrated with rofi combi mode.
+# Allows switching between tmux sessions from anywhere in the desktop environment.
+#
+# ARCHITECTURE:
+#
+# ┌─────────────────────────────────────────────────────────────────┐
+# │                        i3 Window Manager                        │
+# ├─────────────────────────────────────────────────────────────────┤
+# │  Keybinding: mod+space → rofi combi (includes tmux mode)        │
+# └──────────────────────────────────┬──────────────────────────────┘
+#                                    │
+#                                    ▼
+# ┌─────────────────────────────────────────────────────────────────┐
+# │                    rofi-tmux-switcher                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# │                                                                 │
+# │  Protocol Implementation:                                       │
+# │  • No args     → Return tmux session list                       │
+# │  • With arg    → Switch to selected session                     │
+# │                                                                 │
+# │  Logic Flow:                                                    │
+# │  1. get_existing_sessions() → tmux list-sessions                │
+# │  2. rofi displays sessions in combi mode                        │
+# │  3. user selects session                                        │
+# │  4. tmux switch-client -c <client> -t <session>                 │
+# │  5. xdotool windowactivate <alacritty_window>                   │
+# └─────────────────────────────────────────────────────────────────┘
+#                                    │
+#                                    ▼
+# ┌─────────────────────────────────────────────────────────────────┐
+# │                    System Integration                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# │                                                                 │
+# │  ┌─────────────────┐  ┌──────────────────┐  ┌─────────────────┐ │
+# │  │      Tmux       │  │      Rofi        │  │    Xdotool      │ │
+# │  │                 │  │                  │  │                 │ │
+# │  │ • list-clients  │  │ • Combi mode     │  │ • Window focus  │ │
+# │  │ • switch-client │  │ • Script protocol│  │ • windowactivate│ │
+# │  │ • list-sessions │  │ • User selection │  │ • search --class│ │
+# │  └─────────────────┘  └──────────────────┘  └─────────────────┘ │
+# └─────────────────────────────────────────────────────────────────┘
+#                                    │
+#                                    ▼
+# ┌─────────────────────────────────────────────────────────────────┐
+# │                      Target Result                              │
+# ├─────────────────────────────────────────────────────────────────┤
+# │                    ┌─────────────────┐                          │
+# │                    │    Alacritty    │                          │
+# │                    │   (focused)     │                          │
+# │                    │  ┌─────────────┐│                          │
+# │                    │  │    Tmux     ││                          │
+# │                    │  │   Session   ││                          │
+# │                    │  │  (switched) ││                          │
+# │                    │  └─────────────┘│                          │
+# │                    └─────────────────┘                          │
+# └─────────────────────────────────────────────────────────────────┘
+#
+# KEY FEATURES:
+# • Works from any application (browser, editor, etc.)
+# • No keyboard simulation - uses tmux client communication
+# • Automatically focuses terminal after switching
+# • Integrates seamlessly with rofi's combined interface
+#
+# USAGE:
+# Add to i3 config:
+# bindsym $mod+space exec "rofi -modi 'tmux:/path/to/rofi-tmux-switcher' -show combi -combi-modes 'window,drun,tmux'"
+#
+# ==============================================================================
+
+if [ "$1" = "" ]; then
+    # List all tmux sessions when rofi asks for options
+    tmux list-sessions -F "#{session_name}" 2>/dev/null | sort
+elif [ "$1" != "" ]; then
+    # Handle selection - switch to the chosen session
+    session_name="$1"
+
+    # Find active tmux clients and switch them to the selected session
+    tmux_clients=$(tmux list-clients -F "#{client_name}" 2>/dev/null)
+
+    if [ -n "$tmux_clients" ]; then
+        # Switch the first client to the selected session
+        first_client=$(echo "$tmux_clients" | head -1)
+        tmux switch-client -c "$first_client" -t "$session_name"
+
+        # Focus alacritty window after switching using window ID
+        # Useful for when you're on another workspace and you want
+        # to switch to a specific tmux session, so it doesn't really
+        # matter now where you invoke this script--rofi from.
+        alacritty_id=$(xdotool search --class "Alacritty" | head -1)
+        if [ -n "$alacritty_id" ]; then
+            xdotool windowactivate "$alacritty_id"
+        fi
+    else
+        # No active clients, try to attach in a new alacritty
+        alacritty -e tmux attach-session -t "$session_name" &
+    fi
+
+    # Close rofi after selection
+    exit 0
+fi
