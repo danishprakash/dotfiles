@@ -73,12 +73,67 @@
 #
 # ==============================================================================
 
-if [ "$1" = "" ]; then
-    # List all tmux sessions when rofi asks for options
+get_git_projects() {
+    awk -F'|' '$1 ~ /^\/home\/[^\/]+\/code\// {
+        split($1, parts, "/");
+        basename = parts[length(parts)];
+        print basename "|" $1 "|" $2
+    }' ~/.z | \
+    while IFS='|' read -r basename fullpath score; do
+        if [ -d "$fullpath/.git" ]; then
+            echo "$basename"
+        fi
+    done | sort -u
+}
+
+get_existing_sessions() {
     tmux list-sessions -F "#{session_name}" 2>/dev/null | sort
+}
+
+create_dev_session() {
+    local session_name="$1"
+    local normalized_name=$(echo "$session_name" | sed 's/\./_/g')
+    local project_dir=$(awk -F'|' -v name="$session_name" '
+        $1 ~ /^\/home\/[^\/]+\/code\// {
+            split($1, parts, "/");
+            basename = parts[length(parts)];
+            if (basename == name) { print $1; exit }
+        }' ~/.z)
+
+    if [ -n "$project_dir" ] && [ -d "$project_dir" ]; then
+        cd "$project_dir"
+        tmux new-session -d -s "$normalized_name"
+        tmux split-window -h -p 25 -t "$normalized_name"
+        tmux split-window -v -t "$normalized_name"
+        sleep 0.5
+        tmux send-keys -t "$normalized_name.0" "nvim" C-m
+        tmux send-keys -t "$normalized_name.1" "claude" C-m
+        tmux send-keys -t "$normalized_name.2" "clear" C-m
+        tmux select-pane -t "$normalized_name.0"
+    fi
+}
+
+if [ "$1" = "" ]; then
+    # Combine existing sessions and git projects, mark existing sessions with prefix
+    {
+        get_existing_sessions | sed 's/^/* /'
+        get_git_projects | while read -r project; do
+            if ! tmux has-session -t "$project" 2>/dev/null; then
+                echo "$project"
+            fi
+        done
+    } | sort
 elif [ "$1" != "" ]; then
-    # Handle selection - switch to the chosen session
-    session_name="$1"
+    # Handle selection - clean the name and switch/create session
+    selection="$1"
+    session_name=$(echo "$selection" | sed 's/^\* //')
+    # Convert dots to underscores to match tmux's session name normalization
+    normalized_session_name=$(echo "$session_name" | sed 's/\./_/g')
+
+    # Check if session exists, if not create it
+    if ! tmux has-session -t "$normalized_session_name" 2>/dev/null; then
+        create_dev_session "$session_name"
+    fi
 
     # Find active tmux clients and switch them to the selected session
     tmux_clients=$(tmux list-clients -F "#{client_name}" 2>/dev/null)
@@ -86,7 +141,7 @@ elif [ "$1" != "" ]; then
     if [ -n "$tmux_clients" ]; then
         # Switch the first client to the selected session
         first_client=$(echo "$tmux_clients" | head -1)
-        tmux switch-client -c "$first_client" -t "$session_name"
+        tmux switch-client -c "$first_client" -t "$normalized_session_name"
 
         # Focus alacritty window after switching using window ID
         # Useful for when you're on another workspace and you want
@@ -98,7 +153,7 @@ elif [ "$1" != "" ]; then
         fi
     else
         # No active clients, try to attach in a new alacritty
-        alacritty -e tmux attach-session -t "$session_name" &
+        alacritty -e tmux attach-session -t "$normalized_session_name" &
     fi
 
     # Close rofi after selection
