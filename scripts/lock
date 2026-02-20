@@ -1,6 +1,0 @@
-#!/bin/bash
-
-SCREEN=$(perl -e 'print join "x",qx/xrandr --current/=~/Screen 0:.*current (\d+) x (\d+)/g')
-import -window root -depth 8 RGB:- \
-    | convert -depth 8 -size $SCREEN RGB:- -sample 35% -sample $SCREEN RGB:- \
-    | i3lock --raw=$SCREEN:rgb --image /dev/stdin
