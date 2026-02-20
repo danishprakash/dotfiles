@@ -3,7 +3,8 @@ configuration {
 	modi: "combi,filebrowser";
 	width: 4ch;
 	lines: 4;
-	font: "Berkeley Mono 10";
+	/* font: "Berkeley Mono 11"; */
+	font: "Berkeley Mono 12";
 	bw: 1;
 	padding: 0;
 	terminal: "Alacritty";

@@ -19,7 +19,7 @@ set magic                          " :h pattern
 set mouse=a                        " enable mouse for `a`ll modes
 set nomodeline                     " vim reading random lines as modelines
 set noshowmode                     " hide current mode label
-set nowrap                         " disable line wrapping
+set wrap                           " disable line wrapping
 set nonumber                       " don't show line number
 set norelativenumber               " show line numbers relative to the current line
 set scrolloff=10                   " cursor remains at ~center of the window
@@ -61,7 +61,8 @@ Plug 'tpope/vim-speeddating'
 
 " code formatting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-autocmd CursorHold * silent! call CocActionAsync("highlight")
+" highlight same symbols in the buffer at current position (coc-highlight)
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " nmap <silent> <leader>ep <Plug>(coc-diagnostic-previous)
 " nmap <silent> <leader>en <Plug>(coc-diagnostic-next)
@@ -85,11 +86,15 @@ let g:shfmt_fmt_on_save = 1           " format shell script on save using shfmt
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 let g:fzf_preview_window = ''         " disable preview window while picking files
-let g:fzf_layout = { 'down': '~25%' } " this is analogous to the height flag
-let g:fzf_preview_window = ['right,50%', 'ctrl-/']
+let g:fzf_layout = { 'down': '~40%' } " this is analogous to the height flag
+" let g:fzf_preview_window = ['right,35%', 'ctrl-/']
 let g:fzf_tags_command = 'ctags -R'
-let $FZF_DEFAULT_OPTS=" --color='bw'"  " disable colors for fzf
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore tags -l -g ""'
+" consistent styling with terminal fzf: black & white, sharp borders, no info line
+let $FZF_DEFAULT_OPTS=" --color='bw' --border=horizontal --no-scrollbar --border=right --no-info --pointer='→' --prompt='> '"
+" let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore tags -l -g ""'
+
+" floating window option (commented out by default, uncomment to try)
+" let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.6, 'border': 'sharp' } }
 
 Plug 'fatih/vim-go'
 let g:go_def_mapping_enabled = 0      " use lsp for go-to-def, disable vim-go
@@ -106,6 +111,8 @@ let g:NERDTreeMinimalUI=1                   " hide bloat in NERDTree
 Plug 'Yggdroot/indentLine'
 let g:vim_json_syntax_conceal = 0
 let g:indentLine_concealcursor='v'
+
+Plug 'mrcjkb/rustaceanvim'
 
 " writing mode
 Plug 'junegunn/goyo.vim'
@@ -137,6 +144,8 @@ Plug 'tpope/vim-fugitive'
 " Plug '/home/danish/work/interviewstreet/go/src/github.com/danishprakash/vim-gosortstructs'
 " Plug '/Users/danish/programming/vim-docker'
 Plug '/home/danishprakash/code/vim-yami'
+Plug '/home/danishprakash/code/vim-sumi'
+Plug '/home/danishprakash/.config/nvim/plugin/tmux-send.vim'
 " Plug '/Users/danish/programming/vim-yuki'
 " Plug '/Users/danish/programming/nvim-blameline'
 " Plug '/Users/danishprakash/programming/vim-githubinator'
@@ -159,7 +168,8 @@ nnoremap <silent>gx :x<CR>
 nnoremap <silent>gb :Git blame<CR>
 
 " close current buffer
-nnoremap <silent>gq :q<CR>
+nnoremap <silent>gq :q!<CR>
+" nnoremap <silent>gx :q!<CR>
 
 " clear search highlight on <c-[> (esc)
 nnoremap <silent><c-[> :nohlsearch<CR>
@@ -222,6 +232,10 @@ nnoremap <silent> <leader>so :so $MYVIMRC<cr> :CocRestart<CR>
 noremap <silent> j gj
 noremap <silent> k gk
 
+" yank to and from the system clipboard
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
+
 
 " Functions -----------------------------------------------
 
@@ -249,32 +263,32 @@ func! TrimWhitespaces()
 endfunc
 command! -bang TrimWS call TrimWhitespaces()
 
-" figure out highlight group under cursor
-function! SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-function! s:todo() abort
-  let entries = []
-  for cmd in ['git grep -niI -e TODO -e FIXME -e XXX 2> /dev/null',
-            \ 'grep -rniI -e TODO -e FIXME -e XXX * 2> /dev/null']
-    let lines = split(system(cmd), '\n')
-    if v:shell_error != 0 | continue | endif
-    for line in lines
-      let [fname, lno, text] = matchlist(line, '^\([^:]*\):\([^:]*\):\(.*\)')[1:3]
-      call add(entries, { 'filename': fname, 'lnum': lno, 'text': text })
-    endfor
-    break
-  endfor
-
-  if !empty(entries)
-    call setqflist(entries)
-    copen
-  endif
-endfunction
+" " figure out highlight group under cursor
+" function! SynStack()
+"   if !exists("*synstack")
+"     return
+"   endif
+"   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+" endfunc
+" 
+" function! s:todo() abort
+"   let entries = []
+"   for cmd in ['git grep -niI -e TODO -e FIXME -e XXX 2> /dev/null',
+"             \ 'grep -rniI -e TODO -e FIXME -e XXX * 2> /dev/null']
+"     let lines = split(system(cmd), '\n')
+"     if v:shell_error != 0 | continue | endif
+"     for line in lines
+"       let [fname, lno, text] = matchlist(line, '^\([^:]*\):\([^:]*\):\(.*\)')[1:3]
+"       call add(entries, { 'filename': fname, 'lnum': lno, 'text': text })
+"     endfor
+"     break
+"   endfor
+" 
+"   if !empty(entries)
+"     call setqflist(entries)
+"     copen
+"   endif
+" endfunction
 command! Todo call s:todo()
 
 function! s:autosave(enable)
@@ -360,7 +374,7 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 
 " Colors --------------------------------------------------
 
-colorscheme yami
+colorscheme sumi
 syntax on
 set listchars=tab:│\ ,nbsp:␣,trail:∙,extends:>,precedes:<
 set fillchars=vert:\│

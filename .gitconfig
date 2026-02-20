@@ -1,12 +1,13 @@
 [user]
-	name = danishprakash
-	email = danish.prakash@suse.com
+	name = Danish Prakash
+	email = contact@danishpraka.sh
 	signingkey = 66820561C42B7C0C
 
 [core]
 	editor = /bin/nvim
 	excludesfile = ~/.gitignore
     pager = cat
+    abbrev = 12
 
 [alias]
     open = "!f() { REPO_URL=$(git config remote.origin.url); open ${REPO_URL%%.git}; }; f"
@@ -22,19 +23,50 @@
     diff = diff --no-pager
     fr = !git fetch origin && git rebase origin/master
     hash = rev-parse --short HEAD # helpful for cherry-picking
-    l = log --pretty=format:\"%h %ad | %s [%an]\" --graph --date=short -n 15
+    l = !git log --date=short -n 15 --no-merges \
+  --pretty=format:'%C(auto)%h%C(reset) │ %ad │ %C(dim)%<(14,trunc)%an%C(reset) │ %C(bold)%<(60,trunc)%s%C(reset)' \
+  && echo
     p = push origin
-    pf = push -f origin
+    pf = push --force-with-lease
 [status]
 	branch = false
+	untrackedFiles = all
+[branch]
+    sort = -committerdate
+[column]
+	ui = auto
+[tag]
+    sort = version:refname
 [help]
 	autoCorrect = -1
 [push]
 	default = current
 [diff]
     tool = vimdiff
+    colorMoved = true
+    algorithm = histogram
+    mnemonicPrefix = true
 [commit]
     verbose = true      # viw more details(diff) while committing changes
 	gpgsign = true
 [http]
 	cookiefile = ~/.gitcookies
+[sendemail]
+    from = Danish Prakash <contact@danishpraka.sh>
+	smtpEncryption = tls
+	smtpServer = smtp.fastmail.com
+	smtpUser = contact@danishpraka.sh
+    smtpServerPort = 587
+[credential]
+    helper = libsecret
+[format]
+    signoff = yes
+[init]
+	defaultBranch = main
+[pretty]
+        fixes = Fixes: %h (\"%s\")
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

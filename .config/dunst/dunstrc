@@ -1,7 +1,10 @@
 [global]
 monitor = 0
 follow = mouse
-geometry = "240x40-20+48"
+width = 300
+height = 100
+origin = top-right
+offset = 20x48
 indicate_hidden = yes
 shrink = no
 separator_height = 0
@@ -10,7 +13,7 @@ horizontal_padding = 22
 frame_width = 2
 sort = no
 idle_threshold = 120
-font = Terminus (TTF) 9
+font = Berkeley Mono 9
 line_height = 3
 markup = full
 format = %a\n%s\n%b
@@ -37,18 +40,18 @@ context = ctrl+shift+period
 
 [urgency_low]
 timeout = 4
-background = "#000000"
-foreground = "#ffffff"
-frame_color = "#ffffff"
+background = "#212226"
+foreground = "#d8dee9"
+frame_color = "#4c566a"
 
 [urgency_normal]
 timeout = 8
-background = "#000000"
-foreground = "#ffffff"
-frame_color = "#ffffff"
+background = "#212226"
+foreground = "#eceff4"
+frame_color = "#5e81ac"
 
 [urgency_critical]
 timeout = 0
-background = "#000000"
-foreground = "#ffffff"
-frame_color = "#cc2d2d"
+background = "#212226"
+foreground = "#eceff4"
+frame_color = "#bf616a"

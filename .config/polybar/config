@@ -5,14 +5,13 @@
 
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #ffffff
-background-alt = #2f343f
-foreground = #000000
-foreground-alt = #878786
-primary = #000000
-secondary = #e60053
-alert = #bd2c40
+background = ${env:POLYBAR_BG:#ffffff}
+background-alt = ${env:POLYBAR_BG_ALT:#2f343f}
+foreground = ${env:POLYBAR_FG:#000000}
+foreground-alt = ${env:POLYBAR_FG_ALT:#878786}
+primary = ${env:POLYBAR_PRIMARY:#000000}
+secondary = ${env:POLYBAR_SECONDARY:#e60053}
+alert = ${env:POLYBAR_ALERT:#bd2c40}
 
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -37,18 +36,20 @@ padding-left = 0
 padding-right = 2
 
 
-module-margin-left = 2
-module-margin-right = 3
+module-margin-left = 1
+module-margin-right = 1
 
-font-0 = SF Mono:pixelsize=9;1
+font-0 = Berkeley Mono:pixelsize=10;1
 font-1 = Noto Sans JP:pixelsize=8;1
 ; font-1 = Terminus (TTF):pixelsize=9;1
 ; font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
 ; font-3 = siji:pixelsize=10;1
 
 modules-left = i3
-modules-center = xwindow
-modules-right = memory volume wlan battery date
+modules-center = xwindow tmux-session
+modules-right = polypomo memory volume bluetooth wlan battery date tray
+separator = │
+separator-foreground = ${colors.foreground-alt}
 
 ; Value to be used to set the WM_NAME atom
 ; If the value is empty or undefined, the atom value
@@ -56,8 +57,8 @@ modules-right = memory volume wlan battery date
 ; NOTE: The placeholders are not available for custom values
 wm-name = i3-gaps
 
-tray-position = right
-tray-padding = 2
+;tray-position = right
+;tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
 
@@ -123,7 +124,8 @@ click-middle = playerctl play-pause<Paste>
 [module/xwindow]
 type = internal/xwindow
 label = %title%
-;0:30:...%
+label-maxlen = 50
+label-empty = Desktop
 
 [module/filesystem]
 type = internal/fs
@@ -217,8 +219,8 @@ label-mode-background = ${colors.background}
 ;   %output%
 ; Default: %icon%  %name%
 label-focused = %icon%
-label-focused-foreground = ${colors.foreground}
-label-focused-background = ${colors.background}
+label-focused-foreground = #eceff4
+label-focused-background = #4c566a
 ; label-focused-underline = #fba922
 label-focused-padding = 2
 
@@ -307,16 +309,16 @@ label = CPU:%percentage:2%%
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "M: "
+; format-prefix = "M: "
 ; format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-foreground = ${colors.background}
 format-underline = ${colors.background}
 label = %{F#878786}メム:%{F-}%percentage_used%% (%gb_used%)
 
 ; warn when memory usage goes beyond 80
-label-warn = %{F#000000} メム:%{F-}%percentage_used%% (%gb_used%) %{}
+label-warn = メム:%percentage_used% (%gb_used%)
 format-warn = <label-warn>
-format-warn-background = #f03557
+format-warn-background = #bf616a
 format-warn-foreground = #000000
 warn-percentage = 80
 
@@ -412,24 +414,17 @@ adapter = ADP1
 full-at = 99
 low-at  = 25
 
-label-charging = %{F#878786}+バト:%{F-}%percentage% %{}
+label-charging = %{F#7ed321}+バト:%percentage%%{F-}
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #3feb78
 
-label-discharging = %{F#878786}-バト:%{F-}%percentage%
+label-discharging = -バト:%percentage%
 format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
-; format-discharging-underline = #ffb52a
 
-label-full = %{F#000000} バト:%{F-}%percentage% %{}
+label-full = %{F#7ed321}バト:%percentage%%{F-}
 format-full = <label-full>
-format-full-background = #3feb78
-format-full-foreground = #000000
 
-label-low = %{F#000000} -バト:%{F-}%percentage% %{}
+label-low = %{F#f44336}-バト:%percentage%%{F-}
 format-low = <label-low>
-format-low-background = #f03557
-format-low-foreground = #000000
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -445,16 +440,15 @@ animation-charging-framerate = 750
 ; and add a polypomo module
 [module/polypomo]
 type = custom/script
-
-exec = /home/danish/work/personal/dotfiles/.config/polybar/polypomo
+exec = /home/danishprakash/code/dotfiles/scripts/polypomo
 tail = true
 
 label = %output%
-click-left = /path/to/polypomo toggle
-click-right = /path/to/polypomo end
-click-middle = /path/to/polypomo lock
-scroll-up = /path/to/polypomo time +60
-scroll-down = /path/to/polypomo time -60
+click-left = /home/danishprakash/code/dotfiles/scripts/polypomo toggle
+click-right = /home/danishprakash/code/dotfiles/scripts/polypomo end
+click-middle = /home/danishprakash/code/dotfiles/scripts/polypomo lock
+scroll-up = /home/danishprakash/code/dotfiles/scripts/polypomo time +60
+scroll-down = /home/danishprakash/code/dotfiles/scripts/polypomo time -60
 
 [module/temperature]
 type = internal/temperature
@@ -481,6 +475,27 @@ screenchange-reload = true
 ;compositing-background = screen
 ;compositing-foreground = source
 ;compositing-border = over
+
+[module/tmux-session]
+type = custom/script
+exec = /home/danishprakash/code/dotfiles/scripts/polybar-tmux-session
+interval = 2
+format = <label>
+label = %output%
+label-empty =
+
+[module/bluetooth]
+type = custom/script
+exec = /home/danishprakash/code/dotfiles/scripts/polybar-bluetooth-status
+interval = 3
+click-left = /home/danishprakash/code/dotfiles/scripts/airpods-toggle
+format-foreground = ${colors.foreground-alt}
+
+[module/tray]
+type = internal/tray
+tray-spacing = 8px
+tray-padding = 2px
+tray-size = 50%
 
 [global/wm]
 margin-top = 5

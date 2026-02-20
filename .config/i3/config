@@ -25,13 +25,16 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # trigger rofi
-bindsym $mod+space exec "rofi -show combi -combi-modes 'window,drun'"
+bindsym $mod+space exec "rofi -sorting-method fzf -modi 'tmux:/home/danishprakash/code/dotfiles/scripts/rofi-tmux-switcher,run:/home/danishprakash/code/dotfiles/scripts/rofi-run' -show combi -combi-modes 'window,drun,clipboard,tmux,run'"
+
+# tmux session manager
+# bindsym $mod+p exec /home/danishprakash/code/dotfiles/scripts/tmux-launcher
 
 # change focus
 bindsym $mod+j focus left
@@ -81,10 +84,13 @@ bindsym $mod+d focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-# bindsym $mod+d focus child
+#bindsym $mod+d focus child
 
 # suspend
 bindsym $mod+q exec systemctl suspend
+
+# speech-to-text toggle
+bindsym F9 exec /home/danishprakash/code/dotfiles/scripts/speech-to-text-toggle
 
 set $ws1 workspace 1
 set $ws2 workspace 2
@@ -100,14 +106,14 @@ set $ws10 workspace 10
 # switch to workspace
 bindsym $mod+1 $ws1
 bindsym $mod+2 $ws2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+3 $ws3
+bindsym $mod+4 $ws4
+bindsym $mod+5 $ws5
+bindsym $mod+6 $ws6
+bindsym $mod+7 $ws7
+bindsym $mod+8 $ws8
+bindsym $mod+9 $ws9
+bindsym $mod+0 $ws10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -174,11 +180,12 @@ client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-col
 client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $active-window
 
 # use `xprop` to find class name
-for_window [class="Firefox"]         move to workspace 2
+for_window [class="Alacritty"]       move to workspace 4
+for_window [class="Firefox"]         move to workspace 5
 for_window [class="obsidian"]        move to workspace 3
 for_window [class="Slack"]           move to workspace 6
-for_window [class="thunderbird"]     move to workspace 5
-for_window [class="Spotify"]         move to workspace 10
+for_window [class="thunderbird"]     move to workspace 1
+for_window [class="Spotify"]         move to workspace 9
 
 for_window [class="Anki"] move to workspace 8
 for_window [class="Anki"] floating enable
@@ -186,12 +193,19 @@ for_window [class="Anki"] resize set 880 800
 for_window [class="Anki"] move position center
 
 # startup applications
-exec_always feh --bg-fill /home/danishprakash/Downloads/danish-prakash-NKw69C6hSt8-unsplash.jpg
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets,ssh
+# exec_always feh --bg-fill /home/danishprakash/Downloads/danish-prakash-NKw69C6hSt8-unsplash.jpg
+# exec_always feh --bg-fill /home/danishprakash/Pictures/Almaty/DSCF8719.JPG
+exec_always feh --bg-fill /home/danishprakash/Pictures/Paris/DSCF0089.JPG
 exec_always xrdb ~/.Xresources
 exec_always bash ~/.config/polybar/launch.sh
+exec_always --no-startup-id dunst
 
 # disable thinkpad trackpad
 exec_always synclient Touchpadoff=1
+
+# disable F9 key repeat for speech-to-text
+exec_always xset -r 75
 
 # network manager applet
 exec_always --no-startup-id nm-applet --sm-disable --indicator

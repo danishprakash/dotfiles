@@ -73,15 +73,58 @@
 #
 # ==============================================================================
 
+WHITELIST_DIRS=(
+    "/home/danishprakash/Documents/personal"
+)
+
+SEARCH_PATHS=(
+    "/home/danishprakash/code"
+    "/home/danishprakash/Documents/personal"
+)
+
+get_project_dir() {
+    local project_name="$1"
+
+    if [ "$project_name" = "obs" ]; then
+        echo "/home/danishprakash/code/obs"
+        return
+    fi
+
+    local result=$(awk -F'|' -v name="$project_name" '
+        $1 ~ /^\/home\/[^\/]+\/code\// || $1 ~ /^\/home\/[^\/]+\/Documents\/personal$/ {
+            split($1, parts, "/");
+            basename = parts[length(parts)];
+            if (basename == name) { print $2 "|" $1 }
+        }' ~/.z | sort -nr | head -1 | cut -d'|' -f2)
+
+    echo "$result"
+}
+
+is_valid_project() {
+    local fullpath="$1"
+
+    for whitelist_path in "${WHITELIST_DIRS[@]}"; do
+        if [ "$fullpath" = "$whitelist_path" ]; then
+            return 0
+        fi
+    done
+
+    if [ -d "$fullpath/.git" ]; then
+        return 0
+    fi
+
+    return 1
+}
+
 get_git_projects() {
     {
-        awk -F'|' '$1 ~ /^\/home\/[^\/]+\/code\// {
+        awk -F'|' '$1 ~ /^\/home\/[^\/]+\/code\// || $1 ~ /^\/home\/[^\/]+\/Documents\/personal$/ {
             split($1, parts, "/");
             basename = parts[length(parts)];
             print basename "|" $1 "|" $2
         }' ~/.z | \
         while IFS='|' read -r basename fullpath score; do
-            if [ -d "$fullpath/.git" ]; then
+            if is_valid_project "$fullpath"; then
                 echo "$basename"
             fi
         done
@@ -94,40 +137,31 @@ get_existing_sessions() {
 }
 
 create_dev_session() {
-    local session_name="$1"
-    local normalized_name=$(echo "$session_name" | sed 's/\./_/g')
-    local project_dir
+    local project_name="$1"
+    local project_dir=$(get_project_dir "$project_name")
+    local normalized_name=$(echo "$project_name" | sed 's/\./_/g')
 
-    if [ "$session_name" = "obs" ]; then
-        project_dir="/home/danishprakash/code/obs"
-    else
-        project_dir=$(awk -F'|' -v name="$session_name" '
-            $1 ~ /^\/home\/[^\/]+\/code\// {
-                split($1, parts, "/");
-                basename = parts[length(parts)];
-                if (basename == name) { print $2 "|" $1 }
-            }' ~/.z | sort -nr | head -1 | cut -d'|' -f2)
+    if [ -z "$project_dir" ] || [ ! -d "$project_dir" ]; then
+        return 1
     fi
 
-    if [ -n "$project_dir" ] && [ -d "$project_dir" ]; then
-        cd "$project_dir"
-        tmux new-session -d -s "$normalized_name"
-        
-        if [ "$session_name" = "obs" ]; then
-            tmux split-window -h -p 25 -t "$normalized_name"
-            sleep 0.5
-            tmux send-keys -t "$normalized_name.0" "clear" C-m
-            tmux send-keys -t "$normalized_name.1" "claude" C-m
-            tmux select-pane -t "$normalized_name.0"
-        else
-            tmux split-window -h -p 25 -t "$normalized_name"
-            tmux split-window -v -t "$normalized_name"
-            sleep 0.5
-            tmux send-keys -t "$normalized_name.0" "nvim" C-m
-            tmux send-keys -t "$normalized_name.1" "claude" C-m
-            tmux send-keys -t "$normalized_name.2" "clear" C-m
-            tmux select-pane -t "$normalized_name.0"
-        fi
+    cd "$project_dir"
+    tmux new-session -d -s "$normalized_name"
+
+    if [ "$project_name" = "obs" ]; then
+        tmux split-window -h -p 25 -t "$normalized_name"
+        sleep 0.5
+        tmux send-keys -t "$normalized_name.0" "clear" C-m
+        tmux send-keys -t "$normalized_name.1" "claude" C-m
+        tmux select-pane -t "$normalized_name.0"
+    else
+        tmux split-window -h -p 25 -t "$normalized_name"
+        tmux split-window -v -t "$normalized_name"
+        sleep 0.5
+        tmux send-keys -t "$normalized_name.0" "nvim" C-m
+        tmux send-keys -t "$normalized_name.1" "claude" C-m
+        tmux send-keys -t "$normalized_name.2" "clear" C-m
+        tmux select-pane -t "$normalized_name.0"
     fi
 }
 
