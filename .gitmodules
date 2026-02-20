@@ -1,3 +1,6 @@
 [submodule "qmk_userspace"]
 	path = qmk_userspace
 	url = https://github.com/danishprakash/qmk_userspace.git
+[submodule "scripts"]
+	path = scripts
+	url = git@github.com:danishprakash/scripts.git
