@@ -1,4 +1,5 @@
 # enable_experimental_conpty_backend = false
+[general]
 live_config_reload = true
 # tabspaces = 8
 working_directory = "None"
@@ -52,7 +53,7 @@ print_events = false
 render_timer = false
 
 [font]
-size = 11
+size = 12
 
 [font.bold]
 family = "Berkeley Mono"
@@ -608,8 +609,8 @@ multiplier = 3
 save_to_clipboard = true
 semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
-[shell]
-program = "/usr/bin/zsh"
+[terminal]
+shell = "/bin/zsh"
 
 [window]
 decorations = "None"
