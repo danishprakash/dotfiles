@@ -89,7 +89,7 @@ export MANPAGER="nvim +Man! -c 'set ft=man' -"
 
 export FZF_DEFAULT_OPTS="--color='bw' --height=20% --layout='reverse'"
 
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git"'
 
 export TERM=xterm-256color
 
@@ -596,7 +596,6 @@ preexec() {
 
 # suggestions from history
 # source ~/zsh-autosuggestions.zsh
-source ~/code/dotfiles/zsh-contextualcomplete-lean.sh
 
 # z dir switcher
 source ~/z.sh
