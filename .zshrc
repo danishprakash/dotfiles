@@ -99,8 +99,8 @@ export SDK_DPI_SCALE=0.5
 
 export SDK_SCALE=2
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
 
 export ANDROID_HOME="/home/danishprakash/Android/Sdk"
 
@@ -523,6 +523,8 @@ SEP=' %F{reset}\ '
 PROMPT='%F{white}$(git_branch)'
 PROMPT+='%F{white}%2~ '
 
+RPROMPT='%F{240}$(hostname)%f'
+
 # conditional expression
 # checks the result of the previous
 # command executed, the string after
@@ -595,7 +597,7 @@ preexec() {
 [ -f ~/.zsh.hackerrank ] && source ~/.zsh.hackerrank
 
 # suggestions from history
-# source ~/zsh-autosuggestions.zsh
+source ~/zsh-autosuggestions.zsh
 
 # z dir switcher
 source ~/z.sh
