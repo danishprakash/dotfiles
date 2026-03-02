@@ -205,33 +205,25 @@ alias isc='osc -A api.suse.de'
 # Functions
 # =============================================================================
 
-# override fzf history widget to use history from mariadb
-# displays command history with relative timestamps in a columnar format
-# adapts to terminal width to ensure timestamps are always visible
+# override fzf history widget to use cache file from import script
+# displays command history with hostname and relative timestamps in a columnar format
+# cache format: command\thostname\tunix_timestamp (tab-separated)
 fzf-history-widget() {
-    # calculate dynamic column widths based on terminal size
-    local term_width=$(tput cols)
+    local term_width
+    term_width=$(tput cols)
     local time_width=15
-    local cmd_width=$((term_width - time_width - 5))
+    local host_width=10
+    local cmd_width=$((term_width - time_width - host_width - 7))
+    local cache_file="${HOME}/.cache/global_history.txt"
 
-    # query mariadb for command history with timestamps
-    # groups by command to show unique commands with their most recent execution time
-    # optimized: only processes the 10000 most recent commands for speed
-    local selected=$(mariadb -ucli-history -B -N -e "
-        select
-            command,
-            UNIX_TIMESTAMP(created) as ts
-        from (
-            select command, created
-            from sh.history
-            order by created desc
-            limit 10000
-        ) as recent
-        group by command
-        order by max(ts) desc;" |
-        awk -F'\t' -v now="$(date +%s)" -v cmd_w="$cmd_width" '
-        # convert unix timestamp to human-readable relative time
-        function relative_time(ts) {
+    if [[ ! -f "$cache_file" ]]; then
+        zle reset-prompt
+        return 1
+    fi
+
+    local selected
+    selected=$(awk -F'\t' -v now="$(date +%s)" -v cmd_w="$cmd_width" -v host_w="$host_width" '
+        function relative_time(ts,    diff) {
             diff = now - ts
             if (diff < 60) return "just now"
             if (diff < 3600) return int(diff/60) "m ago"
@@ -242,24 +234,21 @@ fzf-history-widget() {
             if (diff < 31536000) return int(diff/2592000) "mo ago"
             return int(diff/31536000) "y ago"
         }
-        {
+        !seen[$1]++ {
             cmd = $1
-            ts = $2
+            host = $2
+            ts = $3
             rel = relative_time(ts)
-            # truncate long commands to fit terminal width
-            if (length(cmd) > cmd_w) {
-                cmd = substr(cmd, 1, cmd_w - 3) "..."
-            }
-            # format as: "command │ time" with proper column alignment
-            printf "%-*s │ %s\n", cmd_w, cmd, rel
-        }' |
+            if (length(cmd) > cmd_w) cmd = substr(cmd, 1, cmd_w - 3) "..."
+            printf "%-*s \342\224\202 %-*s \342\224\202 %s\n", cmd_w, cmd, host_w, host, rel
+        }' "$cache_file" |
         FZF_DEFAULT_OPTS= fzf \
             --height=40% \
             --layout=reverse \
             --border=sharp \
             --header-first \
             --delimiter=' │ ' \
-            --with-nth=1,2 \
+            --with-nth=1,2,3 \
             --nth=1 \
             --tiebreak=index \
             --bind=ctrl-r:toggle-sort \
@@ -270,16 +259,14 @@ fzf-history-widget() {
             --pointer='→ ' \
             --color='bw' \
             --ansi)
-    local ret=$?
 
-    # extract just the command part (strip timestamp and truncation marker)
     if [[ -n "$selected" ]]; then
         BUFFER=$(echo "$selected" | awk -F' │ ' '{print $1}' | sed 's/[[:space:]]*$//' | sed 's/\.\.\.$//')
         CURSOR=$#BUFFER
     fi
 
     zle reset-prompt
-    return $ret
+    return $?
 }
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
@@ -560,7 +547,7 @@ PROMPT+='%(?.%F{white}%(!.#.$)%F .%F{red}%(!.#.$) )%F{reset}'
 # ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ;
 
 preexec() {
-    BASH_COMMAND=$1
+    _cmd=$1
     if [[ -z "$HISTORY_TAG" ]]; then
         HISTORY_TAG=''
     else
@@ -568,24 +555,23 @@ preexec() {
     fi
 
     [ -n "$COMP_LINE" ] && return                     # do nothing if completing
-    [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return # don't cause a preexec for $PROMPT_COMMAND
+    [ "$_cmd" = "$PROMPT_COMMAND" ] && return # don't cause a preexec for $PROMPT_COMMAND
 
     # get current command
     local cur_cmd=$(echo $1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")
     cwd=$(pwd)
     # optional: ignore alias for mariadb history search
-    [[ "$BASH_COMMAND" =~ historyMysql* ]] && return
+    [[ "$_cmd" =~ historyMysql* ]] && return
     # optional: ignore pyenv
-    [[ "$BASH_COMMAND" =~ _pyenv_virtualenv_hook* ]] && return
+    [[ "$_cmd" =~ _pyenv_virtualenv_hook* ]] && return
 
-    # TODO
-    # ARGS=$@
+    local _host _now _gid _cmd_esc
+    printf -v _cmd_esc "%q" "$_cmd"
+    _host="$(hostname)"
+    _now="$(date -u '+%Y-%m-%d %H:%M:%S')"
+    _gid="$(printf '%s|%s|%s|%s|' "$_host" "$_now" "$cwd" "$_cmd" | sha256sum | cut -c1-64)"
 
-    # place ESCAPED $BASH_COMMAND into $BASH_COMMAND_ESCAPE variable
-    printf -v BASH_COMMAND_ESCAPE "%q" "$BASH_COMMAND" # from https://stackoverflow.com/a/4383994/5006740
-
-    # trap and write to db
-    mariadb -ucli-history -e "INSERT INTO sh.history (oid, command, arguments, cwd, created, tag) values (0, '${BASH_COMMAND_ESCAPE}', '', '$cwd', NOW(), '$HISTORY_TAG' )"
+    mariadb -ucli-history -e "INSERT IGNORE INTO sh.history (oid, command, arguments, cwd, created, tag, hostname, gid) values (0, '${_cmd_esc}', '', '$cwd', '$_now', '$HISTORY_TAG', '$_host', '$_gid')"
 }
 
 
@@ -632,3 +618,4 @@ if [ -f '/tmp/tmp.4QHP1XNYPT/google-cloud-sdk/completion.zsh.inc' ]; then . '/tm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.local/share/../bin/env"
