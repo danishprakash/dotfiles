@@ -1,0 +1,7 @@
+body {
+    --bases-table-font-size: 1em;
+}
+
+body.is-mobile {
+    --bases-table-font-size: 1.1em;
+}

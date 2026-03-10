@@ -1,0 +1,97 @@
+/* Highlight entire active pane */
+.theme-dark .workspace-leaf.mod-active {
+    position: relative !important;
+}
+
+.theme-dark .workspace-leaf.mod-active::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 4px !important;
+    left: 4px !important;
+    right: 4px !important;
+    bottom: 4px !important;
+    border: 4px solid #002B36 !important;
+    border-radius: 4px !important;
+    pointer-events: none !important;
+    z-index: 1000 !important;
+    box-sizing: content-box !important;
+}
+
+.theme-dark .workspace-leaf.mod-active .workspace-leaf-content {
+    background-color: rgba(0, 255, 127, 0.08) !important;
+}
+
+.theme-light .workspace-leaf.mod-active {
+    position: relative !important;
+}
+
+.theme-light .workspace-leaf.mod-active::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 3px !important;
+    left: 3px !important;
+    right: 3px !important;
+    bottom: 3px !important;
+    border: 3px solid #002B36 !important;
+    border-radius: 4px !important;
+    pointer-events: none !important;
+    z-index: 1000 !important;
+    box-sizing: content-box !important;
+}
+
+.theme-light .workspace-leaf.mod-active .workspace-leaf-content {
+    background-color: rgba(0, 191, 255, 0.12) !important;
+}
+
+/* Clean cursor styling - no animation */
+.theme-dark .workspace-leaf.mod-active .CodeMirror-cursor,
+.theme-dark .workspace-leaf.mod-active .cm-cursor,
+.theme-dark .workspace-leaf.mod-active .cm-editor .cm-cursor,
+.theme-dark .workspace-leaf.mod-active .markdown-source-view .cm-cursor {
+    border-left: 4px solid #002B36 !important;
+    background: none !important;
+}
+
+.theme-light .workspace-leaf.mod-active .CodeMirror-cursor,
+.theme-light .workspace-leaf.mod-active .cm-cursor,
+.theme-light .workspace-leaf.mod-active .cm-editor .cm-cursor,
+.theme-light .workspace-leaf.mod-active .markdown-source-view .cm-cursor {
+    border-left: 4px solid #00ff7f !important;
+    background: none !important;
+}
+
+/* Vim mode block cursor - fixed width */
+.theme-dark .workspace-leaf.mod-active .cm-fat-cursor {
+    background-color: #0080ff !important;
+    color: #000000 !important;
+    border: none !important;
+    width: 0.8em !important;
+    display: inline-block !important;
+}
+
+.theme-light .workspace-leaf.mod-active .cm-fat-cursor {
+    background-color: #0080ff !important;
+    color: #ffffff !important;
+    border: none !important;
+    width: 0.6em !important;
+    display: inline-block !important;
+}
+
+/* Caret color */
+.theme-dark .workspace-leaf.mod-active .cm-editor,
+.theme-dark .workspace-leaf.mod-active .markdown-source-view,
+.theme-dark .workspace-leaf.mod-active .cm-content {
+    caret-color: #002B36 !important;
+}
+
+.theme-light .workspace-leaf.mod-active .cm-editor,
+.theme-light .workspace-leaf.mod-active .markdown-source-view,
+.theme-light .workspace-leaf.mod-active .cm-content {
+    caret-color: #002B36 !important;
+}
+
+/* Blink animation */
+@keyframes cursor-blink {
+    0%, 60% { opacity: 1; }
+    61%, 100% { opacity: 0.2; }
+}

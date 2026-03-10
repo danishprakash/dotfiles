@@ -1,0 +1,5 @@
+/* Add padding to the Properties panel */
+.metadata-container {
+    padding: 32px !important;
+    margin-bottom: 8px;
+}
