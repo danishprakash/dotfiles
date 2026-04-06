@@ -1,6 +1,6 @@
 > "less is more"
 
-![img](images/desktop-2022-02-20.png)
+![img](images/desktop-2026-04-06.png)
 ```text
 editor      : nvim
 terminal    : alacritty
